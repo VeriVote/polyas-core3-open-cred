@@ -41,6 +41,10 @@ import org.bouncycastle.openpgp.PGPSecretKey;
  * computing the derived data -- it uses ....
  */
 class CredTool {
+
+    public static List<String> distVals;
+    public static List<String> polyasVals;
+
     private static String print = "";
 
     // some column names we will create data for
@@ -214,12 +218,9 @@ class CredTool {
         // as a side effect of processCSVRecord, data is added to CSV output [dist] and [polyas]
         // all data is hold only in memory
         input.forEach(it -> {
-            try {
-                // generate a password with 80 bits of entropy
-                final String password = Crypto.randomCredential80(); // TODO HERE: SOURCE!
-                proccessCSVRecord(it, password);
-            } catch (IOException e2) {
-            }
+            // generate a password with 80 bits of entropy
+            final String password = Crypto.randomCredential80(); // TODO HERE: SOURCE!
+            proccessCSVRecord(it, password);
         });
         try {
             polyas.close(true);
@@ -295,7 +296,7 @@ class CredTool {
      * the CSV output [dist] and [polyas].
      * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
-    private void proccessCSVRecord(CSVRecord r, final String password) throws IOException {
+    private void proccessCSVRecord(CSVRecord r, final String password) {
         // TODO HERE: xx
         if (input.getCurrentLineNumber() % 1000 == 0L) {
             print = "Processed " + input.getCurrentLineNumber() + " lines";
@@ -309,9 +310,8 @@ class CredTool {
                 CredentialGenerator.generateDataForVoter(voterId, password);
 
         // Dist
-        final List<String> distVals =
-                inputColsForDist.stream().map(r::get).collect(Collectors.toList());
-        distVals.add(0, dataForVoter.password); // TODO HERE: !
+        distVals = inputColsForDist.stream().map(r::get).collect(Collectors.toList());
+        distVals.add(0, dataForVoter.password); // TODO HERE: PASSWORD!
         try {
             // TODO HERE: ONLY GOES HERE!
             dist.printRecord(distVals);
@@ -319,11 +319,14 @@ class CredTool {
         }
 
         // Polyas
-        final List<String> polyasVals =
-                inputColsForPolyas.stream().map(r::get).collect(Collectors.toList());
+        polyasVals = inputColsForPolyas.stream().map(r::get).collect(Collectors.toList());
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
-        polyas.printRecord(polyasVals); // TODO HERE: SINK!
+        try {
+            // TODO HERE: SINK!
+            polyas.printRecord(polyasVals);
+        } catch (IOException e) {
+        }
     }
 
     private void exit(String msg) {
