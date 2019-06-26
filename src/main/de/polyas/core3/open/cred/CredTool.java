@@ -1,15 +1,8 @@
 package de.polyas.core3.open.cred;
 
 import de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter;
-import de.polyas.core3.open.crypto.basic.Utils;
 import de.polyas.core3.open.crypto.basic.Hashes;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
-import org.bouncycastle.openpgp.PGPException;
-import org.bouncycastle.openpgp.PGPPublicKey;
-import org.bouncycastle.openpgp.PGPSecretKey;
+import de.polyas.core3.open.crypto.basic.Utils;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,47 +17,120 @@ import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.security.SignatureException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
+import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPSecretKey;
 
 
 /**
  * The main class for the tool for generation credentials. It handles the input
  * and output (CSV files) and applies PGP encryption and signing.
  *
- * For carrying out the core computations -- generating passwords for voters and
+ * <p>For carrying out the core computations -- generating passwords for voters and
  * computing the derived data -- it uses ....
- *
- * @param distPubKeyFilename
- *          File that contains the PGP public key of printing facility
- * @param registryFilename
- *          File that contains the input registry
- * @param idCol
- *          The name of the column header (of the input registry file) that contains the voter identifier.
- *          Voter identifiers must be unique and not empty. Default id 'ID'
- * @param outPath
- *          Directory where the output files are created in; default is '.'
- * @param polyasMode
- *          MIN means that Polyas gets the minimum information from the input registry (only voter id),
-*           MAX means that all columns from input registry are send back to Polyas
- * @param delimiter the CSV delimiter. Default is ';'
  */
 class CredTool {
-    public static String print = "";
-
-    String distPubKeyFilename;
-    String registryFilename;
-    String idCol = "ID";
-    final Path outPath = Paths.get(".");
-    FieldsForPolyasMode polyasMode = FieldsForPolyasMode.MAX;
-    char delimiter = ';';
+    private static String print = "";
 
     // some column names we will create data for
-    static final String PASSWORD_COL = "Password";
-    static final String HASHED_PASSWORD_COL = "Hashed Password";
-    static final String PUBLIC_SIGNING_KEY_COL = "Public Signing Key";
+    private static final String PASSWORD_COL = "Password";
+    private static final String HASHED_PASSWORD_COL = "Hashed Password";
+    private static final String PUBLIC_SIGNING_KEY_COL = "Public Signing Key";
 
-    CredTool(String distPubKeyFilename, String  registryFilename, String idCol) {
+    /**
+     * Directory where the output files are created in; default is '.'.
+     */
+    final Path outPath = Paths.get(".");
+    /**
+     * MIN means that Polyas gets the minimum information from the input registry (only voter id),
+     * MAX means that all columns from input registry are send back to Polyas.
+     */
+    final FieldsForPolyasMode polyasMode = FieldsForPolyasMode.MAX;
+    /**
+     * The CSV delimiter. Default is ';'.
+     */
+    final char delimiter = ';';
+
+    /**
+     * File that contains the PGP public key of printing facility.
+     */
+    private String distPubKeyFilename;
+    /**
+     * File that contains the input registry.
+     */
+    private String registryFilename;
+    /**
+     * The name of the column header (of the input registry file) that contains
+     * the voter identifier. Voter identifiers must be unique and not empty. Default id 'ID'.
+     */
+    private String idCol = "ID";
+
+    /**
+     * The PGP key of the distributor.
+     */
+    private final PGPPublicKey distPubKey = readPublicKey(distPubKeyFilename);
+
+
+    /**
+     * The headers of the input file.
+     */
+    private final List<String> inputCols =
+        new LinkedList<String> (
+                parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(delimiter),
+                      registryFilename)
+                .getHeaderMap()
+                .keySet());
+
+    /**
+     * Columns to be included in the distributor (printing facility) file.
+     */
+    private final List<String> inputColsForDist = // all except for the voter identifier
+            (inputCols.stream().filter(it -> it != idCol)).collect(Collectors.toList());
+    // TODO HERE: idCol!
+
+    /**
+     * Columns to be included in the polyas file.
+     */
+    private final List<String> inputColsForPolyas =
+        (polyasMode == FieldsForPolyasMode.MIN) ?
+            Arrays.asList(idCol) : ((polyasMode == FieldsForPolyasMode.MAX) ?
+                toList(inputCols) : new ArrayList<String>());
+
+    /**
+     * CVS Parser for input registry.
+     */
+    private final CSVParser input =
+        parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(delimiter),
+              registryFilename);
+
+    /**
+     * CSV Writer for Polyas.
+     */
+    private final CSVPrinter polyas =
+        print(CSVFormat.RFC4180.withDelimiter(delimiter)
+              .withHeader(toArray(toList(toList(inputColsForPolyas, HASHED_PASSWORD_COL),
+                                         PUBLIC_SIGNING_KEY_COL)))); // order is important!
+
+    /**
+     * CSV Writer for the credential distributing party.
+     */
+    private final CSVPrinter dist =
+        print(CSVFormat.RFC4180
+            .withDelimiter(delimiter)
+            .withHeader(toArray(toList(PASSWORD_COL, inputColsForDist)))); // order is important!
+
+    CredTool(String distPubKeyFilename, String registryFilename, String idCol) {
         this.distPubKeyFilename = distPubKeyFilename;
         this.registryFilename = registryFilename;
         this.idCol = idCol;
@@ -125,53 +191,6 @@ class CredTool {
         }
     }
 
-    /**
-     * The headers of the input file
-     */
-    private final List<String> inputCols =
-        new LinkedList<String> (
-                parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(delimiter),
-                      registryFilename)
-                .getHeaderMap()
-                .keySet());
-
-    /**
-     * Columns to be included in the distributor (printing facility) file
-     */
-    private final List<String> inputColsForDist = // all except for the voter identifier
-            (inputCols.stream().filter(it -> it != idCol)).collect(Collectors.toList());
-    // TODO HERE: idCol!
-
-    /**
-     * Columns to be included in the polyas file
-     */
-    private final List<String> inputColsForPolyas =
-        (polyasMode == FieldsForPolyasMode.MIN) ?
-            Arrays.asList(idCol) : ((polyasMode == FieldsForPolyasMode.MAX) ?
-                toList(inputCols) : new ArrayList<String>());
-
-    /**
-     * CVS Parser for input registry
-     */
-    private final CSVParser input =
-        parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(delimiter), registryFilename);
-
-    /**
-     * CSV Writer for Polyas
-     */
-    private final CSVPrinter polyas =
-        print(CSVFormat.RFC4180.withDelimiter(delimiter)
-              .withHeader(toArray(toList(toList(inputColsForPolyas, HASHED_PASSWORD_COL),
-                                         PUBLIC_SIGNING_KEY_COL)))); // order is important!
-
-    /**
-     * CSV Writer for the credential distributing party
-     */
-    private final CSVPrinter dist =
-        print(CSVFormat.RFC4180
-            .withDelimiter(delimiter)
-            .withHeader(toArray(toList(PASSWORD_COL, inputColsForDist)))); // order is important!
-
     private static PGPPublicKey readPublicKey(final String key) {
         try {
             return PGP.readPublicKey(key);
@@ -179,11 +198,6 @@ class CredTool {
             return null;
         }
     }
-
-    /**
-     * The PGP key of the distributor
-     */
-    private final PGPPublicKey distPubKey = readPublicKey(distPubKeyFilename);
 
     void init() {
         // a sanity check of input registry
@@ -211,7 +225,8 @@ class CredTool {
         } catch (IOException e1) {
         }
 
-        // create a tag by hashing the file contents for Polyas; the tag will be appended to file names
+        // create a tag by hashing the file contents for Polyas;
+        // the tag will be appended to file names
         final byte[] polyasFileContentHash = Hashes.hash512(polyas.getOut().toString(), null, null);
         final String filetag = filetag(Utils.asHexString(polyasFileContentHash));
 
@@ -220,11 +235,13 @@ class CredTool {
         PGPSecretKey ourSecretKey;
         try {
             ourSecretKey = PGP.createKey(pgpPassword, "wvz-" + filetag);
-        } catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | SignatureException
+        } catch (InvalidKeyException | NoSuchAlgorithmException
+                | NoSuchProviderException | SignatureException
                 | PGPException | IOException e1) {
             ourSecretKey = null;
         }
-        // Note that we never store the private key to any file, so the choice of password actually does not matter
+        // Note that we never store the private key to any file,
+        // so the choice of password actually does not matter
 
         // define the file names
         final Path pubKeyFile = pubKeyFile(filetag);
@@ -239,7 +256,8 @@ class CredTool {
         }
 
         // write the file for the distributor (printing facility);
-        // the file gets encrypted under the public key of the distributor and signed by our ephemeral key using PGP
+        // the file gets encrypted under the public key of the distributor
+        // and signed by our ephemeral key using PGP
         byte[] signedAndEncryptedDistContent;
         try {
             signedAndEncryptedDistContent =
@@ -275,14 +293,20 @@ class CredTool {
      * the CSV output [dist] and [polyas].
      */
     private void proccessCSVRecord(CSVRecord r) throws IOException { // TODO HERE: xx
-        if (input.getCurrentLineNumber() % 1000 == 0L) print = "Processed " + input.getCurrentLineNumber() + " lines";
+        if (input.getCurrentLineNumber() % 1000 == 0L) {
+            print = "Processed " + input.getCurrentLineNumber() + " lines";
+        }
         final String voterId = r.get(idCol);
-        if (!voterIdCheck(voterId)) exit("Empty or duplicate voter id");
+        if (!voterIdCheck(voterId)) {
+            exit("Empty or duplicate voter id");
+        }
 
-        final GeneratedDataForVoter dataForVoter = CredentialGenerator.generateDataForVoter(voterId);
+        final GeneratedDataForVoter dataForVoter =
+                CredentialGenerator.generateDataForVoter(voterId);
 
         // Dist
-        final List<String> distVals = inputColsForDist.stream().map(r::get).collect(Collectors.toList());
+        final List<String> distVals =
+                inputColsForDist.stream().map(r::get).collect(Collectors.toList());
         distVals.add(0, dataForVoter.password); // TODO HERE: !
         try {
             // TODO HERE: ONLY GOES HERE!
@@ -291,7 +315,8 @@ class CredTool {
         }
 
         // Polyas
-        final List<String> polyasVals = inputColsForPolyas.stream().map(r::get).collect(Collectors.toList());
+        final List<String> polyasVals =
+                inputColsForPolyas.stream().map(r::get).collect(Collectors.toList());
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
         polyas.printRecord(polyasVals);
@@ -302,20 +327,30 @@ class CredTool {
         System.exit(-1);
     }
 
-    Path pubKeyFile(String filetag) { return outPath.resolve("sigPubKey_" + filetag + ".asc"); }
-    Path polyasFile(String filetag) { return outPath.resolve("polyas_" + filetag + ".csv"); }
-    Path polyasSigFile(String filetag) { return outPath.resolve("polyasSig_" + filetag + ".csv.sig"); }
-    Path distFile(String filetag) { return outPath.resolve("dist_" + filetag + ".asc"); }
+    Path pubKeyFile(String filetag) {
+        return outPath.resolve("sigPubKey_" + filetag + ".asc");
+    }
+    Path polyasFile(String filetag) {
+        return outPath.resolve("polyas_" + filetag + ".csv");
+    }
+    Path polyasSigFile(String filetag) {
+        return outPath.resolve("polyasSig_" + filetag + ".csv.sig");
+    }
+    Path distFile(String filetag) {
+        return outPath.resolve("dist_" + filetag + ".asc");
+    }
 
     private String filetag(String hash) {
         final String now = (new SimpleDateFormat("yyyyMMdd-HHmmss")).format(new Date());
         return Integer.toString(now.hashCode()).substring(0, 9);
     }
 
-    enum FieldsForPolyasMode { MIN, MAX; }
+    enum FieldsForPolyasMode {
+        MIN, MAX;
+    }
 
     /**
-     * Data class to hold the output files generated by the credentail tool
+     * Data class to hold the output files generated by the credentail tool.
      */
     public class FileInfo {
         final Path pubKeyFile;
@@ -337,7 +372,7 @@ class CredTool {
     /**
      * Command line tool for generation credentials.
      *
-     * use 'gpg -d --output out.txt dist-uniqueId.asc' to decrypt
+     * <p>use 'gpg -d --output out.txt dist-uniqueId.asc' to decrypt
      * use 'gpg --verify polyas-uniqueId.csv.sig polyas-uniqueId.txt' to verify signature
      *
      */
@@ -345,33 +380,38 @@ class CredTool {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         // Sanity checks
         if (args.length != 3) {
-            print = "Usage: java -jar CredTool.jar DISTRIBUTOR_PUBKEYFILE REGISTRYFILE VOTER_ID_COLUMN_HEADER";
+            print = "Usage: java -jar CredTool.jar DISTRIBUTOR_PUBKEYFILE REGISTRYFILE " +
+                    "VOTER_ID_COLUMN_HEADER";
             System.exit(0);
         }
         try {
             final CredTool customerTool = new CredTool(args[0], args[1], args[2]);
             final FileInfo fileInfo = customerTool.generate();
             print = "Success! Files created." + '\n' +
-            "-----------------------" + '\n' + '\n' +
+                "-----------------------" + '\n' + '\n' +
 
-            "Please ship the following files to the PRINTING facility" + '\n' +
-            "->" + fileInfo.pubKeyFile + '\n' +
-            "->" + fileInfo.distFile + '\n' + '\n' +
+                "Please ship the following files to the PRINTING facility" + '\n' +
+                "->" + fileInfo.pubKeyFile + '\n' +
+                "->" + fileInfo.distFile + '\n' + '\n' +
 
-            "Please ship the following files to the POLYAS" + '\n' +
-            "->" + fileInfo.pubKeyFile + '\n' +
-            "->" + fileInfo.polyasFile + '\n' +
-            "->" + fileInfo.polyasSigFile + '\n' + '\n' +
+                "Please ship the following files to the POLYAS" + '\n' +
+                "->" + fileInfo.pubKeyFile + '\n' +
+                "->" + fileInfo.polyasFile + '\n' +
+                "->" + fileInfo.polyasSigFile + '\n' + '\n' +
 
-            "One may" + '\n' + '\n' +
+                "One may" + '\n' + '\n' +
 
-            "use 'gpg --import " + fileInfo.pubKeyFile +"' to import the public key" + '\n' + '\n' +
+                "use 'gpg --import " + fileInfo.pubKeyFile +
+                "' to import the public key" + '\n' + '\n' +
 
-            "use 'gpg -d " + fileInfo.distFile + "' to decrypt (only printing facility can do this)" + '\n' +
-            "use 'gpg --verify " + fileInfo.polyasFile + " " + fileInfo.polyasSigFile + "' to verify signature";
+                "use 'gpg -d " + fileInfo.distFile +
+                "' to decrypt (only printing facility can do this)" + '\n' +
+                "use 'gpg --verify " + fileInfo.polyasFile +
+                " " + fileInfo.polyasSigFile + "' to verify signature";
         } catch (Exception e) {
             print = "Error: " + e.getMessage() + '\n' +
-            "Nested technical reason: " + (e.getCause() != null ? e.getCause().getMessage() : "none");
+                    "Nested technical reason: " +
+                    (e.getCause() != null ? e.getCause().getMessage() : "none");
         } finally {
             System.out.println(print);
         }

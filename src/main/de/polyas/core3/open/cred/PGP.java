@@ -1,18 +1,73 @@
 package de.polyas.core3.open.cred;
 
-import org.bouncycastle.bcpg.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.SecureRandom;
+import java.security.Security;
+import java.security.SignatureException;
+import java.util.Date;
+import java.util.Iterator;
+
+import org.bouncycastle.bcpg.ArmoredOutputStream;
+import org.bouncycastle.bcpg.BCPGOutputStream;
+import org.bouncycastle.bcpg.CompressionAlgorithmTags;
+import org.bouncycastle.bcpg.HashAlgorithmTags;
+import org.bouncycastle.bcpg.SymmetricKeyAlgorithmTags;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openpgp.*;
+import org.bouncycastle.openpgp.PGPCompressedData;
+import org.bouncycastle.openpgp.PGPCompressedDataGenerator;
+import org.bouncycastle.openpgp.PGPEncryptedData;
+import org.bouncycastle.openpgp.PGPEncryptedDataGenerator;
+import org.bouncycastle.openpgp.PGPEncryptedDataList;
+import org.bouncycastle.openpgp.PGPException;
+import org.bouncycastle.openpgp.PGPLiteralData;
+import org.bouncycastle.openpgp.PGPLiteralDataGenerator;
+import org.bouncycastle.openpgp.PGPObjectFactory;
+import org.bouncycastle.openpgp.PGPOnePassSignature;
+import org.bouncycastle.openpgp.PGPOnePassSignatureList;
+import org.bouncycastle.openpgp.PGPPrivateKey;
+import org.bouncycastle.openpgp.PGPPublicKey;
+import org.bouncycastle.openpgp.PGPPublicKeyEncryptedData;
+import org.bouncycastle.openpgp.PGPPublicKeyRing;
+import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
+import org.bouncycastle.openpgp.PGPSecretKey;
+import org.bouncycastle.openpgp.PGPSignature;
+import org.bouncycastle.openpgp.PGPSignatureGenerator;
+import org.bouncycastle.openpgp.PGPSignatureList;
+import org.bouncycastle.openpgp.PGPSignatureSubpacketGenerator;
+import org.bouncycastle.openpgp.PGPUtil;
 import org.bouncycastle.openpgp.operator.PGPDigestCalculator;
-import org.bouncycastle.openpgp.operator.jcajce.*;
+import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentSignerBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPContentVerifierBuilderProvider;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPDigestCalculatorProviderBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcaPGPKeyPair;
+import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyDecryptorBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcePBESecretKeyEncryptorBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcePGPDataEncryptorBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactoryBuilder;
+import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 import org.bouncycastle.util.io.Streams;
-import java.io.*;
-import java.security.*;
-import java.util.*;
 
 public class PGP {
 
-    private static final BouncyCastleProvider provider = new BouncyCastleProvider();
+    private static BouncyCastleProvider provider = new BouncyCastleProvider();
 
     static {
         Security.addProvider(provider);
@@ -42,16 +97,14 @@ public class PGP {
             final OutputStream compressedOut =
                     compressedDataGenerator.open(encryptedOut, new byte[4096]);
             final PGPPrivateKey privateKey =
-                    secretKey.extractPrivateKey(
-                            (new JcePBESecretKeyDecryptorBuilder())
-                            .setProvider(provider).build(secretPwd.toCharArray())
+                    secretKey.extractPrivateKey((new JcePBESecretKeyDecryptorBuilder())
+                                            .setProvider(provider).build(secretPwd.toCharArray())
             );
             final PGPSignatureGenerator signatureGenerator =
                     new PGPSignatureGenerator(
                             (new JcaPGPContentSignerBuilder(
                                     secretKey.getPublicKey().getAlgorithm(),
-                                    HashAlgorithmTags.SHA1))
-                            .setProvider(provider)
+                                    HashAlgorithmTags.SHA1)).setProvider(provider)
             );
             signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
             final Iterator<String> it = secretKey.getPublicKey().getUserIDs();
@@ -63,8 +116,7 @@ public class PGP {
             signatureGenerator.generateOnePassVersion(false).encode(compressedOut);
             final PGPLiteralDataGenerator literalDataGenerator = new PGPLiteralDataGenerator();
             final OutputStream literalOut = literalDataGenerator.open(
-                compressedOut, PGPLiteralData.BINARY, "filename",
-                new Date(), new byte[4096]
+                compressedOut, PGPLiteralData.BINARY, "filename", new Date(), new byte[4096]
             );
             final ByteArrayInputStream input = new ByteArrayInputStream(message);
             final byte[] buf = new byte[4096];
@@ -105,13 +157,11 @@ public class PGP {
             PGPObjectFactory plainFact =
                     new PGPObjectFactory(clear, new JcaKeyFingerprintCalculator());
 
-            Object message;
-
             PGPOnePassSignatureList onePassSignatureList = null;
             PGPSignatureList signatureList = null;
             PGPCompressedData compressedData;
 
-            message = plainFact.nextObject();
+            Object message = plainFact.nextObject();
             final ByteArrayOutputStream actualOutput = new ByteArrayOutputStream();
 
             while (message != null) {
@@ -149,7 +199,7 @@ public class PGP {
                             (new JcaPGPContentVerifierBuilderProvider())
                                 .setProvider(provider),
                             publicKey
-                            );
+                    );
                     ops.update(output);
                     final PGPSignature signature = signatureList.get(i);
                     if (!ops.verify(signature)) {
@@ -260,9 +310,11 @@ public class PGP {
         }
 
         final PGPPrivateKey pgpPrivKey = pgpSec
-            .extractPrivateKey((new JcePBESecretKeyDecryptorBuilder()).setProvider("BC").build(pass));
+            .extractPrivateKey((new JcePBESecretKeyDecryptorBuilder())
+                    .setProvider("BC").build(pass));
         final PGPSignatureGenerator sGen = new PGPSignatureGenerator(
-            (new JcaPGPContentSignerBuilder(pgpSec.getPublicKey().getAlgorithm(), PGPUtil.SHA1)).setProvider("BC")
+            (new JcaPGPContentSignerBuilder(pgpSec.getPublicKey().getAlgorithm(), PGPUtil.SHA1))
+            .setProvider("BC")
         );
 
         sGen.init(PGPSignature.BINARY_DOCUMENT, pgpPrivKey);
@@ -298,8 +350,8 @@ public class PGP {
      * @param input
      * data stream containing the public key data
      * @return the first public key found.
-     * @throws IOException
-     * @throws PGPException
+     * @throws IOException ioexceptio
+     * @throws PGPException pgpexception
      */
     public static PGPPublicKey readPublicKey(InputStream input) throws IOException, PGPException {
         final PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(

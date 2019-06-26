@@ -4,7 +4,9 @@ import java.nio.ByteBuffer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-public class Utils {
+public final class Utils {
+
+    private Utils() {}
 
     /////////////////////////////////////////////////////////////////////////////////
     // Conversion hex <-> bytes
@@ -61,7 +63,7 @@ public class Utils {
             buffer.putInt(n);
         }
 
-        byte[] _getBytes() {
+        byte[] getBytes() {
             buffer.flip();
             int len = buffer.remaining();
             byte[] bs = new byte[len];
@@ -70,8 +72,9 @@ public class Utils {
         }
 
         private void ensureSpace(int n) {
-            if (buffer.remaining() < n)
+            if (buffer.remaining() < n) {
                 reallocate(n);
+            }
         }
 
         private void reallocate(int delta) {
@@ -91,13 +94,13 @@ public class Utils {
      * @param maximalCapacity
      *      the maximal length of the produced byte array.
      *
-     * @param block
-     *      builder block which appends data by calling put* methods.
+     * @param s
+     *      integer for builder block which appends data by calling putInt method.
      */
     public static byte[] buildByteArray(int maximalCapacity, final int s) {
         final ByteArrayBuilderCtx ctx = new ByteArrayBuilderCtx(maximalCapacity);
         ctx.putInt(s);
-        return ctx._getBytes();
+        return ctx.getBytes();
     }
 
 }

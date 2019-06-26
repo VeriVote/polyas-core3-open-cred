@@ -5,7 +5,7 @@ import java.math.BigInteger;
 public interface CyclicGroup<GroupElement> {
 
     /**
-     * The order of the group
+     * The order of the group.
      */
     public BigInteger order();
 
@@ -16,7 +16,7 @@ public interface CyclicGroup<GroupElement> {
 
     /**
      * Returns 'a' to the power of 'exponent', where a is an element of the group
-     * and 'exponent' is an integer (typically in the range [0, order()))
+     * and 'exponent' is an integer (typically in the range [0, order())).
      */
     public GroupElement pow(GroupElement e, BigInteger exponent);
 

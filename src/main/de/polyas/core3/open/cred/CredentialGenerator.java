@@ -1,7 +1,7 @@
 package de.polyas.core3.open.cred;
 
-import de.polyas.core3.open.crypto.groups.ECGroup;
 import de.polyas.core3.open.crypto.basic.Utils;
+import de.polyas.core3.open.crypto.groups.ECGroup;
 import java.security.SecureRandom;
 
 import org.bouncycastle.math.ec.ECPoint;
@@ -9,14 +9,16 @@ import org.bouncycastle.math.ec.ECPoint;
 /**
  * Utility for generating voters' passwords and derived data.
  *
- * It implements the procedure described in Appendix A.3 of the
+ * <p>It implements the procedure described in Appendix A.3 of the
  * document "Polyas 3.0 E-voting System, Variant for the GI 2019 Election".
  */
-class CredentialGenerator {
+public final class CredentialGenerator {
 
-	// the cyclic group instance used to generate credentials - elliptic curve group SecP256K1
-    private static final ECGroup group = new ECGroup();
-    private static final SecureRandom random = Utils.getInstanceStrong();
+    // the cyclic group instance used to generate credentials - elliptic curve group SecP256K1
+    private static final ECGroup GROUP = new ECGroup();
+    private static final SecureRandom RANDOM = Utils.getInstanceStrong();
+
+    private CredentialGenerator() {}
 
     /**
      * Generates credentials, including a random password, for a given voter.
@@ -31,12 +33,12 @@ class CredentialGenerator {
 
         // derive the public credential (voter's public verification key pk_i)
         final ECPoint pubCred = // TODO HERE: Look! // TODO: Make dummy
-                Crypto.publicCredentialFromPIN(group, password, voterId);
-        final String pubCredHex = Utils.asHexString(group.elementToBytes(pubCred));
+                Crypto.publicCredentialFromPIN(GROUP, password, voterId);
+        final String pubCredHex = Utils.asHexString(GROUP.elementToBytes(pubCred));
 
         // derive the log-in password (derived password dp_i)
         final String loginPasswordFromMasterPIN = // TODO: Make dummy
-                Crypto.loginPasswordFromMasterPIN(group, voterId, password);
+                Crypto.loginPasswordFromMasterPIN(GROUP, voterId, password);
         // compute the salted and hashed password (h_i)
         final String salt = newSalt();
         final String hashedPassword =
@@ -51,20 +53,25 @@ class CredentialGenerator {
      */
     public static String newSalt() {
         final byte[] b = new byte[8];
-        random.nextBytes(b);
+        RANDOM.nextBytes(b);
         return Utils.asHexString(b).toLowerCase();
     }
 
     /**
      * Data record generated for a voter.
-     *
-     * @param password  Voters (master) password; to be send (via the distribution facility) to the voter
-     * @param hashedPassword  Salted and hashed password (including the salt); to be sent to POLYAS
-     * @param publicSigningKey  Public voter's credential; to be send to POLYAS and published on the registration board
      */
     public static class GeneratedDataForVoter {
+        /**
+         * Voters (master) password; to be sent (via the distribution facility) to the voter.
+         */
         final String password; // TODO HERE: xx
+        /**
+         * Salted and hashed password (including the salt); to be sent to POLYAS.
+         */
         final String hashedPassword;
+        /**
+         * Public voter's credential; to be send to POLYAS and published on the registration board.
+         */
         final String publicSigningKey;
 
         public GeneratedDataForVoter(final String password,
