@@ -27,10 +27,8 @@ public final class CredentialGenerator {
      * @return Generated data for the voter consisting of a random password, hashed password,
      *         and the voter's public signing key (public credential)
      */
-    public static GeneratedDataForVoter generateDataForVoter(String voterId) {
-        // generate a password with 80 bits of entropy
-        final String password = Crypto.randomCredential80();
-
+    public static GeneratedDataForVoter generateDataForVoter(String voterId,
+                                                             final String password) {
         // derive the public credential (voter's public verification key pk_i)
         final ECPoint pubCred = // TODO HERE: Look! // TODO: Make dummy
                 Crypto.publicCredentialFromPIN(GROUP, password, voterId);

@@ -215,7 +215,9 @@ class CredTool {
         // all data is hold only in memory
         input.forEach(it -> {
             try {
-                proccessCSVRecord(it);
+                // generate a password with 80 bits of entropy
+                final String password = Crypto.randomCredential80(); // TODO HERE: SOURCE!
+                proccessCSVRecord(it, password);
             } catch (IOException e2) {
             }
         });
@@ -291,8 +293,10 @@ class CredTool {
     /**
      * Processes the given input record `r` and adds appropriate records to
      * the CSV output [dist] and [polyas].
+     * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
-    private void proccessCSVRecord(CSVRecord r) throws IOException { // TODO HERE: xx
+    private void proccessCSVRecord(CSVRecord r, final String password) throws IOException {
+        // TODO HERE: xx
         if (input.getCurrentLineNumber() % 1000 == 0L) {
             print = "Processed " + input.getCurrentLineNumber() + " lines";
         }
@@ -302,7 +306,7 @@ class CredTool {
         }
 
         final GeneratedDataForVoter dataForVoter =
-                CredentialGenerator.generateDataForVoter(voterId);
+                CredentialGenerator.generateDataForVoter(voterId, password);
 
         // Dist
         final List<String> distVals =
@@ -319,7 +323,7 @@ class CredTool {
                 inputColsForPolyas.stream().map(r::get).collect(Collectors.toList());
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
-        polyas.printRecord(polyasVals);
+        polyas.printRecord(polyasVals); // TODO HERE: SINK!
     }
 
     private void exit(String msg) {
