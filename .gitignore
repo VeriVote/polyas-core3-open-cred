@@ -5,6 +5,7 @@ bin/
 # Eclipse
 .classpath
 .project
+.checkstyle
 .settings/
 
 # Intellij
