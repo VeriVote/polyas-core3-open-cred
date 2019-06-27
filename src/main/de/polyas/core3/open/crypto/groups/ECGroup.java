@@ -12,7 +12,7 @@ import org.bouncycastle.math.ec.custom.sec.SecP256K1Curve;
 public class ECGroup implements CyclicGroup<ECPoint> {
 
     final SecP256K1Curve curve = new SecP256K1Curve();
-    final private ECNamedCurveParameterSpec group =
+    private final ECNamedCurveParameterSpec group =
             ECNamedCurveTable.getParameterSpec("secp256k1");
 
     public BigInteger order() {

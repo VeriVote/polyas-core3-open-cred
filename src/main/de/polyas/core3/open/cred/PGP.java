@@ -5,13 +5,10 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
@@ -73,8 +70,39 @@ public class PGP {
         Security.addProvider(provider);
     }
 
+
+    private static void verifySignature(PGPPublicKey publicKey,
+                                        final PGPPublicKeyEncryptedData pbe,
+                                        PGPOnePassSignatureList onePassSignatureList,
+                                        PGPSignatureList signatureList, final byte[] output)
+                        throws PGPException, SignatureException, IOException {
+        if (onePassSignatureList == null || signatureList == null) {
+            throw new PGPException("Poor PGP. Signatures not found.");
+        } else {
+            for (int i = 0; i < onePassSignatureList.size(); i++) {
+                final PGPOnePassSignature ops = onePassSignatureList.get(0);
+
+                ops.init(
+                        (new JcaPGPContentVerifierBuilderProvider())
+                            .setProvider(provider),
+                        publicKey
+                );
+                ops.update(output);
+                final PGPSignature signature = signatureList.get(i);
+                if (!ops.verify(signature)) {
+                    throw new SignatureException("Signature verification failed");
+                }
+            }
+        }
+
+        if (pbe.isIntegrityProtected() && !pbe.verify()) {
+            throw new PGPException("Data is integrity protected but integrity is lost.");
+        }
+    }
+
     static byte[] signAndEncrypt(byte[] message, PGPSecretKey secretKey, String secretPwd,
-                                 PGPPublicKey publicKey, boolean armored) throws PGPException {
+                                 PGPPublicKey publicKey, boolean armored)
+                                         throws PGPException, IOException {
         try {
             final ByteArrayOutputStream out = new ByteArrayOutputStream();
             final PGPEncryptedDataGenerator encryptedDataGenerator =
@@ -90,7 +118,8 @@ public class PGP {
             );
 
             final OutputStream theOut = armored ? new ArmoredOutputStream(out) : out;
-            final OutputStream encryptedOut = encryptedDataGenerator.open(theOut, new byte[4096]);
+            final OutputStream encryptedOut =
+                    encryptedDataGenerator.open(theOut, new byte[4096]);
 
             final PGPCompressedDataGenerator compressedDataGenerator =
                     new PGPCompressedDataGenerator(CompressionAlgorithmTags.ZIP);
@@ -98,7 +127,8 @@ public class PGP {
                     compressedDataGenerator.open(encryptedOut, new byte[4096]);
             final PGPPrivateKey privateKey =
                     secretKey.extractPrivateKey((new JcePBESecretKeyDecryptorBuilder())
-                                            .setProvider(provider).build(secretPwd.toCharArray())
+                                            .setProvider(provider)
+                                            .build(secretPwd.toCharArray())
             );
             final PGPSignatureGenerator signatureGenerator =
                     new PGPSignatureGenerator(
@@ -109,14 +139,17 @@ public class PGP {
             signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
             final Iterator<String> it = secretKey.getPublicKey().getUserIDs();
             if (it.hasNext()) {
-                final PGPSignatureSubpacketGenerator spGen = new PGPSignatureSubpacketGenerator();
+                final PGPSignatureSubpacketGenerator spGen =
+                        new PGPSignatureSubpacketGenerator();
                 spGen.setSignerUserID(false, (String) it.next());
                 signatureGenerator.setHashedSubpackets(spGen.generate());
             }
             signatureGenerator.generateOnePassVersion(false).encode(compressedOut);
-            final PGPLiteralDataGenerator literalDataGenerator = new PGPLiteralDataGenerator();
+            final PGPLiteralDataGenerator literalDataGenerator =
+                    new PGPLiteralDataGenerator();
             final OutputStream literalOut = literalDataGenerator.open(
-                compressedOut, PGPLiteralData.BINARY, "filename", new Date(), new byte[4096]
+                compressedOut, PGPLiteralData.BINARY, "filename",
+                new Date(), new byte[4096]
             );
             final ByteArrayInputStream input = new ByteArrayInputStream(message);
             final byte[] buf = new byte[4096];
@@ -187,36 +220,13 @@ public class PGP {
             actualOutput.close();
             final byte[] output = actualOutput.toByteArray();
 
-            // verify signature
-            if (onePassSignatureList == null || signatureList == null) {
-                throw new PGPException("Poor PGP. Signatures not found.");
-            } else {
-
-                for (int i = 0; i < onePassSignatureList.size(); i++) {
-                    final PGPOnePassSignature ops = onePassSignatureList.get(0);
-
-                    ops.init(
-                            (new JcaPGPContentVerifierBuilderProvider())
-                                .setProvider(provider),
-                            publicKey
-                    );
-                    ops.update(output);
-                    final PGPSignature signature = signatureList.get(i);
-                    if (!ops.verify(signature)) {
-                        throw new SignatureException("Signature verification failed");
-                    }
-                }
-            }
-
-            if (pbe.isIntegrityProtected() && !pbe.verify()) {
-                throw new PGPException("Data is integrity protected but integrity is lost.");
-            }
+            verifySignature(publicKey, pbe, onePassSignatureList,
+                            signatureList, output);
 
             return actualOutput.toByteArray();
         } catch (Exception e) {
             throw new PGPException("Error in decryptAndVerify", e);
         }
-
     }
 
     @SuppressWarnings("unchecked")
@@ -227,20 +237,18 @@ public class PGP {
             new JcaKeyFingerprintCalculator()
         );
         final Object first = factory.nextObject();
-        final Object list;
+        final PGPEncryptedDataList list;
         if (first instanceof PGPEncryptedDataList) {
             list = (PGPEncryptedDataList) first;
         } else {
-            list = factory.nextObject();
+            list = (PGPEncryptedDataList) factory.nextObject();
         }
-        return (Iterator<PGPPublicKeyEncryptedData>)((PGPEncryptedDataList) list)
-                .getEncryptedDataObjects();
+        return (Iterator<PGPPublicKeyEncryptedData>)(list).getEncryptedDataObjects();
     }
 
     private static PGPSecretKey createSecretKey(PublicKey publicKey, PrivateKey privateKey,
                                                 String identity, char[] passPhrase)
-                throws IOException, InvalidKeyException, NoSuchProviderException,
-                        SignatureException, PGPException {
+                    throws PGPException {
         final KeyPair pair = new KeyPair(publicKey, privateKey);
         final PGPDigestCalculator sha1Calc =
                 (new JcaPGPDigestCalculatorProviderBuilder())
@@ -258,8 +266,8 @@ public class PGP {
 
     PGPSecretKey createAndExportKey(String pubFilename, String passPhrase,
                                     String authority, boolean armor)
-            throws NoSuchAlgorithmException, NoSuchProviderException, FileNotFoundException,
-                    IOException, InvalidKeyException, SignatureException, PGPException {
+            throws NoSuchAlgorithmException, NoSuchProviderException,
+                    IOException, PGPException {
         final KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", "BC");
         kpg.initialize(4096);
         final KeyPair kp = kpg.generateKeyPair();
@@ -278,9 +286,7 @@ public class PGP {
     }
 
     public static PGPSecretKey createKey(String passPhrase, String authority)
-            throws NoSuchAlgorithmException, NoSuchProviderException,
-                    InvalidKeyException, SignatureException,
-                    PGPException, IOException {
+            throws NoSuchAlgorithmException, NoSuchProviderException, PGPException {
         final KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", "BC");
         kpg.initialize(4096);
         final KeyPair kp = kpg.generateKeyPair();
@@ -289,7 +295,7 @@ public class PGP {
     }
 
     public static void exportKey(String pubFilename, PGPSecretKey secretKey,
-                                 boolean armor) throws FileNotFoundException, IOException {
+                                 boolean armor) throws IOException {
         OutputStream publicOut = new FileOutputStream(pubFilename);
         if (armor) {
             publicOut = new ArmoredOutputStream(publicOut);
@@ -302,7 +308,7 @@ public class PGP {
 
     public static void createSignature(String fileName, PGPSecretKey pgpSec,
                                        String outputFileName, char[] pass, boolean armor)
-            throws GeneralSecurityException, IOException, PGPException {
+            throws IOException, PGPException {
         OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFileName));
 
         if (armor) {
@@ -321,19 +327,24 @@ public class PGP {
         final BCPGOutputStream bOut = new BCPGOutputStream(out);
         final BufferedInputStream fIn = new BufferedInputStream(new FileInputStream(fileName));
 
-        int ch = fIn.read();
-        while (ch >= 0) {
-            sGen.update(Integer.valueOf(ch).byteValue());
-            ch = fIn.read();
+        try {
+            int ch = fIn.read();
+            while (ch >= 0) {
+                sGen.update(Integer.valueOf(ch).byteValue());
+                ch = fIn.read();
+            }
+            sGen.generate().encode(bOut);
         }
-        fIn.close();
-
-        sGen.generate().encode(bOut);
-
-        if (armor) {
+        catch (IOException e) {
+            throw new PGPException("Error in createSignature", e);
+        } finally {
+            fIn.close();
+            bOut.close();
+            if (armor) {
+                out.close();
+            }
             out.close();
         }
-        out.close();
     }
 
     public static PGPPublicKey readPublicKey(String fileName) throws IOException, PGPException {
@@ -350,8 +361,8 @@ public class PGP {
      * @param input
      * data stream containing the public key data
      * @return the first public key found.
-     * @throws IOException ioexceptio
-     * @throws PGPException pgpexception
+     * @throws IOException stream decoder may throw an i/o-exception
+     * @throws PGPException if a non-PGPPublicKeyRing object is encountered
      */
     public static PGPPublicKey readPublicKey(InputStream input) throws IOException, PGPException {
         final PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
@@ -362,11 +373,11 @@ public class PGP {
 
         final Iterator<PGPPublicKeyRing> keyRingIter = pgpPub.getKeyRings();
         while (keyRingIter.hasNext()) {
-            final PGPPublicKeyRing keyRing = (PGPPublicKeyRing) keyRingIter.next();
+            final PGPPublicKeyRing keyRing = keyRingIter.next();
 
             final Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
             while (keyIter.hasNext()) {
-                final PGPPublicKey key = (PGPPublicKey) keyIter.next();
+                final PGPPublicKey key = keyIter.next();
 
                 if (key.isEncryptionKey()) {
                     return key;

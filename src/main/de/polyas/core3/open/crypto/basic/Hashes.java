@@ -54,7 +54,7 @@ public final class Hashes {
      * <p>This function implements Algorithm 4 of the documentation for
      * POLYAS 3.0 Verifiable.
      */
-    public static BigInteger uniformHash(BigInteger upperBound, final String s1,
+    public static BigInteger uniformHash(final BigInteger upperBound, final String s1,
                                          final String s2, final String s3) {
         return BigInteger.ZERO; // XXX: Dummy
     }
