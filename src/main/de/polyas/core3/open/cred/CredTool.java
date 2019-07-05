@@ -1,17 +1,11 @@
 package de.polyas.core3.open.cred;
 
-import de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter;
-import de.polyas.core3.open.crypto.basic.Hashes;
-import de.polyas.core3.open.crypto.basic.Utils;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,16 +15,17 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
-import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPSecretKey;
+
+import de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter;
+import de.polyas.core3.open.crypto.basic.Hashes;
+import de.polyas.core3.open.crypto.basic.Utils;
 
 
 /**
@@ -42,8 +37,8 @@ import org.bouncycastle.openpgp.PGPSecretKey;
  */
 class CredTool {
 
-    public static List<String> distVals;
-    public static List<String> polyasVals;
+    public static List distVals;
+    public static List polyasVals;
 
     private static String print = "";
 
@@ -89,18 +84,18 @@ class CredTool {
     /**
      * The headers of the input file.
      */
-    private final List<String> inputCols = parseInputCols(registryFilename);
+    private final List inputCols = parseInputCols(registryFilename);
 
     /**
      * Columns to be included in the distributor (printing facility) file.
      */
-    private final List<String> inputColsForDist = extractInputColsForDist(inputCols, idCol);
+    private final List inputColsForDist = extractInputColsForDist(inputCols, idCol);
     // all except for the voter identifier
 
     /**
      * Columns to be included in the polyas file.
      */
-    private final List<String> inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
+    private final List inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
 
     /**
      * CVS Parser for input registry.
@@ -134,18 +129,18 @@ class CredTool {
         return !voterId.isBlank();
     }
 
-    private static List<String> toList(List<String> ls) {
-        return new LinkedList<String>(ls);
+    private static List toList(List<String> ls) {
+        return new LinkedList(ls);
     }
 
-    private static List<String> toList(List<String> ls, String s) {
-        List<String> list = toList(ls);
+    private static List toList(List<String> ls, String s) {
+        List list = toList(ls);
         list.add(s);
         return list;
     }
 
-    private static List<String> toList(String s, List<String> ls) {
-        List<String> list = Arrays.asList(s);
+    private static List toList(String s, List<String> ls) {
+        List list = Arrays.asList(s);
         int len = ls.size();
         for (int i = 0; i < len; i++) {
             list.add(ls.get(i));
@@ -181,40 +176,46 @@ class CredTool {
     private static PGPPublicKey readPublicKey(final String key) {
         try {
             return PGP.readPublicKey(key);
-        } catch (IOException | PGPException e) {
+        } catch (Exception e) {
             return null;
         }
     }
 
-    private static LinkedList<String> parseInputCols(final String fileName) {
+    private static LinkedList parseInputCols(final String fileName) {
         final CSVParser parser =
                 parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(DELIMITER),
                       fileName);
-        final Map<String, Integer> inputColMap;
+        final Map inputColMap;
         if (parser != null) {
             inputColMap = parser.getHeaderMap();
         } else {
-            new LinkedHashMap<String, Integer>();
-            inputColMap = new LinkedHashMap<String, Integer>();
+            new LinkedHashMap();
+            inputColMap = new LinkedHashMap();
         }
-        return new LinkedList<String> (inputColMap.keySet());
+        return new LinkedList(inputColMap.keySet());
     }
 
 
-    private static List<String> extractInputColsForDist(final List<String> cols, final String id) {
+    private static List extractInputColsForDist(final List cols, final String id) {
         // TODO HERE: id/idCol!
-        final Stream<String> stream = cols.stream().filter(it -> !it.equals(id));
-        return stream.collect(Collectors.toList());
+
+        List result = new ArrayList();
+        for (Object it : cols) {
+            if (!it.equals(id)) {
+                result.add(it);
+            }
+        }
+        return result;
     }
 
-    private static List<String> extractInputColsForPolyas(final List<String> cols, final String id) {
-        final List<String> list;
+    private static List extractInputColsForPolyas(final List cols, final String id) {
+        final List list;
         if (polyasMode == FieldsForPolyasMode.MIN) {
             list = Arrays.asList(id);
         } else if (polyasMode == FieldsForPolyasMode.MAX) {
             list = toList(cols);
         } else {
-            list = new ArrayList<String>();
+            list = new ArrayList();
         }
         return list;
     }
@@ -224,14 +225,14 @@ class CredTool {
                      fileName);
     }
 
-    private static CSVPrinter printPolyas(final List<String> cols) {
+    private static CSVPrinter printPolyas(final List cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(toList(cols, HASHED_PASSWORD_COL),
                                           PUBLIC_SIGNING_KEY_COL)))); // order is important!
     }
 
 
-    private static CSVPrinter printDist(final List<String> cols) {
+    private static CSVPrinter printDist(final List cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(PASSWORD_COL, cols)))); // order is important!
     }
@@ -250,11 +251,12 @@ class CredTool {
         // Process input registry line by line.
         // as a side effect of processCSVRecord, data is added to CSV output [dist] and [polyas]
         // all data is hold only in memory
-        input.forEach(it -> {
-            // generate a password with 80 bits of entropy
+
+        for (CSVRecord it : input) {
             final String password = Crypto.randomCredential80(); // TODO HERE: SOURCE!
-            proccessCSVRecord(it, password);
-        });
+            processCSVRecord(it, password);
+        }
+
         try {
             polyas.close(true);
             dist.close(true);
@@ -272,7 +274,7 @@ class CredTool {
         PGPSecretKey ourSecretKey;
         try {
             ourSecretKey = PGP.createKey(pgpPassword, "wvz-" + filetag);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | PGPException e1) {
+        } catch (Exception e1) {
             ourSecretKey = null;
         }
         // Note that we never store the private key to any file,
@@ -298,7 +300,7 @@ class CredTool {
             signedAndEncryptedDistContent =
                     PGP.signAndEncrypt(dist.getOut().toString().getBytes(), ourSecretKey,
                                        pgpPassword, distPubKey, true);
-        } catch (IOException | PGPException e) {
+        } catch (Exception e) {
             signedAndEncryptedDistContent = null;
         }
         try {
@@ -318,7 +320,7 @@ class CredTool {
         try {
             PGP.createSignature(polyasFile.toString(), ourSecretKey, polyasSigFile.toString(),
                                 pgpPassword.toCharArray(), true);
-        } catch (IOException | PGPException e) {
+        } catch (Exception e) {
             // do nothing
         }
 
@@ -331,7 +333,7 @@ class CredTool {
      * the CSV output [dist] and [polyas].
      * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
-    private void proccessCSVRecord(CSVRecord r, final String password) {
+    private void processCSVRecord(CSVRecord r, final String password) {
         // TODO HERE: xx
         if (input.getCurrentLineNumber() % 1000 == 0L) {
             print = "Processed " + input.getCurrentLineNumber() + " lines";
@@ -345,7 +347,10 @@ class CredTool {
                 CredentialGenerator.generateDataForVoter(voterId, password);
 
         // Dist
-        distVals = inputColsForDist.stream().map(r::get).collect(Collectors.toList());
+        distVals = new ArrayList();
+        for (Object it : inputColsForDist) {
+            distVals.add(r.get((String) it));
+        }
         distVals.add(0, dataForVoter.password); // TODO HERE: PASSWORD!
         try {
             // TODO HERE: ONLY GOES HERE!
@@ -354,7 +359,10 @@ class CredTool {
         }
 
         // Polyas
-        polyasVals = inputColsForPolyas.stream().map(r::get).collect(Collectors.toList());
+        polyasVals = new ArrayList();
+        for (Object it : inputColsForPolyas) {
+            polyasVals.add(r.get((String) it));
+        }
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
         try {

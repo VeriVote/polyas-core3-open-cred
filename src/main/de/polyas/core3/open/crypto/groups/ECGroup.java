@@ -1,7 +1,5 @@
 package  de.polyas.core3.open.crypto.groups;
 
-import de.polyas.core3.open.crypto.groups.CyclicGroup;
-
 import java.math.BigInteger;
 
 import org.bouncycastle.jce.ECNamedCurveTable;
@@ -9,15 +7,17 @@ import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.sec.SecP256K1Curve;
 
-public class ECGroup implements CyclicGroup<ECPoint> {
+public class ECGroup implements CyclicGroup {
 
     final SecP256K1Curve curve = new SecP256K1Curve();
     private final ECNamedCurveParameterSpec group =
             ECNamedCurveTable.getParameterSpec("secp256k1");
 
+    @Override
     public BigInteger order() {
         return curve.getOrder();
     }
+    @Override
     public ECPoint generator() {
         return group.getG();
     }
