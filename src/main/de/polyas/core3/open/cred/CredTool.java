@@ -2,7 +2,6 @@ package de.polyas.core3.open.cred;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -126,7 +125,7 @@ class CredTool {
      * It maintains a state (a mutable hash set).
      */
     private boolean voterIdCheck(final String voterId) {
-        return !voterId.isBlank();
+        return !voterId.trim().isEmpty();
     }
 
     private static List toList(List<String> ls) {
@@ -311,7 +310,7 @@ class CredTool {
 
         // write the file for Polyas
         try {
-            Files.writeString(polyasFile, polyas.getOut().toString(), StandardCharsets.UTF_8);
+            Files.write(polyasFile, polyas.getOut().toString().getBytes());
         } catch (IOException e) {
             // do nothing
         }
