@@ -253,7 +253,7 @@ class CredTool {
         input.forEach(it -> {
             // generate a password with 80 bits of entropy
             final String password = Crypto.randomCredential80(); // TODO HERE: SOURCE!
-            proccessCSVRecord(it, password);
+            processCSVRecord(it, password);
         });
         try {
             polyas.close(true);
@@ -331,7 +331,7 @@ class CredTool {
      * the CSV output [dist] and [polyas].
      * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
-    private void proccessCSVRecord(CSVRecord r, final String password) {
+    private void processCSVRecord(CSVRecord r, final String password) {
         // TODO HERE: xx
         if (input.getCurrentLineNumber() % 1000 == 0L) {
             print = "Processed " + input.getCurrentLineNumber() + " lines";
