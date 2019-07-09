@@ -112,10 +112,10 @@ class CredTool {
      */
     private final CSVPrinter dist = printDist(inputColsForDist);
 
-    CredTool(String distPubKeyFilename, String registryFilename, String idCol) {
-        this.distPubKeyFilename = distPubKeyFilename;
-        this.registryFilename = registryFilename;
-        this.idCol = idCol;
+    CredTool(String p_distPubKeyFilename, String p_registryFilename, String p_idCol) {
+        distPubKeyFilename = p_distPubKeyFilename;
+        registryFilename = p_registryFilename;
+        idCol = p_idCol;
         init();
     }
 
@@ -128,17 +128,17 @@ class CredTool {
         return !voterId.trim().isEmpty();
     }
 
-    private static List toList(List<String> ls) {
+    private static List toList(List ls) {
         return new LinkedList(ls);
     }
 
-    private static List toList(List<String> ls, String s) {
+    private static List toList(List ls, String s) {
         List list = toList(ls);
         list.add(s);
         return list;
     }
 
-    private static List toList(String s, List<String> ls) {
+    private static List toList(String s, List ls) {
         List list = Arrays.asList(s);
         int len = ls.size();
         for (int i = 0; i < len; i++) {
@@ -147,11 +147,11 @@ class CredTool {
         return list;
     }
 
-    private static String[] toArray(List<String> list) {
+    private static String[] toArray(List list) {
         int len = list.size();
         String[] arr = new String[len];
         for (int i = 0; i < len; i++) {
-            arr[i] = list.get(i);
+            arr[i] = (String)list.get(i);
         }
         return arr;
     }
@@ -332,6 +332,8 @@ class CredTool {
      * the CSV output [dist] and [polyas].
      * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
+    /*@ determines password \by password;
+      @*/
     private void processCSVRecord(CSVRecord r, final String password) {
         // TODO HERE: xx
         if (input.getCurrentLineNumber() % 1000 == 0L) {
@@ -461,12 +463,6 @@ class CredTool {
             print = "Error: " + e.getMessage() + '\n' +
                     "Nested technical reason: " +
                     (e.getCause() != null ? e.getCause().getMessage() : "none");
-        } finally {
-            println(print);
         }
-    }
-    
-    public static void println(String str) {
-    	// Pretend that we're printing something here.
     }
 }

@@ -137,7 +137,7 @@ public class PGP {
                                     HashAlgorithmTags.SHA1)).setProvider(provider)
             );
             signatureGenerator.init(PGPSignature.BINARY_DOCUMENT, privateKey);
-            final Iterator<String> it = secretKey.getPublicKey().getUserIDs();
+            final Iterator it = secretKey.getPublicKey().getUserIDs();
             if (it.hasNext()) {
                 final PGPSignatureSubpacketGenerator spGen =
                         new PGPSignatureSubpacketGenerator();
@@ -174,8 +174,8 @@ public class PGP {
     byte[] decryptAndVerify(byte[] encryptedMessage, PGPSecretKey secretKey, String secretPwd,
                             PGPPublicKey publicKey) throws PGPException {
         try {
-            final Iterator<PGPPublicKeyEncryptedData> it = getEncryptedObjects(encryptedMessage);
-            final PGPPublicKeyEncryptedData pbe = it.next();
+            final Iterator it = getEncryptedObjects(encryptedMessage);
+            final PGPPublicKeyEncryptedData pbe = (PGPPublicKeyEncryptedData)it.next();
             final PGPPrivateKey sKey =
                     secretKey.extractPrivateKey(
                             (new JcePBESecretKeyDecryptorBuilder())
@@ -229,7 +229,7 @@ public class PGP {
         }
     }
 
-    private Iterator<PGPPublicKeyEncryptedData> getEncryptedObjects(byte[] message)
+    private Iterator getEncryptedObjects(byte[] message)
                 throws IOException {
         final PGPObjectFactory factory = new PGPObjectFactory(
             PGPUtil.getDecoderStream(new ByteArrayInputStream(message)),
@@ -242,7 +242,7 @@ public class PGP {
         } else {
             list = (PGPEncryptedDataList) factory.nextObject();
         }
-        return (Iterator<PGPPublicKeyEncryptedData>)(list).getEncryptedDataObjects();
+        return (Iterator)(list).getEncryptedDataObjects();
     }
 
     private static PGPSecretKey createSecretKey(PublicKey publicKey, PrivateKey privateKey,
@@ -370,13 +370,13 @@ public class PGP {
 
         // we just loop through the collection till we find a key suitable for encryption
 
-        final Iterator<PGPPublicKeyRing> keyRingIter = pgpPub.getKeyRings();
+        final Iterator keyRingIter = pgpPub.getKeyRings();
         while (keyRingIter.hasNext()) {
-            final PGPPublicKeyRing keyRing = keyRingIter.next();
+            final PGPPublicKeyRing keyRing = (PGPPublicKeyRing)keyRingIter.next();
 
-            final Iterator<PGPPublicKey> keyIter = keyRing.getPublicKeys();
+            final Iterator keyIter = keyRing.getPublicKeys();
             while (keyIter.hasNext()) {
-                final PGPPublicKey key = keyIter.next();
+                final PGPPublicKey key = (PGPPublicKey)keyIter.next();
 
                 if (key.isEncryptionKey()) {
                     return key;
