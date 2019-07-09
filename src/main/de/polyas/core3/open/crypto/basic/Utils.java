@@ -14,8 +14,8 @@ public final class Utils {
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
         for (byte b: bytes) {
-            int first4Bits = (((int)b) >> 4) & 0x0f;
-            int second4Bits = (((int)b) & 0x0f);
+            int first4Bits = (((int)b) / 16) % 16;
+            int second4Bits = (((int)b) % 16);
             r.append(hexCharacters()[first4Bits]).append(hexCharacters()[second4Bits]);
         }
         return r.toString();

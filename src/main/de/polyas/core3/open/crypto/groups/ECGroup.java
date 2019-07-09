@@ -13,11 +13,10 @@ public class ECGroup implements CyclicGroup {
     private final ECNamedCurveParameterSpec group =
             ECNamedCurveTable.getParameterSpec("secp256k1");
 
-    @Override
     public BigInteger order() {
         return curve.getOrder();
     }
-    @Override
+
     public ECPoint generator() {
         return group.getG();
     }

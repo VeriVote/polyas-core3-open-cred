@@ -229,7 +229,6 @@ public class PGP {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private Iterator<PGPPublicKeyEncryptedData> getEncryptedObjects(byte[] message)
                 throws IOException {
         final PGPObjectFactory factory = new PGPObjectFactory(

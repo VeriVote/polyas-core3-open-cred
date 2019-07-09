@@ -462,7 +462,11 @@ class CredTool {
                     "Nested technical reason: " +
                     (e.getCause() != null ? e.getCause().getMessage() : "none");
         } finally {
-            System.out.println(print);
+            println(print);
         }
+    }
+    
+    public static void println(String str) {
+    	// Pretend that we're printing something here.
     }
 }
