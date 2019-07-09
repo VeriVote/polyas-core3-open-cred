@@ -255,7 +255,6 @@ class CredTool {
             final String password = Crypto.randomCredential80(); // TODO HERE: SOURCE!
             processCSVRecord(it, password);
         }
-
         try {
             polyas.close(true);
             dist.close(true);
