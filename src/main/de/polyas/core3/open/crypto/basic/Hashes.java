@@ -56,6 +56,6 @@ public final class Hashes {
      */
     public static BigInteger uniformHash(final BigInteger upperBound, final String s1,
                                          final String s2, final String s3) {
-        return BigInteger.ZERO; // XXX: Dummy
+        return BigInteger.ZERO; // XXX: TODO: later change to constant array of big integers
     }
 }

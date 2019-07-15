@@ -256,6 +256,11 @@ class CredTool {
             processCSVRecord(it, password);
         }
         try {
+            // TODO HERE: ONLY GOES HERE!
+            dist.printRecord(distVals);
+            // TODO HERE: SINK!
+            polyas.printRecord(polyasVals);
+
             polyas.close(true);
             dist.close(true);
         } catch (IOException e1) {
@@ -352,11 +357,6 @@ class CredTool {
             distVals.add(r.get((String) it));
         }
         distVals.add(0, dataForVoter.password); // TODO HERE: PASSWORD!
-        try {
-            // TODO HERE: ONLY GOES HERE!
-            dist.printRecord(distVals);
-        } catch (IOException e) {
-        }
 
         // Polyas
         polyasVals = new ArrayList();
@@ -365,11 +365,6 @@ class CredTool {
         }
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
-        try {
-            // TODO HERE: SINK!
-            polyas.printRecord(polyasVals);
-        } catch (IOException e) {
-        }
     }
 
     private void exit(String msg) {
