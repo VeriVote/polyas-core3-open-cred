@@ -45,20 +45,20 @@ class CredTool {
     private static final String PASSWORD_COL = "Password";
     private static final String HASHED_PASSWORD_COL = "Hashed Password";
     private static final String PUBLIC_SIGNING_KEY_COL = "Public Signing Key";
-
-    /**
-     * Directory where the output files are created in; default is '.'.
-     */
-    final Path outPath = Paths.get(".");
     /**
      * MIN means that Polyas gets the minimum information from the input registry (only voter id),
      * MAX means that all columns from input registry are send back to Polyas.
      */
-    static final FieldsForPolyasMode polyasMode = FieldsForPolyasMode.MAX;
+    static final FieldsForPolyasMode polyasMode = FieldsForPolyasMode.MIN;
     /**
      * The CSV delimiter. Default is ';'.
      */
     static final char DELIMITER = ';';
+
+    /**
+     * Directory where the output files are created in; default is '.'.
+     */
+    final Path outPath;
 
     /**
      * File that contains the PGP public key of printing facility.
@@ -72,51 +72,107 @@ class CredTool {
      * The name of the column header (of the input registry file) that contains
      * the voter identifier. Voter identifiers must be unique and not empty. Default id 'ID'.
      */
-    private String idCol = "ID";
+    private String idCol;
 
     /**
      * The PGP key of the distributor.
      */
-    private final PGPPublicKey distPubKey = readPublicKey(distPubKeyFilename);
+    private final PGPPublicKey distPubKey;
 
 
     /**
      * The headers of the input file.
      */
-    private final List inputCols = parseInputCols(registryFilename);
+    private final List inputCols;
 
     /**
      * Columns to be included in the distributor (printing facility) file.
      */
-    private final List inputColsForDist = extractInputColsForDist(inputCols, idCol);
+    private final List inputColsForDist;
     // all except for the voter identifier
 
     /**
      * Columns to be included in the polyas file.
      */
-    private final List inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
+    private final List inputColsForPolyas;
+
+    //@ public instance invariant (\forall int i; 0 <= i && i < inputCols.size(); ((String)inputCols.seq[i]) != null);
+    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForDist.size(); ((String)inputColsForDist.seq[i]) != null);
+    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForPolyas.size(); ((String)inputColsForPolyas.seq[i]) != null);
+    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForDist.size(); ((String)inputColsForDist.seq[i]).equals(idCol));
+    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForPolyas.size(); ((String)inputColsForPolyas.seq[i]).equals(idCol));
 
     /**
      * CVS Parser for input registry.
      */
-    private final CSVParser input = parseInput(registryFilename);
+    private final CSVParser input;
 
     /**
      * CSV Writer for Polyas.
      */
-    private final CSVPrinter polyas =
-        printPolyas(inputColsForPolyas);
+    private final CSVPrinter polyas;
 
     /**
      * CSV Writer for the credential distributing party.
      */
-    private final CSVPrinter dist = printDist(inputColsForDist);
+    private final CSVPrinter dist;
 
     CredTool(String p_distPubKeyFilename, String p_registryFilename, String p_idCol) {
         distPubKeyFilename = p_distPubKeyFilename;
         registryFilename = p_registryFilename;
         idCol = p_idCol;
-        init();
+
+        outPath = Paths.get(".");
+        distPubKey = readPublicKey(distPubKeyFilename);
+
+        inputCols = parseInputCols(registryFilename);
+        inputColsForDist = extractInputColsForDist(inputCols, idCol);
+        inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
+
+        input = parseInput(registryFilename);
+
+        polyas = printPolyas(inputColsForPolyas);
+        dist = printDist(inputColsForDist);
+
+        // a sanity check of input registry
+        print = "Headers found in input file: " + inputCols;
+        assert(inputCols.contains(idCol));
+    }
+
+    /**
+     * Processes the given input record `r` and adds appropriate records to
+     * the CSV output [dist] and [polyas].
+     * VERIFICATION TASK: prove that polyasVals does not depend on password
+     */
+    /*@ public normal_behavior
+      @ determines polyasVals.seq \by r;
+      @*/
+    private void processCSVRecord(CSVRecord r, final String password) {
+        if (input.getCurrentLineNumber() % 1000 == 0L) {
+            print = "Processed " + input.getCurrentLineNumber() + " lines";
+        }
+        final String voterId = r.get(idCol);
+        if (!voterIdCheck(voterId)) {
+            exit("Empty or duplicate voter id");
+        }
+
+        final GeneratedDataForVoter dataForVoter =
+                CredentialGenerator.generateDataForVoter(voterId, password);
+
+        // Dist
+        distVals = new ArrayList();
+        for (Object it : inputColsForDist) {
+            distVals.add(r.get((String) it));
+        }
+        distVals.add(0, dataForVoter.password);
+
+        // Polyas
+        polyasVals = new ArrayList();
+        for (Object it : inputColsForPolyas) {
+            polyasVals.add(r.get((String) it));
+        }
+        polyasVals.add(dataForVoter.hashedPassword);
+        polyasVals.add(dataForVoter.publicSigningKey);
     }
 
     /**
@@ -124,7 +180,10 @@ class CredTool {
      * checks whether voter id's are unique and not empty.
      * It maintains a state (a mutable hash set).
      */
-    private boolean voterIdCheck(final String voterId) {
+    /*@ public normal_behavior
+      @ determines \result \by voterId; //TODO: \result depends not on the id but only on voterId.trim().isEmpty()!
+      @*/
+    private /*@pure@*/ boolean voterIdCheck(final String voterId) {
         return !voterId.trim().isEmpty();
     }
 
@@ -171,7 +230,10 @@ class CredTool {
             return null;
         }
     }
-
+    /*@ public normal_behavior
+      @ assignable \nothing;
+      @ determines \result \by \nothing;
+      @*/
     private static PGPPublicKey readPublicKey(final String key) {
         try {
             return PGP.readPublicKey(key);
@@ -180,6 +242,10 @@ class CredTool {
         }
     }
 
+    /*@ public normal_behavior
+      @ assignable \nothing;
+      @ determines \result \by \nothing;
+      @*/
     private static LinkedList parseInputCols(final String fileName) {
         final CSVParser parser =
                 parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(DELIMITER),
@@ -194,31 +260,42 @@ class CredTool {
         return new LinkedList(inputColMap.keySet());
     }
 
-
+    /*@ public normal_behavior
+      @ ensures \result.seq == \seq_singleton(id) || \result.seq == \seq_empty;
+      @ determines \result.seq \by cols.contains(id);
+      @*/
     private static List extractInputColsForDist(final List cols, final String id) {
         // TODO HERE: id/idCol!
 
         List result = new ArrayList();
-        for (Object it : cols) {
-            if (!it.equals(id)) {
-                result.add(it);
-            }
+        if (cols.contains(id)) {
+            result.add(id);
         }
         return result;
     }
 
+    /*@ public normal_behavior
+      @ ensures \result.seq == \seq_singleton(id) || \result.seq == \seq_empty;
+      @ determines \result.seq \by cols.contains(id);
+      @*/
     private static List extractInputColsForPolyas(final List cols, final String id) {
-        final List list;
+        // TODO HERE: id/idCol!
+
+        List result = new ArrayList();
         if (polyasMode == FieldsForPolyasMode.MIN) {
-            list = Arrays.asList(id);
+            if (cols.contains(id)) {
+                result.add(id);
+            }
         } else if (polyasMode == FieldsForPolyasMode.MAX) {
-            list = toList(cols);
-        } else {
-            list = new ArrayList();
+            result.addAll(cols);
         }
-        return list;
+        return result;
     }
 
+    /*@ public normal_behavior
+      @ assignable \nothing;
+      @ determines \result \by \nothing;
+      @*/
     private CSVParser parseInput(final String fileName) {
         return parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(DELIMITER),
                      fileName);
@@ -234,12 +311,6 @@ class CredTool {
     private static CSVPrinter printDist(final List cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(PASSWORD_COL, cols)))); // order is important!
-    }
-
-    void init() {
-        // a sanity check of input registry
-        print = "Headers found in input file: " + inputCols;
-        assert(inputCols.contains(idCol));
     }
 
     /**
@@ -329,42 +400,6 @@ class CredTool {
 
         // return the names of the files just created
         return new FileInfo(pubKeyFile, polyasFile, polyasSigFile, distFile);
-    }
-
-    /**
-     * Processes the given input record `r` and adds appropriate records to
-     * the CSV output [dist] and [polyas].
-     * VERIFICATION TASK: prove that polyasVals does not depend on password
-     */
-    /*@ determines password \by password;
-      @*/
-    private void processCSVRecord(CSVRecord r, final String password) {
-        // TODO HERE: xx
-        if (input.getCurrentLineNumber() % 1000 == 0L) {
-            print = "Processed " + input.getCurrentLineNumber() + " lines";
-        }
-        final String voterId = r.get(idCol);
-        if (!voterIdCheck(voterId)) {
-            exit("Empty or duplicate voter id");
-        }
-
-        final GeneratedDataForVoter dataForVoter =
-                CredentialGenerator.generateDataForVoter(voterId, password);
-
-        // Dist
-        distVals = new ArrayList();
-        for (Object it : inputColsForDist) {
-            distVals.add(r.get((String) it));
-        }
-        distVals.add(0, dataForVoter.password); // TODO HERE: PASSWORD!
-
-        // Polyas
-        polyasVals = new ArrayList();
-        for (Object it : inputColsForPolyas) {
-            polyasVals.add(r.get((String) it));
-        }
-        polyasVals.add(dataForVoter.hashedPassword);
-        polyasVals.add(dataForVoter.publicSigningKey);
     }
 
     private void exit(String msg) {
