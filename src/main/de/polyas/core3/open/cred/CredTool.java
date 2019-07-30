@@ -34,7 +34,7 @@ import de.polyas.core3.open.crypto.basic.Utils;
  * <p>For carrying out the core computations -- generating passwords for voters and
  * computing the derived data -- it uses ....
  */
-class CredTool {
+public final class CredTool {
 
     public static List distVals;
     public static List polyasVals;
@@ -187,17 +187,17 @@ class CredTool {
         return !voterId.trim().isEmpty();
     }
 
-    private static List toList(List ls) {
+    private List toList(List ls) {
         return new LinkedList(ls);
     }
 
-    private static List toList(List ls, String s) {
+    private List toList(List ls, String s) {
         List list = toList(ls);
         list.add(s);
         return list;
     }
 
-    private static List toList(String s, List ls) {
+    private List toList(String s, List ls) {
         List list = Arrays.asList(s);
         int len = ls.size();
         for (int i = 0; i < len; i++) {
@@ -206,7 +206,7 @@ class CredTool {
         return list;
     }
 
-    private static String[] toArray(List list) {
+    private String[] toArray(List list) {
         int len = list.size();
         String[] arr = new String[len];
         for (int i = 0; i < len; i++) {
@@ -215,7 +215,7 @@ class CredTool {
         return arr;
     }
 
-    private static CSVParser parse(final CSVFormat csv, final String fName) {
+    private CSVParser parse(final CSVFormat csv, final String fName) {
         try {
             return csv.parse(new FileReader(fName));
         } catch (IOException e) {
@@ -223,7 +223,7 @@ class CredTool {
         }
     }
 
-    private static CSVPrinter print(final CSVFormat csv) {
+    private CSVPrinter print(final CSVFormat csv) {
         try {
             return csv.print(new StringBuffer());
         } catch (IOException e) {
@@ -234,7 +234,7 @@ class CredTool {
       @ assignable \nothing;
       @ determines \result \by \nothing;
       @*/
-    private static PGPPublicKey readPublicKey(final String key) {
+    private PGPPublicKey readPublicKey(final String key) {
         try {
             return PGP.readPublicKey(key);
         } catch (Exception e) {
@@ -246,7 +246,7 @@ class CredTool {
       @ assignable \nothing;
       @ determines \result \by \nothing;
       @*/
-    private static LinkedList parseInputCols(final String fileName) {
+    private LinkedList parseInputCols(final String fileName) {
         final CSVParser parser =
                 parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(DELIMITER),
                       fileName);
@@ -261,10 +261,12 @@ class CredTool {
     }
 
     /*@ public normal_behavior
+      @ requires \invariant_for(cols);
       @ ensures \result.seq == \seq_singleton(id) || \result.seq == \seq_empty;
+      @ assignable \nothing;
       @ determines \result.seq \by cols.contains(id);
       @*/
-    private static List extractInputColsForDist(final List cols, final String id) {
+    private List extractInputColsForDist(final List cols, final String id) {
         // TODO HERE: id/idCol!
 
         List result = new ArrayList();
@@ -275,10 +277,12 @@ class CredTool {
     }
 
     /*@ public normal_behavior
+      @ requires \invariant_for(cols);
       @ ensures \result.seq == \seq_singleton(id) || \result.seq == \seq_empty;
+      @ assignable \nothing;
       @ determines \result.seq \by cols.contains(id);
       @*/
-    private static List extractInputColsForPolyas(final List cols, final String id) {
+    private List extractInputColsForPolyas(final List cols, final String id) {
         // TODO HERE: id/idCol!
 
         List result = new ArrayList();
@@ -301,14 +305,14 @@ class CredTool {
                      fileName);
     }
 
-    private static CSVPrinter printPolyas(final List cols) {
+    private CSVPrinter printPolyas(final List cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(toList(cols, HASHED_PASSWORD_COL),
                                           PUBLIC_SIGNING_KEY_COL)))); // order is important!
     }
 
 
-    private static CSVPrinter printDist(final List cols) {
+    private CSVPrinter printDist(final List cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(PASSWORD_COL, cols)))); // order is important!
     }
