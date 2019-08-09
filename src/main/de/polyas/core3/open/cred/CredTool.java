@@ -36,6 +36,12 @@ import de.polyas.core3.open.crypto.basic.Utils;
  */
 public final class CredTool {
 
+    //@ public instance invariant (\forall int i; 0 <= i && i < inputCols.size(); ((String)inputCols.seq[i]) != null);
+    //@ public instance invariant inputCols.contains(idCol);
+
+    //@ public instance invariant inputColsForDist.seq == \seq_singleton(idCol);
+    //@ public instance invariant inputColsForPolyas.seq == \seq_singleton(idCol);
+
     public static List distVals;
     public static List polyasVals;
 
@@ -96,12 +102,6 @@ public final class CredTool {
      */
     private final List inputColsForPolyas;
 
-    //@ public instance invariant (\forall int i; 0 <= i && i < inputCols.size(); ((String)inputCols.seq[i]) != null);
-    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForDist.size(); ((String)inputColsForDist.seq[i]) != null);
-    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForPolyas.size(); ((String)inputColsForPolyas.seq[i]) != null);
-    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForDist.size(); ((String)inputColsForDist.seq[i]).equals(idCol));
-    //@ public instance invariant (\forall int i; 0 <= i && i < inputColsForPolyas.size(); ((String)inputColsForPolyas.seq[i]).equals(idCol));
-
     /**
      * CVS Parser for input registry.
      */
@@ -136,7 +136,7 @@ public final class CredTool {
 
         // a sanity check of input registry
         print = "Headers found in input file: " + inputCols;
-        assert(inputCols.contains(idCol));
+        //assert(inputCols.contains(idCol));
     }
 
     /**
@@ -181,7 +181,7 @@ public final class CredTool {
      * It maintains a state (a mutable hash set).
      */
     /*@ public normal_behavior
-      @ determines \result \by voterId; //TODO: \result depends not on the id but only on voterId.trim().isEmpty()!
+      @ determines \result \by \nothing; //TODO: \result depends not on the id on voterId.trim().isEmpty()!
       @*/
     private /*@pure@*/ boolean voterIdCheck(final String voterId) {
         return !voterId.trim().isEmpty();
@@ -230,9 +230,10 @@ public final class CredTool {
             return null;
         }
     }
+
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result \by \nothing;
+      @ determines \result \by key;
       @*/
     private PGPPublicKey readPublicKey(final String key) {
         try {
@@ -243,6 +244,7 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
+      @ ensures \result.contains(idCol);
       @ assignable \nothing;
       @ determines \result \by \nothing;
       @*/
@@ -260,12 +262,6 @@ public final class CredTool {
         return new LinkedList(inputColMap.keySet());
     }
 
-    /*@ public normal_behavior
-      @ requires \invariant_for(cols);
-      @ ensures \result.seq == \seq_singleton(id) || \result.seq == \seq_empty;
-      @ assignable \nothing;
-      @ determines \result.seq \by cols.contains(id);
-      @*/
     private List extractInputColsForDist(final List cols, final String id) {
         // TODO HERE: id/idCol!
 
@@ -276,12 +272,6 @@ public final class CredTool {
         return result;
     }
 
-    /*@ public normal_behavior
-      @ requires \invariant_for(cols);
-      @ ensures \result.seq == \seq_singleton(id) || \result.seq == \seq_empty;
-      @ assignable \nothing;
-      @ determines \result.seq \by cols.contains(id);
-      @*/
     private List extractInputColsForPolyas(final List cols, final String id) {
         // TODO HERE: id/idCol!
 

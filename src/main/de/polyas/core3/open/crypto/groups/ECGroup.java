@@ -21,7 +21,9 @@ public class ECGroup implements CyclicGroup {
         return group.getG();
     }
 
-
+    /*@ public normal_behavior
+      @ determines \result.value \by p.value, exponent.value;
+      @*/
     public ECPoint pow(ECPoint p, BigInteger exponent) {
         BigInteger exponentPos =
                 (exponent.compareTo(BigInteger.ZERO) < 0) ?

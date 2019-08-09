@@ -11,6 +11,9 @@ public final class Utils {
     /////////////////////////////////////////////////////////////////////////////////
     // Conversion hex <-> bytes
 
+    /*@ public normal_behavior
+      @ determines \result \by b;
+      @*/
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
         for (byte b: bytes) {
@@ -24,7 +27,10 @@ public final class Utils {
     private static char[] hexCharacters() {
         return "0123456789ABCDEF".toCharArray();
     }
-
+    
+    /*@ public normal_behavior
+      @ determines \result \by b;
+      @*/
     public static String asHexString(byte[] b) {
         return bytesToHexString(b).toLowerCase();
     }

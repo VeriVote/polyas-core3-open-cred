@@ -24,6 +24,9 @@ public final class Hashes {
 
     // Simple use case
 
+    /*@ public normal_behavior
+      @ determines \result \by \nothing;
+      @*/
     public static byte[] hash512(final String s1, final String s2, final String s3) {
         final HashCtx ctx = new HashCtx(Crypto.getSha512Digest());
         ctx.feed(s1);
@@ -54,6 +57,9 @@ public final class Hashes {
      * <p>This function implements Algorithm 4 of the documentation for
      * POLYAS 3.0 Verifiable.
      */
+    /*@ public normal_behavior
+      @ determines \result \by \nothing;
+      @*/
     public static BigInteger uniformHash(final BigInteger upperBound, final String s1,
                                          final String s2, final String s3) {
         return BigInteger.ZERO; // XXX: TODO: later change to constant array of big integers

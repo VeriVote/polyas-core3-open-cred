@@ -27,6 +27,11 @@ public final class CredentialGenerator {
      * @return Generated data for the voter consisting of a random password, hashed password,
      *         and the voter's public signing key (public credential)
      */
+    /*@ public normal_behavior
+      @ determines \result.password \by password;
+      @ determines \result.hashedPassword \by \nothing;
+      @ determines \result.publicSigningKey \by voterId;
+      @*/
     public static GeneratedDataForVoter generateDataForVoter(String voterId,
                                                              final String password) {
         // derive the public credential (voter's public verification key pk_i)
@@ -49,6 +54,9 @@ public final class CredentialGenerator {
     /**
      * Generates 8 random bytes and returns them as lower case hex string.
      */
+    /*@ public normal_behavior
+      @ determines \result \by \nothing;
+      @*/
     public static String newSalt() {
         final byte[] b = new byte[8];
         RANDOM.nextBytes(b);

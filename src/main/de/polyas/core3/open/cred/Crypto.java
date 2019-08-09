@@ -33,6 +33,9 @@ public final class Crypto {
         }
     }
 
+    /*@ public normal_behavior
+      @ ensures \result != null;
+      @*/
     public static MessageDigest getSha512Digest() {
         try {
             return MessageDigest.getInstance("SHA-512");
@@ -74,6 +77,9 @@ public final class Crypto {
      * @param voterId voter's identifier
      * @return The public credential of the voter
      */
+    /*@ public normal_behavior
+      @ determines \result.value \by \nothing;
+      @*/
     public static ECPoint publicCredentialFromPIN(ECGroup group, String password, String voterId) {
         final BigInteger sk = Hashes.uniformHash(group.order(), password, voterId, null);
         return group.pow(group.generator(), sk);
@@ -88,6 +94,9 @@ public final class Crypto {
      * @return The log-in password (derived password) of the voter
      *
      */
+    /*@ public normal_behavior
+      @ determines \result \by \nothing;
+      @*/
     public static String loginPasswordFromMasterPIN(ECGroup group, String voterId,
                                                     String password) {
         final BigInteger skPrime = Hashes.uniformHash(group.order(), "derive-password",
