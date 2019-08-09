@@ -12,7 +12,7 @@ public final class Utils {
     // Conversion hex <-> bytes
 
     /*@ public normal_behavior
-      @ determines \result \by b;
+      @ determines \result \by bytes[*];
       @*/
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
@@ -29,7 +29,7 @@ public final class Utils {
     }
     
     /*@ public normal_behavior
-      @ determines \result \by b;
+      @ determines \result \by b[*];
       @*/
     public static String asHexString(byte[] b) {
         return bytesToHexString(b).toLowerCase();
