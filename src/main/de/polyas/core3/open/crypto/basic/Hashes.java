@@ -1,16 +1,19 @@
 package de.polyas.core3.open.crypto.basic;
 
-import de.polyas.core3.open.cred.Crypto;
 import java.math.BigInteger;
 import java.security.MessageDigest;
+
+import de.polyas.core3.open.cred.Crypto;
 
 public final class Hashes {
 
     private Hashes() {}
 
     // Universal context for hashing
-    public static class HashCtx {
+    public static final class HashCtx {
         private final MessageDigest digest;
+
+        //@ public instance invariant \invariant_for(digest);
 
         public HashCtx(final MessageDigest digest) {
             this.digest = digest;
@@ -25,6 +28,8 @@ public final class Hashes {
     // Simple use case
 
     /*@ public normal_behavior
+      @ requires \static_invariant_for(Crypto);
+      @ assignable \nothing;
       @ determines \result \by \nothing;
       @*/
     public static byte[] hash512(final String s1, final String s2, final String s3) {
@@ -58,10 +63,12 @@ public final class Hashes {
      * POLYAS 3.0 Verifiable.
      */
     /*@ public normal_behavior
-      @ determines \result \by \nothing;
+      @ requires \static_invariant_for(BigInteger);
+      @ assignable \strictly_nothing;
+      @ determines \result.value \by \nothing;
       @*/
-    public static BigInteger uniformHash(final BigInteger upperBound, final String s1,
-                                         final String s2, final String s3) {
+    public static BigInteger uniformHash(final BigInteger upperBound, final String /*@nullable@*/ s1,
+                                         final /*@nullable@*/ String s2, final /*@nullable@*/ String s3) {
         return BigInteger.ZERO; // XXX: TODO: later change to constant array of big integers
     }
 }

@@ -7,11 +7,13 @@ import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 import org.bouncycastle.math.ec.ECPoint;
 import org.bouncycastle.math.ec.custom.sec.SecP256K1Curve;
 
-public class ECGroup implements CyclicGroup {
+public final class ECGroup implements CyclicGroup {
 
-    final SecP256K1Curve curve = new SecP256K1Curve();
-    private final ECNamedCurveParameterSpec group =
+    public final SecP256K1Curve curve = new SecP256K1Curve();
+    public final ECNamedCurveParameterSpec group =
             ECNamedCurveTable.getParameterSpec("secp256k1");
+
+    //@ public instance invariant \invariant_for(curve) && \invariant_for(group);
 
     public BigInteger order() {
         return curve.getOrder();
@@ -22,7 +24,11 @@ public class ECGroup implements CyclicGroup {
     }
 
     /*@ public normal_behavior
-      @ determines \result.value \by p.value, exponent.value;
+      @ requires \static_invariant_for(BigInteger);
+      @ requires \invariant_for(p);
+      @ requires \invariant_for(exponent);
+      @ assignable \nothing;
+      @ determines \result.value \by p.value, exponent.value, curve.order;
       @*/
     public ECPoint pow(ECPoint p, BigInteger exponent) {
         BigInteger exponentPos =

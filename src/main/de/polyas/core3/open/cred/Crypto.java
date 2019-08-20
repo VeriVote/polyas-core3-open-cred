@@ -1,15 +1,15 @@
 package de.polyas.core3.open.cred;
 
-import de.polyas.core3.open.crypto.basic.Hashes;
-import de.polyas.core3.open.crypto.basic.Utils;
-import de.polyas.core3.open.crypto.groups.ECGroup;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import org.bouncycastle.math.ec.ECPoint;
+
+import de.polyas.core3.open.crypto.basic.Hashes;
+import de.polyas.core3.open.crypto.basic.Utils;
+import de.polyas.core3.open.crypto.groups.ECGroup;
 
 /**
  * Collection of cryptographic functions used to generate the credentials.
@@ -19,9 +19,9 @@ public final class Crypto {
     /**
      * Set of characters used in passwords.
      */
-    private static final String BASE_32_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-    private static final SecureRandom SECURE_RANDOM = Utils.getInstanceStrong();
-    private static final MessageDigest SHA_256_DIGEST = getSha256Digest();
+    public static final String BASE_32_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    public static final SecureRandom SECURE_RANDOM = Utils.getInstanceStrong();
+    public static final MessageDigest SHA_256_DIGEST = getSha256Digest();
 
     private Crypto() {}
 
@@ -33,9 +33,6 @@ public final class Crypto {
         }
     }
 
-    /*@ public normal_behavior
-      @ ensures \result != null;
-      @*/
     public static MessageDigest getSha512Digest() {
         try {
             return MessageDigest.getInstance("SHA-512");
@@ -64,7 +61,7 @@ public final class Crypto {
         SECURE_RANDOM.nextBytes(bytes);
         final StringBuilder sb = new StringBuilder();
         for (byte b: bytes) {
-            sb.append(BASE_32_CHARACTERS.charAt(((int)b) & 0x1f));
+            sb.append(BASE_32_CHARACTERS.charAt((b) & 0x1f));
         }
         return sb.toString();
     }
@@ -78,9 +75,12 @@ public final class Crypto {
      * @return The public credential of the voter
      */
     /*@ public normal_behavior
-      @ determines \result.value \by \nothing;
+      @ requires \static_invariant_for(BigInteger);
+      @ requires \invariant_for(group);
+      @ assignable \nothing;
+      @ determines \result.value \by group.group.generator.value, group.curve.order;
       @*/
-    public static ECPoint publicCredentialFromPIN(ECGroup group, String password, String voterId) {
+    public static /*@helper@*/ ECPoint publicCredentialFromPIN(ECGroup group, String password, String voterId) {
         final BigInteger sk = Hashes.uniformHash(group.order(), password, voterId, null);
         return group.pow(group.generator(), sk);
     }
@@ -95,9 +95,12 @@ public final class Crypto {
      *
      */
     /*@ public normal_behavior
-      @ determines \result \by \nothing;
+      @ requires \static_invariant_for(BigInteger);
+      @ requires \invariant_for(group);
+      @ assignable \nothing;
+      @ determines \result \by group.group.generator.value, group.curve.order;
       @*/
-    public static String loginPasswordFromMasterPIN(ECGroup group, String voterId,
+    public static /*@helper@*/ String loginPasswordFromMasterPIN(ECGroup group, String voterId,
                                                     String password) {
         final BigInteger skPrime = Hashes.uniformHash(group.order(), "derive-password",
                                                       password, voterId);

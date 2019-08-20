@@ -1,10 +1,11 @@
 package de.polyas.core3.open.cred;
 
-import de.polyas.core3.open.crypto.basic.Utils;
-import de.polyas.core3.open.crypto.groups.ECGroup;
 import java.security.SecureRandom;
 
 import org.bouncycastle.math.ec.ECPoint;
+
+import de.polyas.core3.open.crypto.basic.Utils;
+import de.polyas.core3.open.crypto.groups.ECGroup;
 
 /**
  * Utility for generating voters' passwords and derived data.
@@ -28,11 +29,15 @@ public final class CredentialGenerator {
      *         and the voter's public signing key (public credential)
      */
     /*@ public normal_behavior
+      @ requires \static_invariant_for(Crypto);
+      @ requires \static_invariant_for(java.math.BigInteger);
+      @ requires GROUP != null && \invariant_for(GROUP);
+      @ assignable \nothing;
       @ determines \result.password \by password;
-      @ determines \result.hashedPassword \by \nothing;
-      @ determines \result.publicSigningKey \by voterId;
+      @ determines \result.hashedPassword \by GROUP.group.generator.value, GROUP.curve.order;
+      @ determines \result.publicSigningKey \by voterId, GROUP.group.generator.value, GROUP.curve.order;
       @*/
-    public static GeneratedDataForVoter generateDataForVoter(String voterId,
+    public static /*@helper@*/ GeneratedDataForVoter generateDataForVoter(String voterId,
                                                              final String password) {
         // derive the public credential (voter's public verification key pk_i)
         final ECPoint pubCred = // TODO HERE: Look! // TODO: Make dummy
@@ -55,9 +60,10 @@ public final class CredentialGenerator {
      * Generates 8 random bytes and returns them as lower case hex string.
      */
     /*@ public normal_behavior
+      @ assignable \nothing;
       @ determines \result \by \nothing;
       @*/
-    public static String newSalt() {
+    public static /*@helper@*/ String newSalt() {
         final byte[] b = new byte[8];
         RANDOM.nextBytes(b);
         return Utils.asHexString(b).toLowerCase();

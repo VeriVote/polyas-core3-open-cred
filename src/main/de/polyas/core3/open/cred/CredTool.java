@@ -144,7 +144,7 @@ public final class CredTool {
      * the CSV output [dist] and [polyas].
      * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
-    /*@ public normal_behavior
+    /*@ public behavior //TODO: divergence condition??
       @ determines polyasVals.seq \by r;
       @*/
     private void processCSVRecord(CSVRecord r, final String password) {
@@ -181,6 +181,7 @@ public final class CredTool {
      * It maintains a state (a mutable hash set).
      */
     /*@ public normal_behavior
+      @ assignable \nothing;
       @ determines \result \by \nothing; //TODO: \result depends not on the id on voterId.trim().isEmpty()!
       @*/
     private /*@pure@*/ boolean voterIdCheck(final String voterId) {

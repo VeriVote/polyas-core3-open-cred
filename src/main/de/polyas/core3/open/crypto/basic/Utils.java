@@ -12,23 +12,31 @@ public final class Utils {
     // Conversion hex <-> bytes
 
     /*@ public normal_behavior
+      @ assignable \nothing;
       @ determines \result \by bytes[*];
       @*/
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
+
+        /*@ loop_invariant r.string != null;
+          @ decreases bytes.length - \index;
+          @ assignable r.string;
+          @*/
         for (byte b: bytes) {
-            int first4Bits = (((int)b) / 16) % 16;
-            int second4Bits = (((int)b) % 16);
+            int first4Bits = ((b) / 16) % 16;
+            int second4Bits = ((b) % 16);
             r.append(hexCharacters()[first4Bits]).append(hexCharacters()[second4Bits]);
         }
+
         return r.toString();
     }
 
     private static char[] hexCharacters() {
         return "0123456789ABCDEF".toCharArray();
     }
-    
+
     /*@ public normal_behavior
+      @ assignable \nothing;
       @ determines \result \by b[*];
       @*/
     public static String asHexString(byte[] b) {
