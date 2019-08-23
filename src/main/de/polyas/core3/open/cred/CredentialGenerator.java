@@ -16,8 +16,10 @@ import de.polyas.core3.open.crypto.groups.ECGroup;
 public final class CredentialGenerator {
 
     // the cyclic group instance used to generate credentials - elliptic curve group SecP256K1
-    private static final ECGroup GROUP = new ECGroup();
-    private static final SecureRandom RANDOM = Utils.getInstanceStrong();
+    public static final ECGroup GROUP = new ECGroup();
+    public static final SecureRandom RANDOM = Utils.getInstanceStrong();
+
+    //@ public static invariant \static_invariant_for(GROUP);
 
     private CredentialGenerator() {}
 
@@ -31,7 +33,7 @@ public final class CredentialGenerator {
     /*@ public normal_behavior
       @ requires \static_invariant_for(Crypto);
       @ requires \static_invariant_for(java.math.BigInteger);
-      @ requires GROUP != null && \invariant_for(GROUP);
+      @ ensures \invariant_for(\result);
       @ assignable \nothing;
       @ determines \result.password \by password;
       @ determines \result.hashedPassword \by GROUP.group.generator.value, GROUP.curve.order;

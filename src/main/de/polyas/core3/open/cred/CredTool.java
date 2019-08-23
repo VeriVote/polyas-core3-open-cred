@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,8 +43,8 @@ public final class CredTool {
     //@ public instance invariant inputColsForDist.seq == \seq_singleton(idCol);
     //@ public instance invariant inputColsForPolyas.seq == \seq_singleton(idCol);
 
-    public static List distVals;
-    public static List polyasVals;
+    public static ArrayList distVals;
+    public static ArrayList polyasVals;
 
     private static String print = "";
 
@@ -89,18 +90,18 @@ public final class CredTool {
     /**
      * The headers of the input file.
      */
-    private final List inputCols;
+    private final LinkedList inputCols;
 
     /**
      * Columns to be included in the distributor (printing facility) file.
      */
-    private final List inputColsForDist;
+    private final ArrayList inputColsForDist;
     // all except for the voter identifier
 
     /**
      * Columns to be included in the polyas file.
      */
-    private final List inputColsForPolyas;
+    private final ArrayList inputColsForPolyas;
 
     /**
      * CVS Parser for input registry.
@@ -144,32 +145,63 @@ public final class CredTool {
      * the CSV output [dist] and [polyas].
      * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
-    /*@ public behavior //TODO: divergence condition??
-      @ determines polyasVals.seq \by r;
+    /*@ public normal_behavior
+      @ requires \static_invariant_for(java.math.BigInteger);
+      @ requires \static_invariant_for(CredentialGenerator);
+      @ requires \static_invariant_for(Crypto);
+      @ requires \invariant_for(r);
+      @ requires (\exists int i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == idCol);
+      @ determines polyasVals.seq \by r.key_seq, r.value_seq,
+      @                               inputColsForPolyas.seq,
+      @                               idCol,
+      @                               CredentialGenerator.GROUP.group.generator.value,
+      @                               CredentialGenerator.GROUP.curve.order;
       @*/
-    private void processCSVRecord(CSVRecord r, final String password) {
-        if (input.getCurrentLineNumber() % 1000 == 0L) {
-            print = "Processed " + input.getCurrentLineNumber() + " lines";
+    private void processCSVRecord(final CSVRecord r, final String password) {
+        /*@ public normal_behavior
+          @ assignable print;
+          @*/
+        {
+            if (input.getCurrentLineNumber() % 1000 == 0L) {
+                print = "Processed " + input.getCurrentLineNumber() + " lines";
+            }
         }
+
         final String voterId = r.get(idCol);
-        if (!voterIdCheck(voterId)) {
-            exit("Empty or duplicate voter id");
-        }
+
+        //TODO: model divergence
+        //if (!voterIdCheck(voterId)) {
+        //    exit("Empty or duplicate voter id");
+        //}
 
         final GeneratedDataForVoter dataForVoter =
                 CredentialGenerator.generateDataForVoter(voterId, password);
 
         // Dist
         distVals = new ArrayList();
-        for (Object it : inputColsForDist) {
-            distVals.add(r.get((String) it));
+
+        Iterator it = inputColsForDist.iterator();
+
+        /*@ loop_invariant true;
+          @ decreases inputColsForDist.seq.length - \values.length;
+          @ assignable distVals.seq, it.index;
+          @*/
+        while (it.hasNext()) {
+            distVals.add(r.get((String) it.next()));
         }
         distVals.add(0, dataForVoter.password);
 
         // Polyas
         polyasVals = new ArrayList();
-        for (Object it : inputColsForPolyas) {
-            polyasVals.add(r.get((String) it));
+
+        it = inputColsForPolyas.iterator();
+
+        /*@ loop_invariant true;
+          @ decreases inputColsForPolyas.seq.length - \values.length;
+          @ assignable polyasVals.seq, it.index;
+          @*/
+        while (it.hasNext()) {
+            polyasVals.add(r.get((String) it.next()));
         }
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
@@ -184,7 +216,7 @@ public final class CredTool {
       @ assignable \nothing;
       @ determines \result \by \nothing; //TODO: \result depends not on the id on voterId.trim().isEmpty()!
       @*/
-    private /*@pure@*/ boolean voterIdCheck(final String voterId) {
+    private /*@helper@*/ boolean voterIdCheck(final String voterId) {
         return !voterId.trim().isEmpty();
     }
 
@@ -263,20 +295,20 @@ public final class CredTool {
         return new LinkedList(inputColMap.keySet());
     }
 
-    private List extractInputColsForDist(final List cols, final String id) {
+    private ArrayList extractInputColsForDist(final List cols, final String id) {
         // TODO HERE: id/idCol!
 
-        List result = new ArrayList();
+        ArrayList result = new ArrayList();
         if (cols.contains(id)) {
             result.add(id);
         }
         return result;
     }
 
-    private List extractInputColsForPolyas(final List cols, final String id) {
+    private ArrayList extractInputColsForPolyas(final List cols, final String id) {
         // TODO HERE: id/idCol!
 
-        List result = new ArrayList();
+        ArrayList result = new ArrayList();
         if (polyasMode == FieldsForPolyasMode.MIN) {
             if (cols.contains(id)) {
                 result.add(id);
