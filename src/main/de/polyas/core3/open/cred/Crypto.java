@@ -95,7 +95,7 @@ public final class Crypto {
      *
      */
     /*@ public normal_behavior
-      @ requires \static_invariant_for(BigInteger);
+      @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \invariant_for(group);
       @ assignable \nothing;
       @ determines \result \by group.group.generator.value, group.curve.order;
@@ -111,10 +111,18 @@ public final class Crypto {
     /**
      * Computes the SHA256 digest of the given salt concatenated with base.
      */
+    /*@ public normal_behavior
+      @ assignable \nothing;
+      @ determines \result \by \nothing;
+      @*/
     public static String hashPasswordWithSHA256(String password, String salt) {
         return sha256(salt + password);
     }
 
+    /*@ public normal_behavior
+      @ assignable \nothing;
+      @ determines \result \by \nothing;
+      @*/
     private static String sha256(String input) {
         return Utils.asHexString(SHA_256_DIGEST.digest(input.getBytes()));
     }

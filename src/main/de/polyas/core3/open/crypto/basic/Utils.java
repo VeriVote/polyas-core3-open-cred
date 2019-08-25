@@ -12,6 +12,8 @@ public final class Utils {
     // Conversion hex <-> bytes
 
     /*@ public normal_behavior
+      @ requires true;
+      @ requires_free (\forall int i; 0 <= i && i < bytes.length; -128 <= bytes[i] && bytes[i] <= 127);
       @ assignable \nothing;
       @ determines \result \by bytes[*];
       @*/
@@ -19,12 +21,38 @@ public final class Utils {
         StringBuilder r = new StringBuilder(bytes.length * 2);
 
         /*@ loop_invariant r.string != null;
+          @ loop_invariant 0 <= \index && \index <= bytes.length;
           @ decreases bytes.length - \index;
           @ assignable r.string;
           @*/
         for (byte b: bytes) {
-            int first4Bits = ((b) / 16) % 16;
-            int second4Bits = ((b) % 16);
+            int i;
+
+            /*@ normal_behavior
+              @ ensures 0 <= i && i < 256;
+              @ assignable \strictly_nothing;
+              @*/
+            {
+                if (b < 0) {
+                    i = 256 + b;
+                } else {
+                    i = b;
+                }
+            }
+
+            int first4Bits;
+            int second4Bits;
+
+            /*@ normal_behavior
+              @ ensures 0 <= first4Bits && first4Bits < 16;
+              @ ensures 0 <= second4Bits && second4Bits < 16;
+              @ assignable \strictly_nothing;
+              @*/
+            {
+                first4Bits = ((i) / 16) % 16;
+                second4Bits = ((i) % 16);
+            }
+
             r.append(hexCharacters()[first4Bits]).append(hexCharacters()[second4Bits]);
         }
 

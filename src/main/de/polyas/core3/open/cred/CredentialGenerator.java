@@ -19,7 +19,8 @@ public final class CredentialGenerator {
     public static final ECGroup GROUP = new ECGroup();
     public static final SecureRandom RANDOM = Utils.getInstanceStrong();
 
-    //@ public static invariant \static_invariant_for(GROUP);
+    //@ public static invariant \invariant_for(GROUP);
+    //@ public static invariant \invariant_for(RANDOM);
 
     private CredentialGenerator() {}
 
@@ -36,10 +37,10 @@ public final class CredentialGenerator {
       @ ensures \invariant_for(\result);
       @ assignable \nothing;
       @ determines \result.password \by password;
-      @ determines \result.hashedPassword \by GROUP.group.generator.value, GROUP.curve.order;
-      @ determines \result.publicSigningKey \by voterId, GROUP.group.generator.value, GROUP.curve.order;
+      @ determines \result.hashedPassword \by \nothing;
+      @ determines \result.publicSigningKey \by GROUP.group.generator.value, GROUP.curve.order;
       @*/
-    public static /*@helper@*/ GeneratedDataForVoter generateDataForVoter(String voterId,
+    public static GeneratedDataForVoter generateDataForVoter(String voterId,
                                                              final String password) {
         // derive the public credential (voter's public verification key pk_i)
         final ECPoint pubCred = // TODO HERE: Look! // TODO: Make dummy
@@ -65,8 +66,18 @@ public final class CredentialGenerator {
       @ assignable \nothing;
       @ determines \result \by \nothing;
       @*/
-    public static /*@helper@*/ String newSalt() {
+    public static String newSalt() {
         final byte[] b = new byte[8];
+        RANDOM.nextBytes(b);
+        return Utils.asHexString(b).toLowerCase();
+    }
+
+    /*@ public normal_behavior
+      @ requires b.length == 8;
+      @ assignable b[*];
+      @ determines \result \by \nothing;
+      @*/
+    public static String newSalt(byte[] b) {
         RANDOM.nextBytes(b);
         return Utils.asHexString(b).toLowerCase();
     }
@@ -74,7 +85,7 @@ public final class CredentialGenerator {
     /**
      * Data record generated for a voter.
      */
-    public static class GeneratedDataForVoter {
+    public static final class GeneratedDataForVoter {
         /**
          * Voters (master) password; to be sent (via the distribution facility) to the voter.
          */
