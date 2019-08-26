@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
@@ -36,12 +35,6 @@ import de.polyas.core3.open.crypto.basic.Utils;
  * computing the derived data -- it uses ....
  */
 public final class CredTool {
-
-    //@ public instance invariant (\forall int i; 0 <= i && i < inputCols.size(); ((String)inputCols.seq[i]) != null);
-    //@ public instance invariant inputCols.contains(idCol);
-
-    //@ public instance invariant inputColsForDist.seq == \seq_singleton(idCol);
-    //@ public instance invariant inputColsForPolyas.seq == \seq_singleton(idCol);
 
     public static ArrayList distVals;
     public static ArrayList polyasVals;
@@ -118,6 +111,18 @@ public final class CredTool {
      */
     private final CSVPrinter dist;
 
+    //@ public static invariant polyasMode == FieldsForPolyasMode.MIN;
+
+    //@ public instance invariant (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+    //@ public instance invariant (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+
+    //@ public instance invariant inputColsForDist.seq == \seq_singleton(idCol);
+    //@ public instance invariant inputColsForPolyas.seq == \seq_singleton(idCol);
+
+    /*@ public normal_behavior
+      @ requires \static_invariant_for(CSVFormat);
+      @ assignable \everything;
+      @*/
     CredTool(String p_distPubKeyFilename, String p_registryFilename, String p_idCol) {
         distPubKeyFilename = p_distPubKeyFilename;
         registryFilename = p_registryFilename;
@@ -127,16 +132,69 @@ public final class CredTool {
         distPubKey = readPublicKey(distPubKeyFilename);
 
         inputCols = parseInputCols(registryFilename);
-        inputColsForDist = extractInputColsForDist(inputCols, idCol);
-        inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
 
-        input = parseInput(registryFilename);
+        /*@ normal_behavior
+          @ requires \static_invariant_for(CSVFormat);
+          @ requires distPubKeyFilename != null;
+          @ requires registryFilename != null;
+          @ requires idCol != null;
+          @ requires outPath != null;
+          @ requires distPubKey != null;
+          @ requires inputCols != null;
+          @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+          @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+          @ ensures \invariant_for(this);
+          @ assignable
+          @     inputColsForDist, inputColsForPolyas,
+          @     input, polyas, dist, print;
+          @*/
+        {
+            inputColsForDist = extractInputColsForDist(inputCols, idCol);
 
-        polyas = printPolyas(inputColsForPolyas);
-        dist = printDist(inputColsForDist);
+            /*@ normal_behavior
+              @ requires \static_invariant_for(CSVFormat);
+              @ requires distPubKeyFilename != null;
+              @ requires registryFilename != null;
+              @ requires idCol != null;
+              @ requires outPath != null;
+              @ requires distPubKey != null;
+              @ requires inputCols != null;
+              @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+              @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+              @ requires inputColsForDist.seq == \seq_singleton(idCol);
+              @ ensures \invariant_for(this);
+              @ assignable
+              @     inputColsForPolyas,
+              @     input, polyas, dist, print;
+              @*/
+            {
+                inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
 
-        // a sanity check of input registry
-        print = "Headers found in input file: " + inputCols;
+                /*@ normal_behavior
+                  @ requires \static_invariant_for(CSVFormat);
+                  @ requires distPubKeyFilename != null;
+                  @ requires registryFilename != null;
+                  @ requires idCol != null;
+                  @ requires outPath != null;
+                  @ requires distPubKey != null;
+                  @ requires inputCols != null;
+                  @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+                  @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+                  @ requires inputColsForDist.seq == \seq_singleton(idCol);
+                  @ requires inputColsForPolyas.seq == \seq_singleton(idCol);
+                  @ ensures \invariant_for(this);
+                  @ assignable input, polyas, dist, print;
+                  @*/
+                {
+                    input = parseInput(registryFilename);
+                    polyas = printPolyas(inputColsForPolyas);
+                    dist = printDist(inputColsForDist);
+                    // a sanity check of input registry
+                    print = "Headers found in input file: " + inputCols;
+                }
+            }
+        }
+
         //assert(inputCols.contains(idCol));
     }
 
@@ -220,35 +278,48 @@ public final class CredTool {
         return !voterId.trim().isEmpty();
     }
 
-    private List toList(List ls) {
-        return new LinkedList(ls);
+    private static ArrayList toList(ArrayList ls) {
+        return new ArrayList(ls);
     }
 
-    private List toList(List ls, String s) {
-        List list = toList(ls);
+    private static ArrayList toList(ArrayList ls, String s) {
+        ArrayList list = toList(ls);
         list.add(s);
         return list;
     }
 
-    private List toList(String s, List ls) {
-        List list = Arrays.asList(s);
+    private static ArrayList toList(String s, ArrayList ls) {
+        ArrayList list = (ArrayList) Arrays.asList(s);
         int len = ls.size();
+        /*@ loop_invariant \invariant_for(ls);
+          @ loop_invariant 0 <= i && i <= len;
+          @ loop_invariant list.seq.length == len;
+          @ decreases len - i;
+          @ assignable list.seq;
+          @*/
         for (int i = 0; i < len; i++) {
             list.add(ls.get(i));
         }
         return list;
     }
 
-    private String[] toArray(List list) {
+    private static String[] toArray(ArrayList list) {
         int len = list.size();
         String[] arr = new String[len];
+        /*@ loop_invariant \invariant_for(list);
+          @ loop_invariant 0 <= i && i <= len;
+          @ loop_invariant list.seq.length == len;
+          @ loop_invariant (\forall int i; 0 <= i && i < list.seq.length; ((String)list.seq[i]) != null);
+          @ decreases len - i;
+          @ assignable arr[*];
+          @*/
         for (int i = 0; i < len; i++) {
             arr[i] = (String)list.get(i);
         }
         return arr;
     }
 
-    private CSVParser parse(final CSVFormat csv, final String fName) {
+    private static CSVParser parse(final CSVFormat csv, final String fName) {
         try {
             return csv.parse(new FileReader(fName));
         } catch (IOException e) {
@@ -256,7 +327,7 @@ public final class CredTool {
         }
     }
 
-    private CSVPrinter print(final CSVFormat csv) {
+    private static CSVPrinter print(final CSVFormat csv) {
         try {
             return csv.print(new StringBuffer());
         } catch (IOException e) {
@@ -266,9 +337,8 @@ public final class CredTool {
 
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result \by key;
       @*/
-    private PGPPublicKey readPublicKey(final String key) {
+    private /*@helper@*/ PGPPublicKey readPublicKey(final String key) {
         try {
             return PGP.readPublicKey(key);
         } catch (Exception e) {
@@ -277,11 +347,13 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
-      @ ensures \result.contains(idCol);
+      @ requires \static_invariant_for(CredTool);
+      @ requires \static_invariant_for(CSVFormat);
+      @ ensures (\forall int i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
+      @ ensures_free (\exists int i; 0 <= i && i < result.seq.length; ((String)\result.seq[i]) == idCol);
       @ assignable \nothing;
-      @ determines \result \by \nothing;
       @*/
-    private LinkedList parseInputCols(final String fileName) {
+    private /*@helper@*/ LinkedList parseInputCols(final String fileName) {
         final CSVParser parser =
                 parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(DELIMITER),
                       fileName);
@@ -295,9 +367,13 @@ public final class CredTool {
         return new LinkedList(inputColMap.keySet());
     }
 
-    private ArrayList extractInputColsForDist(final List cols, final String id) {
-        // TODO HERE: id/idCol!
-
+    /*@ public normal_behavior
+      @ requires (\exists int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) == id);
+      @ ensures \result.seq == \seq_singleton(id);
+      @ ensures \invariant_for(\result);
+      @ assignable \nothing;
+      @*/
+    private static ArrayList extractInputColsForDist(final LinkedList cols, final String id) {
         ArrayList result = new ArrayList();
         if (cols.contains(id)) {
             result.add(id);
@@ -305,9 +381,14 @@ public final class CredTool {
         return result;
     }
 
-    private ArrayList extractInputColsForPolyas(final List cols, final String id) {
-        // TODO HERE: id/idCol!
-
+    /*@ public normal_behavior
+      @ requires polyasMode == FieldsForPolyasMode.MIN;
+      @ requires (\exists int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) == id);
+      @ ensures \result.seq == \seq_singleton(id);
+      @ ensures \invariant_for(\result);
+      @ assignable \nothing;
+      @*/
+    private static ArrayList extractInputColsForPolyas(final LinkedList cols, final String id) {
         ArrayList result = new ArrayList();
         if (polyasMode == FieldsForPolyasMode.MIN) {
             if (cols.contains(id)) {
@@ -320,22 +401,33 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
+      @ requires \static_invariant_for(CSVFormat);
       @ assignable \nothing;
-      @ determines \result \by \nothing;
       @*/
-    private CSVParser parseInput(final String fileName) {
+    private static CSVParser parseInput(final String fileName) {
         return parse(CSVFormat.RFC4180.withFirstRecordAsHeader().withDelimiter(DELIMITER),
                      fileName);
     }
 
-    private CSVPrinter printPolyas(final List cols) {
+    /*@ public normal_behavior
+      @ requires \invariant_for(cols);
+      @ requires (\forall int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ requires \static_invariant_for(CSVFormat);
+      @ assignable \nothing;
+      @*/
+    private static CSVPrinter printPolyas(final ArrayList cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(toList(cols, HASHED_PASSWORD_COL),
                                           PUBLIC_SIGNING_KEY_COL)))); // order is important!
     }
 
-
-    private CSVPrinter printDist(final List cols) {
+    /*@ public normal_behavior
+      @ requires \invariant_for(cols);
+      @ requires (\forall int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ requires \static_invariant_for(CSVFormat);
+      @ assignable \nothing;
+      @*/
+    private static CSVPrinter printDist(final ArrayList cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(PASSWORD_COL, cols)))); // order is important!
     }
