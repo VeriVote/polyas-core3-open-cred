@@ -6,6 +6,8 @@ import java.security.SecureRandom;
 
 public final class Utils {
 
+    //@ axiom (\forall byte b; true; -128 <= b && b <= 127);
+
     private Utils() {}
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -13,7 +15,6 @@ public final class Utils {
 
     /*@ public normal_behavior
       @ requires true;
-      @ requires_free (\forall int i; 0 <= i && i < bytes.length; -128 <= bytes[i] && bytes[i] <= 127);
       @ assignable \nothing;
       @ determines \result \by bytes[*];
       @*/
@@ -21,22 +22,26 @@ public final class Utils {
         StringBuilder r = new StringBuilder(bytes.length * 2);
 
         /*@ loop_invariant r.string != null;
-          @ loop_invariant 0 <= \index && \index <= bytes.length;
-          @ decreases bytes.length - \index;
+          @ loop_invariant 0 <= i && i <= bytes.length;
+          @ decreases bytes.length - i;
           @ assignable r.string;
           @*/
-        for (byte b: bytes) {
-            int i;
+        for (int i = 0; i < bytes.length; ++i) {
+            byte b = bytes[i];
+
+            int x;
 
             /*@ normal_behavior
-              @ ensures 0 <= i && i < 256;
+              @ ensures 0 <= x && x < 256;
               @ assignable \strictly_nothing;
+              @ determines x \by b;
+              @ determines r.string \by \nothing;
               @*/
             {
                 if (b < 0) {
-                    i = 256 + b;
+                    x = 256 + b;
                 } else {
-                    i = b;
+                    x = b;
                 }
             }
 
@@ -47,10 +52,13 @@ public final class Utils {
               @ ensures 0 <= first4Bits && first4Bits < 16;
               @ ensures 0 <= second4Bits && second4Bits < 16;
               @ assignable \strictly_nothing;
+              @ determines first4Bits \by x;
+              @ determines second4Bits \by x;
+              @ determines r.string \by \nothing;
               @*/
             {
-                first4Bits = ((i) / 16) % 16;
-                second4Bits = ((i) % 16);
+                first4Bits = ((x) / 16) % 16;
+                second4Bits = ((x) % 16);
             }
 
             r.append(hexCharacters()[first4Bits]).append(hexCharacters()[second4Bits]);
