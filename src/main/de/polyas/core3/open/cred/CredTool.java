@@ -111,12 +111,13 @@ public final class CredTool {
      */
     private final CSVPrinter dist;
 
+    //@ axiom (\forall \seq seq; true; (\forall int i; true; ((String)seq[i]) != null ==> ((Object)seq[i]) != null));
+
     //@ public static invariant polyasMode == FieldsForPolyasMode.MIN;
 
     //@ public instance invariant (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
     //@ public instance invariant (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
 
-    //@ public instance invariant inputColsForDist.seq == \seq_singleton(idCol);
     //@ public instance invariant inputColsForPolyas.seq == \seq_singleton(idCol);
 
     /*@ public normal_behavior
@@ -161,7 +162,6 @@ public final class CredTool {
               @ requires inputCols != null;
               @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
               @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
-              @ requires inputColsForDist.seq == \seq_singleton(idCol);
               @ ensures \invariant_for(this);
               @ assignable
               @     inputColsForPolyas,
@@ -180,7 +180,6 @@ public final class CredTool {
                   @ requires inputCols != null;
                   @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
                   @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
-                  @ requires inputColsForDist.seq == \seq_singleton(idCol);
                   @ requires inputColsForPolyas.seq == \seq_singleton(idCol);
                   @ ensures \invariant_for(this);
                   @ assignable input, polyas, dist, print;
@@ -240,7 +239,7 @@ public final class CredTool {
 
         Iterator it = inputColsForDist.iterator();
 
-        /*@ loop_invariant true;
+        /*@ loop_invariant 0 <= it.index && it.index <= inputColsForDist.seq.length;
           @ decreases inputColsForDist.seq.length - \values.length;
           @ assignable distVals.seq, it.index;
           @*/
@@ -368,16 +367,28 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
-      @ requires (\exists int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) == id);
-      @ ensures \result.seq == \seq_singleton(id);
+      @ requires (\forall int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
       @ ensures \invariant_for(\result);
       @ assignable \nothing;
       @*/
     private static ArrayList extractInputColsForDist(final LinkedList cols, final String id) {
-        ArrayList result = new ArrayList();
-        if (cols.contains(id)) {
-            result.add(id);
+        final ArrayList result = new ArrayList();
+
+        final Iterator it = cols.iterator();
+
+        /*@ loop_invariant \invariant_for(it);
+          @ loop_invariant it.seq == cols.seq;
+          @ decreases cols.seq.length - it.index;
+          @ assignable result.seq, it.index;
+          @*/
+        while (it.hasNext()) {
+            Object next = it.next();
+
+            if (!id.equals(next)) {
+                result.add(next);
+            }
         }
+
         return result;
     }
 
