@@ -240,7 +240,8 @@ public final class CredTool {
         Iterator it = inputColsForDist.iterator();
 
         /*@ loop_invariant 0 <= it.index && it.index <= inputColsForDist.seq.length;
-          @ decreases inputColsForDist.seq.length - \values.length;
+          @ loop_invariant it.seq == inputColsForDist.seq;
+          @ decreases inputColsForDist.seq.length - it.index;
           @ assignable distVals.seq, it.index;
           @*/
         while (it.hasNext()) {
@@ -253,8 +254,9 @@ public final class CredTool {
 
         it = inputColsForPolyas.iterator();
 
-        /*@ loop_invariant true;
-          @ decreases inputColsForPolyas.seq.length - \values.length;
+        /*@ loop_invariant 0 <= it.index && it.index <= inputColsForPolyas.seq.length;
+          @ loop_invariant it.seq == inputColsForPolyas.seq;
+          @ decreases inputColsForPolyas.seq.length - it.index;
           @ assignable polyasVals.seq, it.index;
           @*/
         while (it.hasNext()) {
