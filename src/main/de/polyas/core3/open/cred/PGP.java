@@ -242,7 +242,7 @@ public class PGP {
         } else {
             list = (PGPEncryptedDataList) factory.nextObject();
         }
-        return (Iterator)(list).getEncryptedDataObjects();
+        return (list).getEncryptedDataObjects();
     }
 
     private static PGPSecretKey createSecretKey(PublicKey publicKey, PrivateKey privateKey,
@@ -363,6 +363,9 @@ public class PGP {
      * @throws IOException stream decoder may throw an i/o-exception
      * @throws PGPException if a non-PGPPublicKeyRing object is encountered
      */
+    /*@ public normal_behavior
+      @ assignable \nothing;
+      @*/
     public static PGPPublicKey readPublicKey(InputStream input) throws IOException, PGPException {
         final PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
             PGPUtil.getDecoderStream(input), new JcaKeyFingerprintCalculator()
@@ -371,10 +374,20 @@ public class PGP {
         // we just loop through the collection till we find a key suitable for encryption
 
         final Iterator keyRingIter = pgpPub.getKeyRings();
+
+        /*@ loop_invariant \invariant_for(keyRingIter);
+          @ decreases keyRingIter.seq.length - keyRingIter.index;
+          @ assignable keyRingIter.index;
+          @*/
         while (keyRingIter.hasNext()) {
             final PGPPublicKeyRing keyRing = (PGPPublicKeyRing)keyRingIter.next();
 
             final Iterator keyIter = keyRing.getPublicKeys();
+
+            /*@ loop_invariant \invariant_for(keyIter);
+              @ decreases keyIter.seq.length - keyIter.index;
+              @ assignable keyIter.index;
+              @*/
             while (keyIter.hasNext()) {
                 final PGPPublicKey key = (PGPPublicKey)keyIter.next();
 
