@@ -203,11 +203,21 @@ public final class CredTool {
      * VERIFICATION TASK: prove that polyasVals does not depend on password
      */
     /*@ public normal_behavior
+      @
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \static_invariant_for(CredentialGenerator);
       @ requires \static_invariant_for(Crypto);
       @ requires \invariant_for(r);
+      @
+      @ // The voter id is in the record:
       @ requires (\exists int i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == idCol);
+      @
+      @ // The voter id contains at least one non-whitespace symbol:
+      @ requires (\forall int i; 0 <= i && i < r.key_seq.length;
+      @     ((String)r.key_seq[i]) == idCol
+      @         ==> (\exists int j; 0 <= j && j < \dl_strContent((String)r.value_seq[i]).length;
+      @             ((char)(\dl_strContent((String)r.value_seq[i])[j])) > '\u0020'));
+      @
       @ determines polyasVals.seq \by r.key_seq, r.value_seq,
       @                               inputColsForPolyas.seq,
       @                               idCol,
@@ -226,10 +236,9 @@ public final class CredTool {
 
         final String voterId = r.get(idCol);
 
-        //TODO: model divergence
-        //if (!voterIdCheck(voterId)) {
-        //    exit("Empty or duplicate voter id");
-        //}
+        if (!voterIdCheck(voterId)) {
+            exit("Empty or duplicate voter id");
+        }
 
         final GeneratedDataForVoter dataForVoter =
                 CredentialGenerator.generateDataForVoter(voterId, password);
@@ -272,8 +281,10 @@ public final class CredTool {
      * It maintains a state (a mutable hash set).
      */
     /*@ public normal_behavior
+      @ requires (\exists int i; 0 <= i && i < \dl_strContent(voterId).length; ((char)\dl_strContent(voterId)[i]) > '\u0020');
+      @ ensures \result == true;
       @ assignable \nothing;
-      @ determines \result \by \nothing; //TODO: \result depends not on the id on voterId.trim().isEmpty()!
+      @ determines \result \by \nothing;
       @*/
     private /*@helper@*/ boolean voterIdCheck(final String voterId) {
         return !voterId.trim().isEmpty();
