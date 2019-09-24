@@ -243,36 +243,51 @@ public final class CredTool {
         final GeneratedDataForVoter dataForVoter =
                 CredentialGenerator.generateDataForVoter(voterId, password);
 
-        // Dist
-        distVals = new ArrayList();
-
-        Iterator it = inputColsForDist.iterator();
-
-        /*@ loop_invariant 0 <= it.index && it.index <= inputColsForDist.seq.length;
-          @ loop_invariant it.seq == inputColsForDist.seq;
-          @ decreases inputColsForDist.seq.length - it.index;
-          @ assignable distVals.seq, it.index;
+        /*@ public normal_behavior
+          @ assignable distVals, distVals.seq;
           @*/
-        while (it.hasNext()) {
-            distVals.add(r.get((String) it.next()));
+        {
+            // Dist
+            distVals = new ArrayList();
+
+            Iterator it = inputColsForDist.iterator();
+
+            /*@ loop_invariant 0 <= it.index && it.index <= inputColsForDist.seq.length;
+              @ loop_invariant it.seq == inputColsForDist.seq;
+              @ decreases inputColsForDist.seq.length - it.index;
+              @ assignable distVals.seq, it.index;
+              @*/
+            while (it.hasNext()) {
+                distVals.add(r.get((String) it.next()));
+            }
+            distVals.add(0, dataForVoter.password);
         }
-        distVals.add(0, dataForVoter.password);
 
-        // Polyas
-        polyasVals = new ArrayList();
-
-        it = inputColsForPolyas.iterator();
-
-        /*@ loop_invariant 0 <= it.index && it.index <= inputColsForPolyas.seq.length;
-          @ loop_invariant it.seq == inputColsForPolyas.seq;
-          @ decreases inputColsForPolyas.seq.length - it.index;
-          @ assignable polyasVals.seq, it.index;
+        /*@ public normal_behavior
+          @ assignable polyasVals, polyasVals.seq;
+          @ determines polyasVals.seq \by r.key_seq, r.value_seq,
+          @                               inputColsForPolyas.seq,
+          @                               idCol,
+          @                               CredentialGenerator.GROUP.group.generator.value,
+          @                               CredentialGenerator.GROUP.curve.order;
           @*/
-        while (it.hasNext()) {
-            polyasVals.add(r.get((String) it.next()));
+        {
+            // Polyas
+            polyasVals = new ArrayList();
+
+            Iterator it = inputColsForPolyas.iterator();
+
+            /*@ loop_invariant 0 <= it.index && it.index <= inputColsForPolyas.seq.length;
+              @ loop_invariant it.seq == inputColsForPolyas.seq;
+              @ decreases inputColsForPolyas.seq.length - it.index;
+              @ assignable polyasVals.seq, it.index;
+              @*/
+            while (it.hasNext()) {
+                polyasVals.add(r.get((String) it.next()));
+            }
+            polyasVals.add(dataForVoter.hashedPassword);
+            polyasVals.add(dataForVoter.publicSigningKey);
         }
-        polyasVals.add(dataForVoter.hashedPassword);
-        polyasVals.add(dataForVoter.publicSigningKey);
     }
 
     /**
