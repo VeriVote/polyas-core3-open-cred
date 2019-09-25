@@ -6,8 +6,6 @@ import java.security.SecureRandom;
 
 public final class Utils {
 
-    //@ axiom (\forall byte b; true; -128 <= b && b <= 127);
-
     private Utils() {}
 
     /////////////////////////////////////////////////////////////////////////////////
