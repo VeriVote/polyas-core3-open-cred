@@ -72,16 +72,6 @@ public final class CredentialGenerator {
         return Utils.asHexString(b).toLowerCase();
     }
 
-    /*@ public normal_behavior
-      @ requires b.length == 8;
-      @ assignable b[*];
-      @ determines \result \by \nothing;
-      @*/
-    public static String newSalt(byte[] b) {
-        RANDOM.nextBytes(b);
-        return Utils.asHexString(b).toLowerCase();
-    }
-
     /**
      * Data record generated for a voter.
      */

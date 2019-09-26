@@ -111,14 +111,19 @@ public final class CredTool {
      */
     private final CSVPrinter dist;
 
-    //@ axiom (\forall \seq seq; true; (\forall int i; true; ((String)seq[i]) != null ==> ((Object)seq[i]) != null));
+    /*@ axiom (\forall \seq seq; (\forall \bigint i; ((String)seq[i]) != null ==> ((Object)seq[i]) != null))
+      @    && (\forall \seq seq; (\forall \bigint i; (\forall String str; seq[i] == str && str != null ==> ((String)seq[i]) == str)));
+      @*/
 
-    //@ public static invariant polyasMode == FieldsForPolyasMode.MIN;
+    //@ public static invariant polyasMode == FieldsForPolyasMode.MIN || polyasMode == FieldsForPolyasMode.MIN;
 
-    //@ public instance invariant (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
-    //@ public instance invariant (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+    //@ public instance invariant (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+    //@ public instance invariant (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
 
-    //@ public instance invariant inputColsForPolyas.seq == \seq_singleton(idCol);
+    //@ public instance invariant (\forall \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) != null);
+    //@ public instance invariant (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
+
+    //@ public instance invariant (\exists \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) == idCol);
 
     /*@ public normal_behavior
       @ requires \static_invariant_for(CSVFormat);
@@ -142,8 +147,8 @@ public final class CredTool {
           @ requires outPath != null;
           @ requires distPubKey != null;
           @ requires inputCols != null;
-          @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
-          @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+          @ requires (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+          @ requires (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
           @ ensures \invariant_for(this);
           @ assignable
           @     inputColsForDist, inputColsForPolyas,
@@ -160,8 +165,9 @@ public final class CredTool {
               @ requires outPath != null;
               @ requires distPubKey != null;
               @ requires inputCols != null;
-              @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
-              @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+              @ requires (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
+              @ requires (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+              @ requires (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
               @ ensures \invariant_for(this);
               @ assignable
               @     inputColsForPolyas,
@@ -178,9 +184,11 @@ public final class CredTool {
                   @ requires outPath != null;
                   @ requires distPubKey != null;
                   @ requires inputCols != null;
-                  @ requires (\forall int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
-                  @ requires (\exists int i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
-                  @ requires inputColsForPolyas.seq == \seq_singleton(idCol);
+                  @ requires (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
+                  @ requires (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+                  @ requires (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+                  @ requires (\forall \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) != null)
+                  @ requires (\exists \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) == idCol);
                   @ ensures \invariant_for(this);
                   @ assignable input, polyas, dist, print;
                   @*/
@@ -209,13 +217,17 @@ public final class CredTool {
       @ requires \static_invariant_for(Crypto);
       @ requires \invariant_for(r);
       @
+      @ // Every element in inputColsForDist is in the record:
+      @ requires (\forall \bigint j; 0 <= j && j < inputColsForDist.seq.length;
+      @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)inputColsForDist.key_seq[i])));
+      @
       @ // The voter id is in the record:
-      @ requires (\exists int i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == idCol);
+      @ requires (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == idCol);
       @
       @ // The voter id contains at least one non-whitespace symbol:
-      @ requires (\forall int i; 0 <= i && i < r.key_seq.length;
+      @ requires (\forall \bigint i; 0 <= i && i < r.key_seq.length;
       @     ((String)r.key_seq[i]) == idCol
-      @         ==> (\exists int j; 0 <= j && j < \dl_strContent((String)r.value_seq[i]).length;
+      @         ==> (\exists \bigint j; 0 <= j && j < \dl_strContent((String)r.value_seq[i]).length;
       @             ((char)(\dl_strContent((String)r.value_seq[i])[j])) > '\u0020'));
       @
       @ determines polyasVals.seq \by r.key_seq, r.value_seq,
@@ -296,7 +308,7 @@ public final class CredTool {
      * It maintains a state (a mutable hash set).
      */
     /*@ public normal_behavior
-      @ requires (\exists int i; 0 <= i && i < \dl_strContent(voterId).length; ((char)\dl_strContent(voterId)[i]) > '\u0020');
+      @ requires (\exists \bigint i; 0 <= i && i < \dl_strContent(voterId).length; ((char)\dl_strContent(voterId)[i]) > '\u0020');
       @ ensures \result == true;
       @ assignable \nothing;
       @ determines \result \by \nothing;
@@ -321,6 +333,7 @@ public final class CredTool {
         /*@ loop_invariant \invariant_for(ls);
           @ loop_invariant 0 <= i && i <= len;
           @ loop_invariant list.seq.length == len;
+          @ loop_invariant (\forall \bigint i; 0 <= i && i < ls.seq.length; ((String)ls.seq[i]) != null);
           @ decreases len - i;
           @ assignable list.seq;
           @*/
@@ -336,7 +349,7 @@ public final class CredTool {
         /*@ loop_invariant \invariant_for(list);
           @ loop_invariant 0 <= i && i <= len;
           @ loop_invariant list.seq.length == len;
-          @ loop_invariant (\forall int i; 0 <= i && i < list.seq.length; ((String)list.seq[i]) != null);
+          @ loop_invariant (\forall \bigint i; 0 <= i && i < list.seq.length; ((String)list.seq[i]) != null);
           @ decreases len - i;
           @ assignable arr[*];
           @*/
@@ -376,8 +389,8 @@ public final class CredTool {
     /*@ public normal_behavior
       @ requires \static_invariant_for(CredTool);
       @ requires \static_invariant_for(CSVFormat);
-      @ ensures (\forall int i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
-      @ ensures_free (\exists int i; 0 <= i && i < result.seq.length; ((String)\result.seq[i]) == idCol);
+      @ ensures (\forall \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
+      @ ensures_free (\exists \bigint i; 0 <= i && i < result.seq.length; ((String)\result.seq[i]) == idCol);
       @ assignable \nothing;
       @*/
     private /*@helper@*/ LinkedList parseInputCols(final String fileName) {
@@ -395,7 +408,8 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
-      @ requires (\forall int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ ensures (\forall \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
       @ ensures \invariant_for(\result);
       @ assignable \nothing;
       @*/
@@ -421,9 +435,10 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
-      @ requires polyasMode == FieldsForPolyasMode.MIN;
-      @ requires (\exists int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) == id);
-      @ ensures \result.seq == \seq_singleton(id);
+      @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ requires (\exists \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) == id);
+      @ ensures (\forall \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
+      @ ensures (\exists \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) == id);
       @ ensures \invariant_for(\result);
       @ assignable \nothing;
       @*/
@@ -450,7 +465,7 @@ public final class CredTool {
 
     /*@ public normal_behavior
       @ requires \invariant_for(cols);
-      @ requires (\forall int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
       @ requires \static_invariant_for(CSVFormat);
       @ assignable \nothing;
       @*/
@@ -462,7 +477,7 @@ public final class CredTool {
 
     /*@ public normal_behavior
       @ requires \invariant_for(cols);
-      @ requires (\forall int i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
       @ requires \static_invariant_for(CSVFormat);
       @ assignable \nothing;
       @*/
