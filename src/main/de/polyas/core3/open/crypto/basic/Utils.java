@@ -13,6 +13,7 @@ public final class Utils {
 
     /*@ public normal_behavior
       @ requires true;
+      @ requires_free (\forall \bigint i; 0 <= i && i < bytes.length; \dl_inByte(bytes[i]));
       @ assignable \nothing;
       @ determines \result \by bytes[*];
       @*/
@@ -27,7 +28,7 @@ public final class Utils {
         for (int i = 0; i < bytes.length; ++i) {
             byte b = bytes[i];
 
-            int x;
+            int x = 0;
 
             /*@ normal_behavior
               @ ensures 0 <= x && x < 256;
@@ -43,8 +44,8 @@ public final class Utils {
                 }
             }
 
-            int first4Bits;
-            int second4Bits;
+            int first4Bits = 0;
+            int second4Bits = 0;
 
             /*@ normal_behavior
               @ ensures 0 <= first4Bits && first4Bits < 16;
@@ -65,6 +66,13 @@ public final class Utils {
         return r.toString();
     }
 
+    /*@ public normal_behavior
+      @ requires true;
+      @ ensures \result.length == 16;
+      @ ensures_free (\forall \bigint i; 0 <= i && i < \result.length; \dl_inChar(\result[i]));
+      @ assignable \nothing;
+      @ determines \result[*] \by \nothing;
+      @*/
     private static char[] hexCharacters() {
         return "0123456789ABCDEF".toCharArray();
     }

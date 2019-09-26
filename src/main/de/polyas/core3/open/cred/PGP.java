@@ -62,7 +62,7 @@ import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyDataDecryptorFactory
 import org.bouncycastle.openpgp.operator.jcajce.JcePublicKeyKeyEncryptionMethodGenerator;
 import org.bouncycastle.util.io.Streams;
 
-public class PGP {
+public final class PGP {
 
     private static BouncyCastleProvider provider = new BouncyCastleProvider();
 
@@ -346,7 +346,7 @@ public class PGP {
         }
     }
 
-    public static PGPPublicKey readPublicKey(String fileName) throws IOException, PGPException {
+    public /*@helper@*/ static PGPPublicKey readPublicKey(String fileName) throws IOException, PGPException {
         final BufferedInputStream keyIn = new BufferedInputStream(new FileInputStream(fileName));
         final PGPPublicKey pubKey = readPublicKey(keyIn);
         keyIn.close();
@@ -366,7 +366,7 @@ public class PGP {
     /*@ public normal_behavior
       @ assignable \nothing;
       @*/
-    public static PGPPublicKey readPublicKey(InputStream input) throws IOException, PGPException {
+    public /*@helper@*/ static PGPPublicKey readPublicKey(InputStream input) throws IOException, PGPException {
         final PGPPublicKeyRingCollection pgpPub = new PGPPublicKeyRingCollection(
             PGPUtil.getDecoderStream(input), new JcaKeyFingerprintCalculator()
         );
