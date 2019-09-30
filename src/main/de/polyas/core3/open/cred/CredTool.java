@@ -111,8 +111,9 @@ public final class CredTool {
      */
     private final CSVPrinter dist;
 
-    /*@ axiom (\forall \seq seq; (\forall \bigint i; ((String)seq[i]) != null ==> ((Object)seq[i]) != null))
-      @    && (\forall \seq seq; (\forall \bigint i; (\forall String str; seq[i] == str && str != null ==> ((String)seq[i]) == str)));
+    /*@ axiom (\forall \seq seq; (\forall \bigint i; ((String)seq[i]) != null ==> ((Object)seq[i]) != null && ((Object)seq[i]) instanceof String && seq[i] instanceof String))
+      @    && (\forall \seq seq; (\forall \bigint i; (\forall Object obj; seq[i] == obj ==> ((Object)seq[i]) == obj)))
+      @    && (\forall \seq seq; (\forall \bigint i; (\forall String str; seq[i] == str ==> ((String)seq[i]) == str)));
       @*/
 
     //@ public static invariant polyasMode == FieldsForPolyasMode.MIN || polyasMode == FieldsForPolyasMode.MIN;
@@ -187,7 +188,7 @@ public final class CredTool {
                   @ requires (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
                   @ requires (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
                   @ requires (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
-                  @ requires (\forall \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) != null)
+                  @ requires (\forall \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) != null);
                   @ requires (\exists \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) == idCol);
                   @ ensures \invariant_for(this);
                   @ assignable input, polyas, dist, print;
@@ -216,10 +217,15 @@ public final class CredTool {
       @ requires \static_invariant_for(CredentialGenerator);
       @ requires \static_invariant_for(Crypto);
       @ requires \invariant_for(r);
+      @ requires \invariant_for(this);
       @
       @ // Every element in inputColsForDist is in the record:
       @ requires (\forall \bigint j; 0 <= j && j < inputColsForDist.seq.length;
-      @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)inputColsForDist.key_seq[i])));
+      @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)inputColsForDist.seq[j])));
+      @
+      @ // Every element in inputColsForPolyas is in the record:
+      @ requires (\forall \bigint j; 0 <= j && j < inputColsForPolyas.seq.length;
+      @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)inputColsForPolyas.seq[j])));
       @
       @ // The voter id is in the record:
       @ requires (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == idCol);
@@ -236,7 +242,7 @@ public final class CredTool {
       @                               CredentialGenerator.GROUP.group.generator.value,
       @                               CredentialGenerator.GROUP.curve.order;
       @*/
-    private void processCSVRecord(final CSVRecord r, final String password) {
+    private /*@helper@*/ void processCSVRecord(final CSVRecord r, final String password) {
         /*@ public normal_behavior
           @ assignable print;
           @*/
@@ -256,6 +262,7 @@ public final class CredTool {
                 CredentialGenerator.generateDataForVoter(voterId, password);
 
         /*@ public normal_behavior
+          @ ensures \fresh(distVals);
           @ assignable distVals, distVals.seq;
           @*/
         {
@@ -266,6 +273,7 @@ public final class CredTool {
 
             /*@ loop_invariant 0 <= it.index && it.index <= inputColsForDist.seq.length;
               @ loop_invariant it.seq == inputColsForDist.seq;
+              @ loop_invariant \invariant_for(it);
               @ decreases inputColsForDist.seq.length - it.index;
               @ assignable distVals.seq, it.index;
               @*/
@@ -276,6 +284,7 @@ public final class CredTool {
         }
 
         /*@ public normal_behavior
+          @ ensures \fresh(polyasVals);
           @ assignable polyasVals, polyasVals.seq;
           @ determines polyasVals.seq \by r.key_seq, r.value_seq,
           @                               inputColsForPolyas.seq,
@@ -291,6 +300,7 @@ public final class CredTool {
 
             /*@ loop_invariant 0 <= it.index && it.index <= inputColsForPolyas.seq.length;
               @ loop_invariant it.seq == inputColsForPolyas.seq;
+              @ loop_invariant \invariant_for(it);
               @ decreases inputColsForPolyas.seq.length - it.index;
               @ assignable polyasVals.seq, it.index;
               @*/
@@ -315,48 +325,6 @@ public final class CredTool {
       @*/
     private /*@helper@*/ boolean voterIdCheck(final String voterId) {
         return !voterId.trim().isEmpty();
-    }
-
-    private static ArrayList toList(ArrayList ls) {
-        return new ArrayList(ls);
-    }
-
-    private static ArrayList toList(ArrayList ls, String s) {
-        ArrayList list = toList(ls);
-        list.add(s);
-        return list;
-    }
-
-    private static ArrayList toList(String s, ArrayList ls) {
-        ArrayList list = (ArrayList) Arrays.asList(s);
-        int len = ls.size();
-        /*@ loop_invariant \invariant_for(ls);
-          @ loop_invariant 0 <= i && i <= len;
-          @ loop_invariant list.seq.length == len;
-          @ loop_invariant (\forall \bigint i; 0 <= i && i < ls.seq.length; ((String)ls.seq[i]) != null);
-          @ decreases len - i;
-          @ assignable list.seq;
-          @*/
-        for (int i = 0; i < len; i++) {
-            list.add(ls.get(i));
-        }
-        return list;
-    }
-
-    private static String[] toArray(ArrayList list) {
-        int len = list.size();
-        String[] arr = new String[len];
-        /*@ loop_invariant \invariant_for(list);
-          @ loop_invariant 0 <= i && i <= len;
-          @ loop_invariant list.seq.length == len;
-          @ loop_invariant (\forall \bigint i; 0 <= i && i < list.seq.length; ((String)list.seq[i]) != null);
-          @ decreases len - i;
-          @ assignable arr[*];
-          @*/
-        for (int i = 0; i < len; i++) {
-            arr[i] = (String)list.get(i);
-        }
-        return arr;
     }
 
     private static CSVParser parse(final CSVFormat csv, final String fName) {
@@ -420,11 +388,12 @@ public final class CredTool {
 
         /*@ loop_invariant \invariant_for(it);
           @ loop_invariant it.seq == cols.seq;
+          @ loop_invariant (\forall \bigint i; 0 <= i && i < result.seq.length; ((String)result.seq[i]) != null);
           @ decreases cols.seq.length - it.index;
           @ assignable result.seq, it.index;
           @*/
         while (it.hasNext()) {
-            Object next = it.next();
+            String next = (String) it.next();
 
             if (!id.equals(next)) {
                 result.add(next);
@@ -484,6 +453,82 @@ public final class CredTool {
     private static CSVPrinter printDist(final ArrayList cols) {
         return print(CSVFormat.RFC4180.withDelimiter(DELIMITER)
                      .withHeader(toArray(toList(PASSWORD_COL, cols)))); // order is important!
+    }
+
+    /*@ public normal_behavior
+      @ requires \invariant_for(ls);
+      @ requires (\forall \bigint i; 0 <= i && i < ls.seq.length; ((String)ls.seq[i]) != null);
+      @ requires \static_invariant_for(CSVFormat);
+      @ ensures \invariant_for(\result);
+      @ ensures (\forall \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
+      @ ensures \static_invariant_for(CSVFormat);
+      @ assignable \nothing;
+      @*/
+    private static ArrayList toList(ArrayList ls) {
+        return new ArrayList(ls);
+    }
+
+    /*@ public normal_behavior
+      @ requires \invariant_for(ls);
+      @ requires (\forall \bigint i; 0 <= i && i < ls.seq.length; ((String)ls.seq[i]) != null);
+      @ requires \static_invariant_for(CSVFormat);
+      @ ensures \invariant_for(\result);
+      @ ensures (\forall \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
+      @ ensures \static_invariant_for(CSVFormat);
+      @ assignable \nothing;
+      @*/
+    private static ArrayList toList(ArrayList ls, String s) {
+        ArrayList list = toList(ls);
+        list.add(s);
+        return list;
+    }
+
+    /*@ public normal_behavior
+      @ requires \invariant_for(ls);
+      @ requires (\forall \bigint i; 0 <= i && i < ls.seq.length; ((String)ls.seq[i]) != null);
+      @ requires \static_invariant_for(CSVFormat);
+      @ ensures \invariant_for(\result);
+      @ ensures (\forall \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
+      @ ensures \static_invariant_for(CSVFormat);
+      @ assignable \nothing;
+      @*/
+    private static ArrayList toList(String s, ArrayList ls) {
+        final ArrayList list = (ArrayList) Arrays.asList(s);
+        final int len = ls.size();
+        /*@ loop_invariant \invariant_for(ls);
+          @ loop_invariant \invariant_for(list);
+          @ loop_invariant list.seq[1 .. (i + 1)] == ls.seq[0 .. i];
+          @ loop_invariant 0 <= i && i <= len;
+          @ decreases len - i;
+          @ assignable list.seq;
+          @*/
+        for (int i = 0; i < len; i++) {
+            list.add(ls.get(i));
+        }
+        return list;
+    }
+
+    /*@ public normal_behavior
+      @ requires \invariant_for(list);
+      @ requires (\forall \bigint i; 0 <= i && i < list.seq.length; ((String)list.seq[i]) != null);
+      @ requires \static_invariant_for(CSVFormat);
+      @ ensures \dl_nonNull(\result, 1);
+      @ ensures \static_invariant_for(CSVFormat);
+      @ assignable \nothing;
+      @*/
+    private static String[] toArray(ArrayList list) {
+        final int len = list.size();
+        final String[] arr = new String[len];
+        /*@ loop_invariant \invariant_for(list);
+          @ loop_invariant (\forall int j; 0 <= j && j < i; arr[j] == ((String)list.seq[j]));
+          @ loop_invariant 0 <= i && i <= len;
+          @ decreases len - i;
+          @ assignable arr[*];
+          @*/
+        for (int i = 0; i < len; i++) {
+            arr[i] = (String)list.get(i);
+        }
+        return arr;
     }
 
     /**

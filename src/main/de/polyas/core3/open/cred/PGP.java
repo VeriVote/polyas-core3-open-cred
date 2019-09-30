@@ -375,19 +375,11 @@ public final class PGP {
 
         final Iterator keyRingIter = pgpPub.getKeyRings();
 
-        /*@ loop_invariant \invariant_for(keyRingIter);
-          @ decreases keyRingIter.seq.length - keyRingIter.index;
-          @ assignable keyRingIter.index;
-          @*/
         while (keyRingIter.hasNext()) {
             final PGPPublicKeyRing keyRing = (PGPPublicKeyRing)keyRingIter.next();
 
             final Iterator keyIter = keyRing.getPublicKeys();
 
-            /*@ loop_invariant \invariant_for(keyIter);
-              @ decreases keyIter.seq.length - keyIter.index;
-              @ assignable keyIter.index;
-              @*/
             while (keyIter.hasNext()) {
                 final PGPPublicKey key = (PGPPublicKey)keyIter.next();
 

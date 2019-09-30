@@ -37,7 +37,7 @@ public final class CredentialGenerator {
       @ ensures \invariant_for(\result);
       @ assignable \nothing;
       @ determines \result.password \by password;
-      @ determines \result.hashedPassword \by \nothing;
+      @ determines \result.hashedPassword \by GROUP.group.generator.value, GROUP.curve.order;
       @ determines \result.publicSigningKey \by GROUP.group.generator.value, GROUP.curve.order;
       @*/
     public static GeneratedDataForVoter generateDataForVoter(String voterId,
@@ -54,9 +54,18 @@ public final class CredentialGenerator {
         final String salt = newSalt();
         final String hashedPassword =
                 Crypto.hashPasswordWithSHA256(loginPasswordFromMasterPIN, salt);
-        final String hashedPasswordWithSalt = salt + "-" + hashedPassword;
+        final String hashedPasswordWithSalt = append(salt, "-", hashedPassword);
 
         return new GeneratedDataForVoter(password, hashedPasswordWithSalt, pubCredHex);
+    }
+
+    /*@ public normal_behavior
+      @ requires true;
+      @ assignable \nothing;
+      @ determines \result \by s0, s2;
+      @*/
+    private /*@helper@*/ static String append(String s0, String s1, String s2) {
+        return s0 + s1 + s2;
     }
 
     /**
