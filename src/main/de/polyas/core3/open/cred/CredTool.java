@@ -139,69 +139,14 @@ public final class CredTool {
         distPubKey = readPublicKey(distPubKeyFilename);
 
         inputCols = parseInputCols(registryFilename);
+        inputColsForDist = extractInputColsForDist(inputCols, idCol);
+        inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
 
-        /*@ normal_behavior
-          @ requires \static_invariant_for(CSVFormat);
-          @ requires distPubKeyFilename != null;
-          @ requires registryFilename != null;
-          @ requires idCol != null;
-          @ requires outPath != null;
-          @ requires distPubKey != null;
-          @ requires inputCols != null;
-          @ requires (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
-          @ requires (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
-          @ ensures \invariant_for(this);
-          @ assignable
-          @     inputColsForDist, inputColsForPolyas,
-          @     input, polyas, dist, print;
-          @*/
-        {
-            inputColsForDist = extractInputColsForDist(inputCols, idCol);
-
-            /*@ normal_behavior
-              @ requires \static_invariant_for(CSVFormat);
-              @ requires distPubKeyFilename != null;
-              @ requires registryFilename != null;
-              @ requires idCol != null;
-              @ requires outPath != null;
-              @ requires distPubKey != null;
-              @ requires inputCols != null;
-              @ requires (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
-              @ requires (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
-              @ requires (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
-              @ ensures \invariant_for(this);
-              @ assignable
-              @     inputColsForPolyas,
-              @     input, polyas, dist, print;
-              @*/
-            {
-                inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
-
-                /*@ normal_behavior
-                  @ requires \static_invariant_for(CSVFormat);
-                  @ requires distPubKeyFilename != null;
-                  @ requires registryFilename != null;
-                  @ requires idCol != null;
-                  @ requires outPath != null;
-                  @ requires distPubKey != null;
-                  @ requires inputCols != null;
-                  @ requires (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
-                  @ requires (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
-                  @ requires (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
-                  @ requires (\forall \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) != null);
-                  @ requires (\exists \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) == idCol);
-                  @ ensures \invariant_for(this);
-                  @ assignable input, polyas, dist, print;
-                  @*/
-                {
-                    input = parseInput(registryFilename);
-                    polyas = printPolyas(inputColsForPolyas);
-                    dist = printDist(inputColsForDist);
-                    // a sanity check of input registry
-                    print = "Headers found in input file: " + inputCols;
-                }
-            }
-        }
+        input = parseInput(registryFilename);
+        polyas = printPolyas(inputColsForPolyas);
+        dist = printDist(inputColsForDist);
+        // a sanity check of input registry
+        print = "Headers found in input file: " + inputCols;
 
         //assert(inputCols.contains(idCol));
     }
@@ -262,29 +207,18 @@ public final class CredTool {
                 CredentialGenerator.generateDataForVoter(voterId, password);
 
         /*@ public normal_behavior
-          @ ensures \fresh(distVals);
+          @ ensures \fresh(distVals) && \fresh(distVals.*);
           @ assignable distVals, distVals.seq;
           @*/
         {
             // Dist
             distVals = new ArrayList();
-
-            Iterator it = inputColsForDist.iterator();
-
-            /*@ loop_invariant 0 <= it.index && it.index <= inputColsForDist.seq.length;
-              @ loop_invariant it.seq == inputColsForDist.seq;
-              @ loop_invariant \invariant_for(it);
-              @ decreases inputColsForDist.seq.length - it.index;
-              @ assignable distVals.seq, it.index;
-              @*/
-            while (it.hasNext()) {
-                distVals.add(r.get((String) it.next()));
-            }
+            addInputCols(distVals, inputColsForDist, r);
             distVals.add(0, dataForVoter.password);
         }
 
         /*@ public normal_behavior
-          @ ensures \fresh(polyasVals);
+          @ ensures \fresh(polyasVals)  && \fresh(polyasVals.*);
           @ assignable polyasVals, polyasVals.seq;
           @ determines polyasVals.seq \by r.key_seq, r.value_seq,
           @                               inputColsForPolyas.seq,
@@ -295,20 +229,30 @@ public final class CredTool {
         {
             // Polyas
             polyasVals = new ArrayList();
-
-            Iterator it = inputColsForPolyas.iterator();
-
-            /*@ loop_invariant 0 <= it.index && it.index <= inputColsForPolyas.seq.length;
-              @ loop_invariant it.seq == inputColsForPolyas.seq;
-              @ loop_invariant \invariant_for(it);
-              @ decreases inputColsForPolyas.seq.length - it.index;
-              @ assignable polyasVals.seq, it.index;
-              @*/
-            while (it.hasNext()) {
-                polyasVals.add(r.get((String) it.next()));
-            }
+            addInputCols(polyasVals, inputColsForPolyas, r);
             polyasVals.add(dataForVoter.hashedPassword);
             polyasVals.add(dataForVoter.publicSigningKey);
+        }
+    }
+
+    /*@ public normal_behavior
+      @ // Every element in cols is in the record:
+      @ requires (\forall \bigint j; 0 <= j && j < cols.seq.length;
+      @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)cols.seq[j])));
+      @ assignable vals.seq;
+      @ determines vals.seq \by r.key_seq, r.value_seq, cols.seq;
+      @*/
+    private /*@helper@*/ void addInputCols(ArrayList vals, ArrayList cols, CSVRecord r) {
+        Iterator it = cols.iterator();
+
+        /*@ loop_invariant 0 <= it.index && it.index <= cols.seq.length;
+          @ loop_invariant it.seq == cols.seq;
+          @ loop_invariant \invariant_for(it);
+          @ decreases cols.seq.length - it.index;
+          @ assignable vals.seq, it.index;
+          @*/
+        while (it.hasNext()) {
+            vals.add(r.get((String) it.next()));
         }
     }
 
@@ -461,6 +405,7 @@ public final class CredTool {
       @ requires \static_invariant_for(CSVFormat);
       @ ensures \invariant_for(\result);
       @ ensures (\forall \bigint i; 0 <= i && i < \result.seq.length; ((String)\result.seq[i]) != null);
+      @ ensures \fresh(\result) && \fresh(\result.*);
       @ ensures \static_invariant_for(CSVFormat);
       @ assignable \nothing;
       @*/
@@ -497,8 +442,12 @@ public final class CredTool {
         final int len = ls.size();
         /*@ loop_invariant \invariant_for(ls);
           @ loop_invariant \invariant_for(list);
-          @ loop_invariant list.seq[1 .. (i + 1)] == ls.seq[0 .. i];
           @ loop_invariant 0 <= i && i <= len;
+          @ loop_invariant \invariant_for(list);
+          @ loop_invariant len == ls.seq.length;
+          @ loop_invariant (\forall \bigint i; 0 <= i && i < ls.seq.length; ((String)ls.seq[i]) != null);
+          @ loop_invariant (\forall \bigint i; 0 <= i && i < list.seq.length; ((String)list.seq[i]) != null);
+          @ loop_invariant \static_invariant_for(CSVFormat);
           @ decreases len - i;
           @ assignable list.seq;
           @*/
@@ -520,8 +469,11 @@ public final class CredTool {
         final int len = list.size();
         final String[] arr = new String[len];
         /*@ loop_invariant \invariant_for(list);
-          @ loop_invariant (\forall int j; 0 <= j && j < i; arr[j] == ((String)list.seq[j]));
+          @ loop_invariant len == list.seq.length && len == arr.length;
+          @ loop_invariant (\forall \bigint i; 0 <= i && i < list.seq.length; ((String)list.seq[i]) != null);
           @ loop_invariant 0 <= i && i <= len;
+          @ loop_invariant arr != null && (\forall \bigint j; 0 <= j && j < i; arr[j] != null);
+          @ loop_invariant \static_invariant_for(CSVFormat);
           @ decreases len - i;
           @ assignable arr[*];
           @*/
