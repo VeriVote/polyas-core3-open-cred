@@ -1,0 +1,666 @@
+\profile "Java Profile";
+
+\settings {
+"#Proof-Settings-Config-File
+#Sat Oct 26 16:22:32 CEST 2019
+[Labels]UseOriginLabels=true
+[StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[SMTSettings]invariantForall=false
+[Strategy]ActiveStrategy=JavaCardDLStrategy
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
+[StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
+[Choice]DefaultChoices=methodExpansion-methodExpansion\\:modularOnly , mergeGenerateIsWeakeningGoal-mergeGenerateIsWeakeningGoal\\:off , wdChecks-wdChecks\\:off , wdOperator-wdOperator\\:L , permissions-permissions\\:off , integerSimplificationRules-integerSimplificationRules\\:full , reach-reach\\:on , moreSeqRules-moreSeqRules\\:on , sequences-sequences\\:on , bigint-bigint\\:on , modelFields-modelFields\\:treatAsAxiom , Strings-Strings\\:on , JavaCard-JavaCard\\:off , runtimeExceptions-runtimeExceptions\\:allow , programRules-programRules\\:Java , intRules-intRules\\:javaSemantics , initialisation-initialisation\\:disableStaticInitialisation , assertions-assertions\\:on
+[StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_TRUE
+[SMTSettings]UseBuiltUniqueness=false
+[SMTSettings]explicitTypeHierarchy=false
+[SMTSettings]instantiateHierarchyAssumptions=true
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_DEF_OPS
+[SMTSettings]SelectedTaclets=
+[StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
+[StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
+[Strategy]MaximumNumberOfAutomaticApplications=10000
+[StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
+[StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[SMTSettings]useConstantsForBigOrSmallIntegers=true
+[StrategyProperty]MPS_OPTIONS_KEY=MPS_MERGE
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
+[Strategy]Timeout=-1
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
+[StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
+[SMTSettings]useUninterpretedMultiplication=true
+[StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT_INTERNAL
+[StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[SMTSettings]maxGenericSorts=2
+[StrategyProperty]OSS_OPTIONS_KEY=OSS_ON
+[StrategyProperty]SPLITTING_OPTIONS_KEY=SPLITTING_DELAYED
+[SMTSettings]integersMinimum=-2147483645
+[StrategyProperty]VBT_PHASE=VBT_SYM_EX
+[SMTSettings]integersMaximum=2147483645
+"
+}
+
+\javaSource "../src";
+
+
+
+\sorts{
+Heap;
+Update;
+numbers;
+int;
+Seq;
+java.lang.String\extends java.lang.Comparable, java.io.Serializable, java.lang.Object;
+Field;
+boolean;
+LocSet;
+java.lang.Throwable\extends java.io.Serializable, java.lang.Object;
+Formula;
+}
+
+\predicates{
+RELATED_BY_toCharArray_1742633537(java.lang.String,Heap,java.lang.String,char[],java.lang.Throwable,Heap);
+}
+
+\functions{
+Heap heapAtPre_A;
+numbers #;
+numbers 4(numbers);
+numbers 8(numbers);
+int C(numbers);
+Seq seqSingleton(any);
+numbers 9(numbers);
+numbers 5(numbers);
+numbers 0(numbers);
+numbers 1(numbers);
+numbers 2(numbers);
+numbers 3(numbers);
+numbers 6(numbers);
+numbers 7(numbers);
+Seq seqConcat(Seq,Seq);
+java.lang.String strPool(Seq);
+Field java.lang.Object::<created>;
+boolean boolean::select(Heap,java.lang.Object,Field);
+boolean TRUE;
+Formula wellFormed(Heap);
+Heap anon_heap_toCharArray;
+LocSet empty;
+Heap anon(Heap,LocSet,Heap);
+Heap heapAfter_toCharArray_A_0;
+int length(java.lang.Object);
+int Z(numbers);
+Formula lt(int,int);
+Formula geq(int,int);
+Field arr(int);
+int int::select(Heap,java.lang.Object,Field);
+Formula leq(int,int);
+Null null;
+Heap heapAtPost_A;
+Heap heapAtPre_B;
+Heap heapAfter_toCharArray_B_0;
+Heap heapAtPost_B;
+LocSet allFields(java.lang.Object);
+Formula java.lang.Object::<inv>(Heap,java.lang.Object);
+}
+
+\programVariables{
+Heap heap;
+char[] result_92_A_0;
+java.lang.Throwable exc_106_A_0;
+java.lang.Throwable exc_105_A;
+char[] result_91_A;
+char[] resultAtPost_91_A;
+java.lang.Throwable excAtPost_105_A;
+char[] result_92_B_0;
+java.lang.Throwable exc_106_B_0;
+java.lang.Throwable exc_105_B;
+char[] result_91_B;
+char[] resultAtPost_91_B;
+java.lang.Throwable excAtPost_105_B;
+}
+
+\rules{
+
+unfold_computed_formula_0_of_hexCharacters_603994588 {
+  \schemaVar \term Heap sv_heapAtPre_A#22;
+  \schemaVar \term char[] sv_resultAtPost_91_A#24;
+  \schemaVar \term java.lang.Throwable sv_excAtPost_105_A#25;
+  \schemaVar \term Heap sv_heapAtPost_A#26;
+  \schemaVar \term Heap sv_heapAtPre_B#27;
+  \schemaVar \term char[] sv_resultAtPost_91_B#29;
+  \schemaVar \term java.lang.Throwable sv_excAtPost_105_B#30;
+  \schemaVar \term Heap sv_heapAtPost_B#31;
+  \schemaVar \variables int i#33;
+  
+  \find (
+      {heap:=sv_heapAtPre_A#22}
+        (  wellFormed(sv_heapAtPre_A#22)
+         & heap = sv_heapAtPre_A#22
+         & \[{
+               exc_105_A=null;try {
+                 result_91_A=de.polyas.core3.open.crypto.basic.Utils.hexCharacters()@de.polyas.core3.open.crypto.basic.Utils;
+               }   catch (java.lang.Throwable e) {
+                 exc_105_A=e;
+               }
+             }\] (  sv_resultAtPost_91_A#24 = result_91_A
+                  & sv_excAtPost_105_A#25 = exc_105_A
+                  & sv_heapAtPost_A#26 = heap))
+    & {heap:=sv_heapAtPre_B#27}
+        (  wellFormed(sv_heapAtPre_B#27)
+         & heap = sv_heapAtPre_B#27
+         & \[{
+               exc_105_B=null;try {
+                 result_91_B=de.polyas.core3.open.crypto.basic.Utils.hexCharacters()@de.polyas.core3.open.crypto.basic.Utils;
+               }   catch (java.lang.Throwable e) {
+                 exc_105_B=e;
+               }
+             }\] (  sv_resultAtPost_91_B#29 = result_91_B
+                  & sv_excAtPost_105_B#30 = exc_105_B
+                  & sv_heapAtPost_B#31 = heap))
+  )
+  \antecedentPolarity
+  \varcond (
+     \notFreeIn( i#33, sv_heapAtPost_B#31),
+     \notFreeIn( i#33, sv_excAtPost_105_B#30),
+     \notFreeIn( i#33, sv_resultAtPost_91_B#29),
+     \notFreeIn( i#33, sv_heapAtPre_B#27),
+     \notFreeIn( i#33, sv_heapAtPost_A#26),
+     \notFreeIn( i#33, sv_excAtPost_105_A#25),
+     \notFreeIn( i#33, sv_resultAtPost_91_A#24),
+     \notFreeIn( i#33, sv_heapAtPre_A#22)
+  )
+  \replacewith (
+      {heap:=sv_heapAtPre_A#22}
+        (    boolean::select(heap,
+                             strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                               seqConcat(seqSingleton(C(9(4(#)))),
+                                                         seqConcat(seqSingleton(C(0(5(#)))),
+                                                                   seqConcat(seqSingleton(C(1(5(#)))),
+                                                                             seqConcat(seqSingleton(C(2(5(#)))),
+                                                                                       seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                                 seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                                           seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                                     seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                               seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                                         seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                                   seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                                             seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                                       seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                                 seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                                           seqSingleton(C(0(7(#)))))))))))))))))))),
+                             java.lang.Object::<created>)
+           = TRUE
+         & wellFormed(sv_heapAtPre_A#22)
+         & sv_heapAtPre_A#22 = heap
+         & wellFormed(anon_heap_toCharArray<<anonHeapFunction>>)
+         &   anon(heap, empty, anon_heap_toCharArray<<anonHeapFunction>>)
+           = heapAfter_toCharArray_A_0
+         & (    boolean::select(heap,
+                                result_92_A_0,
+                                java.lang.Object::<created>)
+              = TRUE
+            |   boolean::select(anon_heap_toCharArray<<anonHeapFunction>>,
+                                result_92_A_0,
+                                java.lang.Object::<created>)
+              = TRUE)
+         & length(result_92_A_0) = Z(6(1(#)))
+         & \forall i#33;
+             (   lt(i#33, length(result_92_A_0)) & geq(i#33, Z(0(#)))
+              ->   geq(int::select(heapAfter_toCharArray_A_0,
+                                   result_92_A_0,
+                                   arr(i#33)),
+                       Z(0(#)))
+                 & leq(int::select(heapAfter_toCharArray_A_0,
+                                   result_92_A_0,
+                                   arr(i#33)),
+                       Z(5(3(5(5(6(#))))))))
+         & (exc_106_A_0 = null)<<impl>>
+         & RELATED_BY_toCharArray_1742633537(strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                                               seqConcat(seqSingleton(C(9(4(#)))),
+                                                                         seqConcat(seqSingleton(C(0(5(#)))),
+                                                                                   seqConcat(seqSingleton(C(1(5(#)))),
+                                                                                             seqConcat(seqSingleton(C(2(5(#)))),
+                                                                                                       seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                                                 seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                                                           seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                                                     seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                                               seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                                                         seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                                                   seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                                                             seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                                                       seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                                                 seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                                                           seqSingleton(C(0(7(#)))))))))))))))))))),
+                                             heap,
+                                             strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                                               seqConcat(seqSingleton(C(9(4(#)))),
+                                                                         seqConcat(seqSingleton(C(0(5(#)))),
+                                                                                   seqConcat(seqSingleton(C(1(5(#)))),
+                                                                                             seqConcat(seqSingleton(C(2(5(#)))),
+                                                                                                       seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                                                 seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                                                           seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                                                     seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                                               seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                                                         seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                                                   seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                                                             seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                                                       seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                                                 seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                                                           seqSingleton(C(0(7(#)))))))))))))))))))),
+                                             result_92_A_0,
+                                             exc_106_A_0,
+                                             heapAfter_toCharArray_A_0)
+         & wellFormed(heap)
+         & !result_92_A_0 = null
+         & !  strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                seqConcat(seqSingleton(C(9(4(#)))),
+                                          seqConcat(seqSingleton(C(0(5(#)))),
+                                                    seqConcat(seqSingleton(C(1(5(#)))),
+                                                              seqConcat(seqSingleton(C(2(5(#)))),
+                                                                        seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                  seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                            seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                      seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                          seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                    seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                              seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                        seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                  seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                            seqSingleton(C(0(7(#))))))))))))))))))))
+            = null
+         & !{exc_105_A:=null
+             || heap:=heapAfter_toCharArray_A_0
+             || result_91_A:=result_92_A_0}
+              !(  result_91_A = sv_resultAtPost_91_A#24
+                & exc_105_A = sv_excAtPost_105_A#25
+                & sv_heapAtPost_A#26 = heap))
+    & {heap:=sv_heapAtPre_B#27}
+        (    boolean::select(heap,
+                             strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                               seqConcat(seqSingleton(C(9(4(#)))),
+                                                         seqConcat(seqSingleton(C(0(5(#)))),
+                                                                   seqConcat(seqSingleton(C(1(5(#)))),
+                                                                             seqConcat(seqSingleton(C(2(5(#)))),
+                                                                                       seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                                 seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                                           seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                                     seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                               seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                                         seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                                   seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                                             seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                                       seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                                 seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                                           seqSingleton(C(0(7(#)))))))))))))))))))),
+                             java.lang.Object::<created>)
+           = TRUE
+         & wellFormed(sv_heapAtPre_B#27)
+         & sv_heapAtPre_B#27 = heap
+         & wellFormed(anon_heap_toCharArray<<anonHeapFunction>>)
+         &   anon(heap, empty, anon_heap_toCharArray<<anonHeapFunction>>)
+           = heapAfter_toCharArray_B_0
+         & (    boolean::select(heap,
+                                result_92_B_0,
+                                java.lang.Object::<created>)
+              = TRUE
+            |   boolean::select(anon_heap_toCharArray<<anonHeapFunction>>,
+                                result_92_B_0,
+                                java.lang.Object::<created>)
+              = TRUE)
+         & length(result_92_B_0) = Z(6(1(#)))
+         & \forall i#33;
+             (   lt(i#33, length(result_92_B_0)) & geq(i#33, Z(0(#)))
+              ->   geq(int::select(heapAfter_toCharArray_B_0,
+                                   result_92_B_0,
+                                   arr(i#33)),
+                       Z(0(#)))
+                 & leq(int::select(heapAfter_toCharArray_B_0,
+                                   result_92_B_0,
+                                   arr(i#33)),
+                       Z(5(3(5(5(6(#))))))))
+         & (exc_106_B_0 = null)<<impl>>
+         & RELATED_BY_toCharArray_1742633537(strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                                               seqConcat(seqSingleton(C(9(4(#)))),
+                                                                         seqConcat(seqSingleton(C(0(5(#)))),
+                                                                                   seqConcat(seqSingleton(C(1(5(#)))),
+                                                                                             seqConcat(seqSingleton(C(2(5(#)))),
+                                                                                                       seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                                                 seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                                                           seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                                                     seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                                               seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                                                         seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                                                   seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                                                             seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                                                       seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                                                 seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                                                           seqSingleton(C(0(7(#)))))))))))))))))))),
+                                             heap,
+                                             strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                                               seqConcat(seqSingleton(C(9(4(#)))),
+                                                                         seqConcat(seqSingleton(C(0(5(#)))),
+                                                                                   seqConcat(seqSingleton(C(1(5(#)))),
+                                                                                             seqConcat(seqSingleton(C(2(5(#)))),
+                                                                                                       seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                                                 seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                                                           seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                                                     seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                                               seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                                                         seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                                                   seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                                                             seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                                                       seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                                                 seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                                                           seqSingleton(C(0(7(#)))))))))))))))))))),
+                                             result_92_B_0,
+                                             exc_106_B_0,
+                                             heapAfter_toCharArray_B_0)
+         & wellFormed(heap)
+         & !result_92_B_0 = null
+         & !  strPool(seqConcat(seqSingleton(C(8(4(#)))),
+                                seqConcat(seqSingleton(C(9(4(#)))),
+                                          seqConcat(seqSingleton(C(0(5(#)))),
+                                                    seqConcat(seqSingleton(C(1(5(#)))),
+                                                              seqConcat(seqSingleton(C(2(5(#)))),
+                                                                        seqConcat(seqSingleton(C(3(5(#)))),
+                                                                                  seqConcat(seqSingleton(C(4(5(#)))),
+                                                                                            seqConcat(seqSingleton(C(5(5(#)))),
+                                                                                                      seqConcat(seqSingleton(C(6(5(#)))),
+                                                                                                                seqConcat(seqSingleton(C(7(5(#)))),
+                                                                                                                          seqConcat(seqSingleton(C(5(6(#)))),
+                                                                                                                                    seqConcat(seqSingleton(C(6(6(#)))),
+                                                                                                                                              seqConcat(seqSingleton(C(7(6(#)))),
+                                                                                                                                                        seqConcat(seqSingleton(C(8(6(#)))),
+                                                                                                                                                                  seqConcat(seqSingleton(C(9(6(#)))),
+                                                                                                                                                                            seqSingleton(C(0(7(#))))))))))))))))))))
+            = null
+         & !{exc_105_B:=null
+             || heap:=heapAfter_toCharArray_B_0
+             || result_91_B:=result_92_B_0}
+              !(  result_91_B = sv_resultAtPost_91_B#29
+                & exc_105_B = sv_excAtPost_105_B#30
+                & sv_heapAtPost_B#31 = heap))
+  )
+  \heuristics ( concrete )
+};
+
+Use_information_flow_contract_for_toCharArray_1742633537 {
+  \schemaVar \term Heap find_heap#25;
+  \schemaVar \term java.lang.String find_s#22;
+  \schemaVar \term char[] find_result_92#23;
+  \schemaVar \term java.lang.Throwable find_exc_106#24;
+  \schemaVar \term Heap find_heapAfter_toCharArray#26;
+  \schemaVar \term Heap assumes_heap#30;
+  \schemaVar \term java.lang.String assumes_s#27;
+  \schemaVar \term char[] assumes_result_92#28;
+  \schemaVar \term java.lang.Throwable assumes_exc_106#29;
+  \schemaVar \term Heap assumes_heapAfter_toCharArray#31;
+  
+  \assumes ( RELATED_BY_toCharArray_1742633537(assumes_s#27,
+                                               assumes_heap#30,
+                                               assumes_s#27,
+                                               assumes_result_92#28,
+                                               assumes_exc_106#29,
+                                               assumes_heapAfter_toCharArray#31)
+            ⟹
+             
+  )
+  \find (
+    RELATED_BY_toCharArray_1742633537(find_s#22,
+                                      find_heap#25,
+                                      find_s#22,
+                                      find_result_92#23,
+                                      find_exc_106#24,
+                                      find_heapAfter_toCharArray#26)
+  )
+  \antecedentPolarity
+  \replacewith (
+    RELATED_BY_toCharArray_1742633537(find_s#22,
+                                      find_heap#25,
+                                      find_s#22,
+                                      find_result_92#23,
+                                      find_exc_106#24,
+                                      find_heapAfter_toCharArray#26)
+  )
+  \add (      java.lang.Object::<inv>(find_heap#25, find_s#22)<<impl>>
+            & java.lang.Object::<inv>(assumes_heap#30, assumes_s#27)<<impl>>
+         -> find_s#22 = assumes_s#27
+         -> (allFields(find_result_92#23) = allFields(assumes_result_92#28))<<postCondition>>
+        ⟹
+         
+  )
+  \heuristics ( information_flow_contract_appl )
+};
+}
+
+\problem {
+     {heap:=heapAtPre_A<<anonHeapFunction>>}
+       (  wellFormed(heapAtPre_A<<anonHeapFunction>>)
+        & heap = heapAtPre_A<<anonHeapFunction>>
+        & \[{
+              exc_105_A=null;try {
+                result_91_A=de.polyas.core3.open.crypto.basic.Utils.hexCharacters()@de.polyas.core3.open.crypto.basic.Utils;
+              }   catch (java.lang.Throwable e) {
+                exc_105_A=e;
+              }
+            }\] (  resultAtPost_91_A = result_91_A
+                 & excAtPost_105_A = exc_105_A
+                 & heapAtPost_A = heap))
+   & {heap:=heapAtPre_B<<anonHeapFunction>>}
+       (  wellFormed(heapAtPre_B<<anonHeapFunction>>)
+        & heap = heapAtPre_B<<anonHeapFunction>>
+        & \[{
+              exc_105_B=null;try {
+                result_91_B=de.polyas.core3.open.crypto.basic.Utils.hexCharacters()@de.polyas.core3.open.crypto.basic.Utils;
+              }   catch (java.lang.Throwable e) {
+                exc_105_B=e;
+              }
+            }\] (  resultAtPost_91_B = result_91_B
+                 & excAtPost_105_B = exc_105_B
+                 & heapAtPost_B = heap))
+-> (  allFields(resultAtPost_91_A)
+    = allFields(resultAtPost_91_B))<<postCondition>>
+
+}
+
+\proof {
+(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+
+(autoModeTime "473")
+
+(branch "dummy ID"
+(rule "unfold_computed_formula_0_of_hexCharacters_603994588" (formula "1") (term "0") (inst "i#33=i#33"))
+(rule "impRight" (formula "1"))
+(rule "andLeft" (formula "1"))
+ (builtin "One Step Simplification" (formula "2"))
+ (builtin "One Step Simplification" (formula "1"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "4"))
+(rule "andLeft" (formula "3"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "6"))
+(rule "andLeft" (formula "4"))
+(rule "notLeft" (formula "6"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "6"))
+(rule "notLeft" (formula "8"))
+(rule "notLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "6"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "7"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "8"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "9"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "10"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "11"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "12"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "12"))
+(rule "andLeft" (formula "1"))
+(rule "Use_information_flow_contract_for_toCharArray_1742633537" (formula "19") (ifseqformula "7"))
+(rule "doubleImpLeft" (formula "19"))
+(branch "pre_A & pre_B toCharArray_1742633537 (information flow)"
+   (rule "andRight" (formula "24"))
+   (branch
+      (rule "eqSymm" (formula "10"))
+      (rule "eqSymm" (formula "22"))
+      (rule "eqSymm" (formula "28"))
+      (rule "allFieldsEq" (formula "28"))
+      (rule "inEqSimp_ltToLeq" (formula "5") (term "0,0,0"))
+      (rule "polySimp_mulComm0" (formula "5") (term "1,0,0,0,0,0"))
+      (rule "inEqSimp_ltToLeq" (formula "17") (term "0,0,0"))
+      (rule "polySimp_mulComm0" (formula "17") (term "1,0,0,0,0,0"))
+      (rule "applyEq" (formula "5") (term "0,0,1,0,0,0,0,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "16") (term "0,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "25") (term "0") (ifseqformula "9"))
+      (rule "applyEq" (formula "19") (term "4") (ifseqformula "18"))
+      (rule "applyEq" (formula "3") (term "1,0,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "5") (term "1,0,0,1,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "7") (term "3") (ifseqformula "9"))
+      (rule "applyEq" (formula "5") (term "1,0,1,1,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "17") (term "1,0,0,1,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "15") (term "1,0,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "17") (term "0,0,1,0,0,0,0,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "15") (term "1,0,1") (ifseqformula "21"))
+      (rule "applyEq" (formula "7") (term "4") (ifseqformula "6"))
+      (rule "applyEq" (formula "19") (term "3") (ifseqformula "21"))
+      (rule "applyEq" (formula "26") (term "0") (ifseqformula "21"))
+      (rule "applyEq" (formula "3") (term "1,0,1") (ifseqformula "9"))
+      (rule "applyEq" (formula "4") (term "0,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "17") (term "1,0,1,1,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "17") (term "0,1,0,0,0,0,0") (ifseqformula "16"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "17") (term "0,0,0,0,0"))
+      (rule "applyEq" (formula "5") (term "0,1,0,0,0,0,0") (ifseqformula "4"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "5") (term "0,0,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "17") (term "0,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "5") (term "0,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0"))
+      (rule "nnf_imp2or" (formula "17") (term "0"))
+      (rule "nnf_imp2or" (formula "5") (term "0"))
+      (rule "nnf_notAnd" (formula "17") (term "0,0"))
+      (rule "inEqSimp_notGeq" (formula "17") (term "1,0,0"))
+      (rule "times_zero_1" (formula "17") (term "1,0,0,1,0,0"))
+      (rule "add_zero_right" (formula "17") (term "0,0,1,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "17") (term "1,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,1,0,0"))
+      (rule "inEqSimp_notLeq" (formula "17") (term "0,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "17") (term "0,0,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial1" (formula "17") (term "0,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0"))
+      (rule "nnf_notAnd" (formula "5") (term "0,0"))
+      (rule "inEqSimp_notLeq" (formula "5") (term "0,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "5") (term "0,0,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial1" (formula "5") (term "0,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0"))
+      (rule "inEqSimp_notGeq" (formula "5") (term "1,0,0"))
+      (rule "times_zero_1" (formula "5") (term "1,0,0,1,0,0"))
+      (rule "add_zero_right" (formula "5") (term "0,0,1,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "5") (term "1,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,1,0,0"))
+      (rule "Class_invariant_axiom_for_java_lang_String" (formula "24"))
+      (rule "closeTrue" (formula "24"))
+   )
+   (branch
+      (rule "eqSymm" (formula "10"))
+      (rule "eqSymm" (formula "22"))
+      (rule "eqSymm" (formula "28"))
+      (rule "allFieldsEq" (formula "28"))
+      (rule "inEqSimp_ltToLeq" (formula "5") (term "0,0,0"))
+      (rule "polySimp_mulComm0" (formula "5") (term "1,0,0,0,0,0"))
+      (rule "inEqSimp_ltToLeq" (formula "17") (term "0,0,0"))
+      (rule "polySimp_mulComm0" (formula "17") (term "1,0,0,0,0,0"))
+      (rule "applyEq" (formula "5") (term "0,0,1,0,0,0,0,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "5") (term "1,0,1,1,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "25") (term "0") (ifseqformula "9"))
+      (rule "applyEq" (formula "17") (term "1,0,1,1,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "19") (term "4") (ifseqformula "18"))
+      (rule "applyEq" (formula "3") (term "1,0,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "17") (term "0,0,1,0,0,0,0,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "17") (term "1,0,0,1,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "3") (term "1,0,1") (ifseqformula "9"))
+      (rule "applyEq" (formula "19") (term "3") (ifseqformula "21"))
+      (rule "applyEq" (formula "5") (term "1,0,0,1,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "26") (term "0") (ifseqformula "21"))
+      (rule "applyEq" (formula "7") (term "4") (ifseqformula "6"))
+      (rule "applyEq" (formula "7") (term "3") (ifseqformula "9"))
+      (rule "applyEq" (formula "15") (term "1,0,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "4") (term "0,0") (ifseqformula "9"))
+      (rule "applyEq" (formula "16") (term "0,0") (ifseqformula "21"))
+      (rule "applyEq" (formula "15") (term "1,0,1") (ifseqformula "21"))
+      (rule "applyEq" (formula "5") (term "0,1,0,0,0,0,0") (ifseqformula "4"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "5") (term "0,0,0,0,0"))
+      (rule "applyEq" (formula "17") (term "0,1,0,0,0,0,0") (ifseqformula "16"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "17") (term "0,0,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "5") (term "0,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "17") (term "0,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0"))
+      (rule "nnf_imp2or" (formula "5") (term "0"))
+      (rule "nnf_imp2or" (formula "17") (term "0"))
+      (rule "nnf_notAnd" (formula "5") (term "0,0"))
+      (rule "inEqSimp_notGeq" (formula "5") (term "1,0,0"))
+      (rule "times_zero_1" (formula "5") (term "1,0,0,1,0,0"))
+      (rule "add_zero_right" (formula "5") (term "0,0,1,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "5") (term "1,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,1,0,0"))
+      (rule "inEqSimp_notLeq" (formula "5") (term "0,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "5") (term "0,0,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial1" (formula "5") (term "0,0,0"))
+      (rule "mul_literals" (formula "5") (term "1,0,0,0"))
+      (rule "nnf_notAnd" (formula "17") (term "0,0"))
+      (rule "inEqSimp_notLeq" (formula "17") (term "0,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0,0,0"))
+      (rule "add_literals" (formula "17") (term "0,0,0,0,0"))
+      (rule "inEqSimp_sepPosMonomial1" (formula "17") (term "0,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,0,0,0"))
+      (rule "inEqSimp_notGeq" (formula "17") (term "1,0,0"))
+      (rule "times_zero_1" (formula "17") (term "1,0,0,1,0,0"))
+      (rule "add_zero_right" (formula "17") (term "0,0,1,0,0"))
+      (rule "inEqSimp_sepPosMonomial0" (formula "17") (term "1,0,0"))
+      (rule "mul_literals" (formula "17") (term "1,1,0,0"))
+      (rule "Class_invariant_axiom_for_java_lang_String" (formula "24"))
+      (rule "closeTrue" (formula "24"))
+   )
+)
+(branch "pre toCharArray_1742633537 (information flow)"
+    (builtin "One Step Simplification" (formula "24"))
+   (rule "closeTrue" (formula "24"))
+)
+(branch "post toCharArray_1742633537 (information flow)"
+   (rule "eqSymm" (formula "28"))
+   (rule "eqSymm" (formula "10"))
+   (rule "eqSymm" (formula "23"))
+   (rule "allFieldsEq" (formula "19"))
+   (rule "allFieldsEq" (formula "28"))
+   (rule "inEqSimp_ltToLeq" (formula "17") (term "0,0,0"))
+   (rule "polySimp_mulComm0" (formula "17") (term "1,0,0,0,0,0"))
+   (rule "inEqSimp_ltToLeq" (formula "5") (term "0,0,0"))
+   (rule "polySimp_mulComm0" (formula "5") (term "1,0,0,0,0,0"))
+   (rule "applyEq" (formula "20") (term "3") (ifseqformula "22"))
+   (rule "applyEq" (formula "19") (term "1") (ifseqformula "9"))
+   (rule "applyEq" (formula "17") (term "0,0,1,0,0,0,0,0") (ifseqformula "22"))
+   (rule "applyEq" (formula "19") (term "0") (ifseqformula "22"))
+   (rule "close" (formula "28") (ifseqformula "19"))
+)
+)
+}

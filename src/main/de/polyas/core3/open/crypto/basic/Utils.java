@@ -34,7 +34,7 @@ public final class Utils {
               @ ensures 0 <= x && x < 256;
               @ assignable \strictly_nothing;
               @ determines x \by b;
-              @ determines r.string \by \nothing;
+              @ determines r.string \by \itself;
               @*/
             {
                 if (b < 0) {
@@ -53,7 +53,7 @@ public final class Utils {
               @ assignable \strictly_nothing;
               @ determines first4Bits \by x;
               @ determines second4Bits \by x;
-              @ determines r.string \by \nothing;
+              @ determines r.string \by \itself;
               @*/
             {
                 first4Bits = ((x) / 16) % 16;
@@ -69,7 +69,7 @@ public final class Utils {
     /*@ public normal_behavior
       @ requires true;
       @ ensures \result.length == 16;
-      @ ensures_free (\forall \bigint i; 0 <= i && i < \result.length; \dl_inChar(\result[i]));
+      @ ensures (\forall \bigint i; 0 <= i && i < \result.length; \dl_inChar(\result[i]));
       @ assignable \nothing;
       @ determines \result[*] \by \nothing;
       @*/
