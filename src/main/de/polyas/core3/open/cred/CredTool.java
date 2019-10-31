@@ -236,9 +236,12 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
+      @
       @ // Every element in cols is in the record:
       @ requires (\forall \bigint j; 0 <= j && j < cols.seq.length;
       @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)cols.seq[j])));
+      @
+      @ requires \invariant_for(r);
       @ assignable vals.seq;
       @ determines vals.seq \by r.key_seq, r.value_seq, cols.seq;
       @*/
