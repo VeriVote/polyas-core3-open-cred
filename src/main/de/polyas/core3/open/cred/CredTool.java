@@ -206,33 +206,16 @@ public final class CredTool {
         final GeneratedDataForVoter dataForVoter =
                 CredentialGenerator.generateDataForVoter(voterId, password);
 
-        /*@ public normal_behavior
-          @ ensures \fresh(distVals) && \fresh(distVals.*);
-          @ assignable distVals, distVals.seq;
-          @*/
-        {
-            // Dist
-            distVals = new ArrayList();
-            addInputCols(distVals, inputColsForDist, r);
-            distVals.add(0, dataForVoter.password);
-        }
+        // Dist
+        distVals = new ArrayList();
+        addInputCols(distVals, inputColsForDist, r);
+        distVals.add(0, dataForVoter.password);
 
-        /*@ public normal_behavior
-          @ ensures \fresh(polyasVals)  && \fresh(polyasVals.*);
-          @ assignable polyasVals, polyasVals.seq;
-          @ determines polyasVals.seq \by r.key_seq, r.value_seq,
-          @                               inputColsForPolyas.seq,
-          @                               idCol,
-          @                               CredentialGenerator.GROUP.group.generator.value,
-          @                               CredentialGenerator.GROUP.curve.order;
-          @*/
-        {
-            // Polyas
-            polyasVals = new ArrayList();
-            addInputCols(polyasVals, inputColsForPolyas, r);
-            polyasVals.add(dataForVoter.hashedPassword);
-            polyasVals.add(dataForVoter.publicSigningKey);
-        }
+        // Polyas
+        polyasVals = new ArrayList();
+        addInputCols(polyasVals, inputColsForPolyas, r);
+        polyasVals.add(dataForVoter.hashedPassword);
+        polyasVals.add(dataForVoter.publicSigningKey);
     }
 
     /*@ public normal_behavior
@@ -241,6 +224,7 @@ public final class CredTool {
       @ requires (\forall \bigint j; 0 <= j && j < cols.seq.length;
       @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)cols.seq[j])));
       @
+      @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
       @ requires \invariant_for(r);
       @ assignable vals.seq;
       @ determines vals.seq \by r.key_seq, r.value_seq, cols.seq;
@@ -248,10 +232,9 @@ public final class CredTool {
     private /*@helper@*/ void addInputCols(ArrayList vals, ArrayList cols, CSVRecord r) {
         Iterator it = cols.iterator();
 
-        /*@ loop_invariant 0 <= it.index && it.index <= cols.seq.length;
-          @ loop_invariant it.seq == cols.seq;
+        /*@ loop_invariant 0 <= it.index && it.index <= it.seq.length;
           @ loop_invariant \invariant_for(it);
-          @ decreases cols.seq.length - it.index;
+          @ decreases it.seq.length - it.index;
           @ assignable vals.seq, it.index;
           @*/
         while (it.hasNext()) {
