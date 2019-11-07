@@ -6,7 +6,7 @@ A fragment of "Polyas Open Cred" translated from Kotlin to Java for doing formal
 
 * In `Utils.bytesToHexString`, an `ArrayIndexOutOfBoundsException` could occur.
 
-## Finished proofs (see [](proofs/))
+## Finished proofs (see folder [proofs](proofs/))
 
 * `CredTool.CredTool` functional
 * TODO
