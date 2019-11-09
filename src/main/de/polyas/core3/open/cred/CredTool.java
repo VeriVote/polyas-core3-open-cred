@@ -111,11 +111,6 @@ public final class CredTool {
      */
     private final CSVPrinter dist;
 
-    /*@ axiom (\forall \seq seq; (\forall \bigint i; ((String)seq[i]) != null ==> ((Object)seq[i]) != null && ((Object)seq[i]) instanceof String && seq[i] instanceof String))
-      @    && (\forall \seq seq; (\forall \bigint i; (\forall Object obj; seq[i] == obj ==> ((Object)seq[i]) == obj)))
-      @    && (\forall \seq seq; (\forall \bigint i; (\forall String str; seq[i] == str ==> ((String)seq[i]) == str)));
-      @*/
-
     //@ public static invariant polyasMode == FieldsForPolyasMode.MIN || polyasMode == FieldsForPolyasMode.MIN;
 
     //@ public instance invariant (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
