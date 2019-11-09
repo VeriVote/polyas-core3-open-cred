@@ -43,7 +43,7 @@ public final class CredentialGenerator {
     public static GeneratedDataForVoter generateDataForVoter(String voterId,
                                                              final String password) {
         // derive the public credential (voter's public verification key pk_i)
-        final ECPoint pubCred = // TODO HERE: Look! // TODO: Make dummy
+        final ECPoint pubCred =
                 Crypto.publicCredentialFromPIN(GROUP, password, voterId);
         final String pubCredHex = Utils.asHexString(GROUP.elementToBytes(pubCred));
 

@@ -20,10 +20,11 @@ public final class Utils {
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
 
-        /*@ loop_invariant r.string != null;
+        /*@ loop_invariant r.str != null;
           @ loop_invariant 0 <= i && i <= bytes.length;
           @ decreases bytes.length - i;
-          @ assignable r.string;
+          @ assignable r.str;
+          @ determines r.str, bytes[*] \by \itself;
           @*/
         for (int i = 0; i < bytes.length; ++i) {
             byte b = bytes[i];
@@ -34,7 +35,7 @@ public final class Utils {
               @ ensures 0 <= x && x < 256;
               @ assignable \strictly_nothing;
               @ determines x \by b;
-              @ determines r.string \by \itself;
+              @ determines r.str \by \itself;
               @*/
             {
                 if (b < 0) {
@@ -53,7 +54,7 @@ public final class Utils {
               @ assignable \strictly_nothing;
               @ determines first4Bits \by x;
               @ determines second4Bits \by x;
-              @ determines r.string \by \itself;
+              @ determines r.str \by \itself;
               @*/
             {
                 first4Bits = ((x) / 16) % 16;
