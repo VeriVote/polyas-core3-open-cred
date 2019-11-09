@@ -37,10 +37,20 @@ public final class ECGroup implements CyclicGroup {
         return p.multiply(exponentPos);
     }
 
+    /*@ public normal_behavior
+      @ requires true;
+      @ assignable \nothing;
+      @ determines \result[*] \by p.value;
+      @*/
     public byte[] asBytes(ECPoint p) {
         return p.getEncoded(true);
     }
 
+    /*@ public normal_behavior
+      @ requires true;
+      @ assignable \nothing;
+      @ determines \result[*] \by e.value;
+      @*/
     public byte[] elementToBytes(ECPoint e) {
         return asBytes(e);
     }

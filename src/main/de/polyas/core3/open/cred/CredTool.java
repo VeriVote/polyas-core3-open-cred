@@ -189,7 +189,23 @@ public final class CredTool {
       @*/
     private /*@helper@*/ void processCSVRecord(final CSVRecord r, final String password) {
         /*@ public normal_behavior
+          @ requires \invariant_for(this);
+          @ requires \static_invariant_for(java.math.BigInteger);
+          @ requires \static_invariant_for(CredentialGenerator);
+          @ requires \static_invariant_for(Crypto);
+          @ requires \invariant_for(r);
+          @ requires \invariant_for(this);
+          @ requires (\forall \bigint j; 0 <= j && j < inputColsForDist.seq.length;
+          @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)inputColsForDist.seq[j])));
+          @ requires (\forall \bigint j; 0 <= j && j < inputColsForPolyas.seq.length;
+          @     (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == ((String)inputColsForPolyas.seq[j])));
+          @ requires (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == idCol);
+          @ requires (\forall \bigint i; 0 <= i && i < r.key_seq.length;
+          @     ((String)r.key_seq[i]) == idCol
+          @         ==> (\exists \bigint j; 0 <= j && j < \dl_strContent((String)r.value_seq[i]).length;
+          @             ((char)(\dl_strContent((String)r.value_seq[i])[j])) > '\u0020'));
           @ assignable print;
+          @ determines polyasVals.seq \by \nothing;
           @*/
         {
             if (input.getCurrentLineNumber() % 1000 == 0L) {
@@ -226,16 +242,27 @@ public final class CredTool {
       @
       @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
       @ requires \invariant_for(r);
+      @ requires \invariant_for(vals);
+      @ requires \invariant_for(cols);
+      @ ensures \invariant_for(r);
+      @ ensures \invariant_for(vals);
+      @ ensures \invariant_for(cols);
       @ assignable vals.seq;
-      @ determines vals.seq \by r.key_seq, r.value_seq, cols.seq;
+      @ determines vals.seq \by vals.seq, r.key_seq, r.value_seq, cols.seq;
       @*/
     private /*@helper@*/ void addInputCols(ArrayList vals, ArrayList cols, CSVRecord r) {
         Iterator it = cols.iterator();
 
         /*@ loop_invariant 0 <= it.index && it.index <= it.seq.length;
+          @ loop_invariant it != null && r != null && vals != null;
+          @ loop_invariant it instanceof java.util.CollectionIterator;
           @ loop_invariant \invariant_for(it);
+          @ loop_invariant \invariant_for(r);
+          @ loop_invariant \invariant_for(vals);
+          @ loop_invariant \invariant_for(cols);
           @ decreases it.seq.length - it.index;
           @ assignable vals.seq, it.index;
+          @ determines vals.seq, r.key_seq, r.value_seq, cols.seq \by \itself;
           @*/
         while (it.hasNext()) {
             vals.add(r.get((String) it.next()));
