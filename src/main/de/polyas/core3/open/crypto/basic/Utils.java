@@ -15,7 +15,7 @@ public final class Utils {
       @ requires true;
       @ requires_free (\forall \bigint i; 0 <= i && i < bytes.length; \dl_inByte(bytes[i]));
       @ assignable \nothing;
-      @ determines \result \by bytes[*];
+      @ determines \dl_strContent(\result) \by bytes[*];
       @*/
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
@@ -80,7 +80,7 @@ public final class Utils {
 
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result \by b[*];
+      @ determines \dl_strContent(\result) \by b[*];
       @*/
     public static String asHexString(byte[] b) {
         return bytesToHexString(b).toLowerCase();
