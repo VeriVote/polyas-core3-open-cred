@@ -1,0 +1,157 @@
+\profile "Java Profile";
+
+\settings {
+"#Proof-Settings-Config-File
+#Sat Nov 09 21:31:40 CET 2019
+[Labels]UseOriginLabels=false
+[StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[SMTSettings]invariantForall=false
+[Strategy]ActiveStrategy=JavaCardDLStrategy
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
+[StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
+[Choice]DefaultChoices=methodExpansion-methodExpansion\\:modularOnly , mergeGenerateIsWeakeningGoal-mergeGenerateIsWeakeningGoal\\:off , wdChecks-wdChecks\\:off , wdOperator-wdOperator\\:L , permissions-permissions\\:off , integerSimplificationRules-integerSimplificationRules\\:full , reach-reach\\:on , moreSeqRules-moreSeqRules\\:on , sequences-sequences\\:on , bigint-bigint\\:on , modelFields-modelFields\\:treatAsAxiom , Strings-Strings\\:on , JavaCard-JavaCard\\:off , runtimeExceptions-runtimeExceptions\\:allow , programRules-programRules\\:Java , intRules-intRules\\:javaSemantics , initialisation-initialisation\\:disableStaticInitialisation , assertions-assertions\\:on
+[StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
+[SMTSettings]UseBuiltUniqueness=false
+[SMTSettings]explicitTypeHierarchy=false
+[SMTSettings]instantiateHierarchyAssumptions=true
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_DEF_OPS
+[SMTSettings]SelectedTaclets=
+[StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
+[StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
+[Strategy]MaximumNumberOfAutomaticApplications=10000
+[StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
+[StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[SMTSettings]useConstantsForBigOrSmallIntegers=true
+[StrategyProperty]MPS_OPTIONS_KEY=MPS_MERGE
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
+[Strategy]Timeout=-1
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
+[StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
+[SMTSettings]useUninterpretedMultiplication=true
+[StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT_INTERNAL
+[StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[SMTSettings]maxGenericSorts=2
+[StrategyProperty]OSS_OPTIONS_KEY=OSS_ON
+[StrategyProperty]SPLITTING_OPTIONS_KEY=SPLITTING_DELAYED
+[SMTSettings]integersMinimum=-2147483645
+[StrategyProperty]VBT_PHASE=VBT_SYM_EX
+[SMTSettings]integersMaximum=2147483645
+"
+}
+
+\javaSource "../src";
+
+\proofObligation "#Proof Obligation Settings
+#Sat Nov 09 21:31:40 CET 2019
+contract=de.polyas.core3.open.crypto.basic.Hashes[de.polyas.core3.open.crypto.basic.Hashes\\:\\:uniformHash(java.math.BigInteger,java.lang.String,java.lang.String,java.lang.String)].Non-interference contract.0
+name=de.polyas.core3.open.crypto.basic.Hashes[de.polyas.core3.open.crypto.basic.Hashes\\:\\:uniformHash(java.math.BigInteger,java.lang.String,java.lang.String,java.lang.String)].Non-interference contract.0
+class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
+";
+
+\proof {
+(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+
+(autoModeTime "108")
+
+(branch "dummy ID"
+ (builtin "One Step Simplification" (formula "1"))
+(rule "impRight" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "3"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "5"))
+(rule "andLeft" (formula "4"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "9"))
+(rule "andLeft" (formula "7"))
+(rule "notLeft" (formula "4"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "7"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "8"))
+(rule "andLeft" (formula "2"))
+(rule "eqSymm" (formula "17"))
+(rule "eqSymm" (formula "14") (term "1,0,0,1"))
+(rule "eqSymm" (formula "14") (term "0,0,0,1"))
+(rule "eqSymm" (formula "7") (term "1,0,0,1"))
+(rule "eqSymm" (formula "7") (term "0,0,0,1"))
+(rule "replace_known_right" (formula "9") (term "0") (ifseqformula "16"))
+ (builtin "One Step Simplification" (formula "9"))
+(rule "replace_known_right" (formula "2") (term "0") (ifseqformula "15"))
+ (builtin "One Step Simplification" (formula "2"))
+(rule "assignment" (formula "14") (term "1"))
+ (builtin "One Step Simplification" (formula "14"))
+(rule "assignment" (formula "7") (term "1"))
+ (builtin "One Step Simplification" (formula "7"))
+(rule "pullOutSelect" (formula "17") (term "1") (inst "selectSK=java_math_BigInteger_value_0"))
+(rule "pullOutSelect" (formula "18") (term "0") (inst "selectSK=java_math_BigInteger_value_1"))
+(rule "boxToDiamond" (formula "16") (term "1"))
+ (builtin "One Step Simplification" (formula "16"))
+(rule "notLeft" (formula "16"))
+(rule "boxToDiamond" (formula "9") (term "1"))
+ (builtin "One Step Simplification" (formula "9"))
+(rule "notLeft" (formula "9"))
+(rule "Static_class_invariant_axiom_for_java_math_BigInteger" (formula "14"))
+(rule "andLeft" (formula "14"))
+(rule "notLeft" (formula "14"))
+(rule "Static_class_invariant_axiom_for_java_math_BigInteger" (formula "8"))
+(rule "andLeft" (formula "8"))
+(rule "notLeft" (formula "8"))
+(rule "methodBodyExpand" (formula "18") (term "1") (newnames "heapBefore_uniformHash,savedHeapBefore_uniformHash"))
+ (builtin "One Step Simplification" (formula "18"))
+(rule "methodBodyExpand" (formula "17") (term "1") (newnames "heapBefore_uniformHash_0,savedHeapBefore_uniformHash_0"))
+ (builtin "One Step Simplification" (formula "17"))
+(rule "returnUnfold" (formula "18") (term "1") (inst "#v0=b"))
+(rule "variableDeclarationAssign" (formula "18") (term "1"))
+(rule "variableDeclaration" (formula "18") (term "1") (newnames "b_3"))
+(rule "activeUseStaticFieldReadAccess" (formula "18") (term "1"))
+(rule "assignment_read_static_attribute" (formula "18") (term "1"))
+ (builtin "One Step Simplification" (formula "18"))
+(rule "returnUnfold" (formula "17") (term "1") (inst "#v0=b"))
+(rule "variableDeclarationAssign" (formula "17") (term "1"))
+(rule "variableDeclaration" (formula "17") (term "1") (newnames "b_4"))
+(rule "activeUseStaticFieldReadAccess" (formula "17") (term "1"))
+(rule "assignment_read_static_attribute" (formula "17") (term "1"))
+ (builtin "One Step Simplification" (formula "17"))
+(rule "methodCallReturn" (formula "18") (term "1"))
+(rule "assignment" (formula "18") (term "1"))
+ (builtin "One Step Simplification" (formula "18"))
+(rule "methodCallReturn" (formula "17") (term "1"))
+(rule "assignment" (formula "17") (term "1"))
+ (builtin "One Step Simplification" (formula "17"))
+(rule "methodCallEmpty" (formula "18") (term "1"))
+(rule "methodCallEmpty" (formula "17") (term "1"))
+(rule "tryEmpty" (formula "18") (term "1"))
+(rule "tryEmpty" (formula "17") (term "1"))
+(rule "emptyModality" (formula "18") (term "1"))
+ (builtin "One Step Simplification" (formula "18"))
+(rule "notRight" (formula "18"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "eqSymm" (formula "2"))
+(rule "applyEq" (formula "4") (term "0,0") (ifseqformula "3"))
+(rule "applyEqReverse" (formula "23") (term "0") (ifseqformula "4"))
+(rule "hideAuxiliaryEq" (formula "4"))
+(rule "applyEq" (formula "18") (term "0") (ifseqformula "1"))
+(rule "applyEq" (formula "16") (term "1,0") (ifseqformula "1"))
+(rule "applyEq" (formula "22") (term "0") (ifseqformula "16"))
+(rule "eqSymm" (formula "22"))
+(rule "emptyModality" (formula "19") (term "1"))
+ (builtin "One Step Simplification" (formula "19"))
+(rule "notRight" (formula "19"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "eqSymm" (formula "2"))
+(rule "applyEqRigid" (formula "7") (term "0,0") (ifseqformula "3"))
+(rule "applyEqReverse" (formula "24") (term "0") (ifseqformula "7"))
+(rule "hideAuxiliaryEq" (formula "7"))
+(rule "applyEq" (formula "12") (term "1,0") (ifseqformula "1"))
+(rule "close" (formula "23") (ifseqformula "12"))
+)
+}

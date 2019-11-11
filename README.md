@@ -6,14 +6,13 @@ A fragment of "Polyas Open Cred" translated from Kotlin to Java for doing formal
 
 * In `Utils.bytesToHexString`, an `ArrayIndexOutOfBoundsException` could occur.
 
-## Finished proofs (see folder [proofs_finished](proofs_finished/))
+## Finished proofs (see "Proofs" folders)
 
-* `CredTool.CredTool` functional
 * TODO
 
 ## Missing proofs
 
-* `CredTool.processCSVRecord` information flow
-* `CredTool.addInputCols` information flow
+* `CredTool` information flow
 * `Utils.bytesToHexString` information flow
-* `PGP.readPublicKey` functional (leave unproven, since its behavior depends on the contents of the passed `InputStream`)
+* `PGP.readPublicKey` functional (leave unproven, as its behavior depends on the contents of the passed `InputStream`)
+* `CredentialGenerator.append` information flow (leave unproven, as it simply states that `strContent(s0 + s1 + s2)` depends only on `strContent(s0), strContent(s1), strContent(s2)`)
