@@ -98,6 +98,7 @@ public final class Crypto {
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \invariant_for(group);
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by group.group.generator.value, group.curve.order;
       @*/
     public static /*@helper@*/ String loginPasswordFromMasterPIN(ECGroup group, String voterId,
@@ -113,6 +114,7 @@ public final class Crypto {
      */
     /*@ public normal_behavior
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by \nothing;
       @*/
     public static String hashPasswordWithSHA256(String password, String salt) {
@@ -121,6 +123,7 @@ public final class Crypto {
 
     /*@ public normal_behavior
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by \nothing;
       @*/
     private static String sha256(String input) {

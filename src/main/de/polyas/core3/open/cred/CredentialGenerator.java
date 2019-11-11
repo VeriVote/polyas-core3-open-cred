@@ -36,9 +36,10 @@ public final class CredentialGenerator {
       @ requires \static_invariant_for(java.math.BigInteger);
       @ ensures \invariant_for(\result);
       @ assignable \nothing;
+      @ determines \result.password \by password;
+      @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing;
       @ determines \dl_strContent(\result.password) \by \dl_strContent(password);
-      @ determines \dl_strContent(\result.hashedPassword) \by GROUP.group.generator.value, GROUP.curve.order;
-      @ determines \dl_strContent(\result.publicSigningKey) \by GROUP.group.generator.value, GROUP.curve.order;
+      @ determines \dl_strContent(\result.hashedPassword), \dl_strContent(\result.publicSigningKey) \by GROUP.group.generator.value, GROUP.curve.order;
       @*/
     public static GeneratedDataForVoter generateDataForVoter(String voterId,
                                                              final String password) {
@@ -62,6 +63,7 @@ public final class CredentialGenerator {
     /*@ public normal_behavior
       @ requires true;
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by \dl_strContent(s0), \dl_strContent(s1), \dl_strContent(s2);
       @*/
     private /*@helper@*/ static String append(String s0, String s1, String s2) {
@@ -73,6 +75,7 @@ public final class CredentialGenerator {
      */
     /*@ public normal_behavior
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by \nothing;
       @*/
     public static String newSalt() {

@@ -15,6 +15,7 @@ public final class Utils {
       @ requires true;
       @ requires_free (\forall \bigint i; 0 <= i && i < bytes.length; \dl_inByte(bytes[i]));
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by bytes[*];
       @*/
     public static String bytesToHexString(byte[] bytes) {
@@ -72,7 +73,7 @@ public final class Utils {
       @ ensures \result.length == 16;
       @ ensures (\forall \bigint i; 0 <= i && i < \result.length; \dl_inChar(\result[i]));
       @ assignable \nothing;
-      @ determines \result[*] \by \nothing;
+      @ determines \result, \result[*] \by \nothing;
       @*/
     private static char[] hexCharacters() {
         return "0123456789ABCDEF".toCharArray();
@@ -80,6 +81,7 @@ public final class Utils {
 
     /*@ public normal_behavior
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by b[*];
       @*/
     public static String asHexString(byte[] b) {
