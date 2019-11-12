@@ -101,6 +101,14 @@ public final class CredentialGenerator {
          */
         final String publicSigningKey;
 
+        /*@ public normal_behavior
+          @ assignable this.*;
+          @ determines this.password \by password;
+          @ determines this.hashedPassword, this.publicSigningKey \by \nothing;
+          @ determines \dl_strContent(this.password) \by \dl_strContent(password);
+          @ determines \dl_strContent(this.hashedPassword) \by \dl_strContent(hashedPassword);
+          @ determines \dl_strContent(this.publicSigningKey) \by \dl_strContent(publicSigningKey);
+          @*/
         public GeneratedDataForVoter(final String password,
                                      final String hashedPassword,
                                      final String publicSigningKey) {
