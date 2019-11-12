@@ -363,7 +363,7 @@ public final class PGP {
      * @throws IOException stream decoder may throw an i/o-exception
      * @throws PGPException if a non-PGPPublicKeyRing object is encountered
      */
-    /*@ public normal_behavior
+    /*@ public normal_behavior // NOTE: UNPROVEN, WE ASSUME THAT THE INPUT STREAM IS WELLFORMED.
       @ assignable \nothing;
       @*/
     public /*@helper@*/ static PGPPublicKey readPublicKey(InputStream input) throws IOException, PGPException {
