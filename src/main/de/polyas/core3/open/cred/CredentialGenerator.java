@@ -60,7 +60,7 @@ public final class CredentialGenerator {
         return new GeneratedDataForVoter(password, hashedPasswordWithSalt, pubCredHex);
     }
 
-    /*@ public normal_behavior
+    /*@ public normal_behavior // NOTE: UNPROVEN, WE ASSUME THAT TODO.
       @ requires true;
       @ assignable \nothing;
       @ determines \result \by \nothing;
