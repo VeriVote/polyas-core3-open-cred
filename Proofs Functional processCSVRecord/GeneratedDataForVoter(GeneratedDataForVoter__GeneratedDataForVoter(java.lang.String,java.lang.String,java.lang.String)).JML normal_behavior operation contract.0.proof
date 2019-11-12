@@ -1,0 +1,254 @@
+\profile "Java Profile";
+
+\settings {
+"#Proof-Settings-Config-File
+#Tue Nov 12 11:52:37 CET 2019
+[SMTSettings]maxGenericSorts=2
+[SMTSettings]instantiateHierarchyAssumptions=true
+[SMTSettings]UseBuiltUniqueness=false
+[StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
+[StrategyProperty]SPLITTING_OPTIONS_KEY=SPLITTING_DELAYED
+[StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
+[Strategy]Timeout=-1
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
+[StrategyProperty]OSS_OPTIONS_KEY=OSS_ON
+[Choice]DefaultChoices=assertions-assertions\\:on , initialisation-initialisation\\:disableStaticInitialisation , intRules-intRules\\:javaSemantics , programRules-programRules\\:Java , runtimeExceptions-runtimeExceptions\\:allow , JavaCard-JavaCard\\:off , Strings-Strings\\:on , modelFields-modelFields\\:treatAsAxiom , bigint-bigint\\:on , sequences-sequences\\:on , moreSeqRules-moreSeqRules\\:on , reach-reach\\:on , integerSimplificationRules-integerSimplificationRules\\:full , permissions-permissions\\:off , wdOperator-wdOperator\\:L , wdChecks-wdChecks\\:off , mergeGenerateIsWeakeningGoal-mergeGenerateIsWeakeningGoal\\:off , methodExpansion-methodExpansion\\:modularOnly
+[StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
+[Strategy]ActiveStrategy=JavaCardDLStrategy
+[StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[SMTSettings]useConstantsForBigOrSmallIntegers=true
+[StrategyProperty]VBT_PHASE=VBT_SYM_EX
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
+[SMTSettings]integersMinimum=-2147483645
+[SMTSettings]invariantForall=false
+[StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT_INTERNAL
+[StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
+[Labels]UseOriginLabels=false
+[SMTSettings]integersMaximum=2147483645
+[SMTSettings]useUninterpretedMultiplication=true
+[StrategyProperty]MPS_OPTIONS_KEY=MPS_MERGE
+[Strategy]MaximumNumberOfAutomaticApplications=10000
+[StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
+[StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
+[SMTSettings]SelectedTaclets=
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_DEF_OPS
+[StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
+[SMTSettings]explicitTypeHierarchy=false
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
+"
+}
+
+\javaSource "../src";
+
+\proofObligation "#Proof Obligation Settings
+#Tue Nov 12 11:52:37 CET 2019
+name=de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter[de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter\\:\\:GeneratedDataForVoter(java.lang.String,java.lang.String,java.lang.String)].JML normal_behavior operation contract.0
+contract=de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter[de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter\\:\\:GeneratedDataForVoter(java.lang.String,java.lang.String,java.lang.String)].JML normal_behavior operation contract.0
+class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
+";
+
+\proof {
+(keyLog "0" (keyUser "flo" ) (keyVersion ""))
+
+(autoModeTime "3962")
+
+(branch "dummy ID"
+ (builtin "One Step Simplification" (formula "1") (newnames "password_5,hashedPassword_0,publicSigningKey_0,self_46,exc_60,heapAtPre_0,o,f"))
+(rule "impRight" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "3"))
+(rule "andLeft" (formula "3"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "5"))
+(rule "notLeft" (formula "4"))
+(rule "andLeft" (formula "2"))
+(rule "andLeft" (formula "2"))
+(rule "eqSymm" (formula "9") (term "1,0,0,1,0,1"))
+(rule "replace_known_right" (formula "4") (term "0") (ifseqformula "7"))
+ (builtin "One Step Simplification" (formula "4"))
+(rule "replace_known_right" (formula "3") (term "0") (ifseqformula "6"))
+ (builtin "One Step Simplification" (formula "3"))
+(rule "replace_known_right" (formula "2") (term "0") (ifseqformula "8"))
+ (builtin "One Step Simplification" (formula "2"))
+(rule "assignment" (formula "9") (term "1"))
+ (builtin "One Step Simplification" (formula "9"))
+(rule "variableDeclarationAssign" (formula "9") (term "1"))
+(rule "variableDeclaration" (formula "9") (term "1") (newnames "self_46_1"))
+(rule "staticMethodCallStaticWithAssignmentViaTypereference" (formula "9") (term "1") (inst "#v0=g"))
+(rule "variableDeclaration" (formula "9") (term "1") (newnames "g"))
+(rule "methodBodyExpand" (formula "9") (term "1") (newnames "heapBefore_<createObject>,savedHeapBefore_<createObject>"))
+ (builtin "One Step Simplification" (formula "9"))
+(rule "variableDeclaration" (formula "9") (term "1") (newnames "__NEW__"))
+(rule "staticMethodCallStaticWithAssignmentViaTypereference" (formula "9") (term "1") (inst "#v0=g_1"))
+(rule "variableDeclaration" (formula "9") (term "1") (newnames "g_1"))
+(rule "allocateInstance" (formula "9"))
+ (builtin "One Step Simplification" (formula "10"))
+ (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "2")))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "2"))
+(rule "notLeft" (formula "1"))
+(rule "blockEmpty" (formula "12") (term "1"))
+(rule "assignment" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodBodyExpand" (formula "12") (term "1") (newnames "heapBefore_<create>,savedHeapBefore_<create>"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "assignment_write_attribute_this" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallWithinClass" (formula "12") (term "1"))
+(rule "methodBodyExpand" (formula "12") (term "1") (newnames "heapBefore_<prepareEnter>,savedHeapBefore_<prepareEnter>"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallSuper" (formula "12") (term "1"))
+(rule "methodBodyExpand" (formula "12") (term "1") (newnames "heapBefore_<prepare>,savedHeapBefore_<prepare>"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallEmpty" (formula "12") (term "1"))
+(rule "blockEmpty" (formula "12") (term "1"))
+(rule "assignment_write_attribute_this" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "assignment_write_attribute_this" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "assignment_write_attribute_this" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallEmpty" (formula "12") (term "1"))
+(rule "blockEmpty" (formula "12") (term "1"))
+(rule "methodCallReturnIgnoreResult" (formula "12") (term "1"))
+(rule "methodCallReturn" (formula "12") (term "1"))
+(rule "assignment" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallEmpty" (formula "12") (term "1"))
+(rule "blockEmpty" (formula "12") (term "1"))
+(rule "assignment" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "blockEmpty" (formula "12") (term "1"))
+(rule "variableDeclarationAssign" (formula "12") (term "1"))
+(rule "variableDeclaration" (formula "12") (term "1") (newnames "var"))
+(rule "assignment" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "variableDeclarationAssign" (formula "12") (term "1"))
+(rule "variableDeclaration" (formula "12") (term "1") (newnames "var_1"))
+(rule "assignment" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "variableDeclarationAssign" (formula "12") (term "1"))
+(rule "variableDeclaration" (formula "12") (term "1") (newnames "var_2"))
+(rule "assignment" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodBodyExpand" (formula "12") (term "1") (newnames "heapBefore_<init>,savedHeapBefore_<init>"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallSuper" (formula "12") (term "1"))
+(rule "methodBodyExpand" (formula "12") (term "1") (newnames "heapBefore_<init>_0,savedHeapBefore_<init>_0"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallEmpty" (formula "12") (term "1"))
+(rule "blockEmpty" (formula "12") (term "1"))
+(rule "assignment_write_attribute_this" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "assignment_write_attribute_this" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "assignment_write_attribute_this" (formula "12") (term "1"))
+ (builtin "One Step Simplification" (formula "12"))
+(rule "methodCallEmpty" (formula "12") (term "1"))
+(rule "blockEmpty" (formula "12") (term "1"))
+(rule "assignment_write_attribute" (formula "12") (term "1"))
+(branch "Normal Execution (self_46_1 != null)"
+    (builtin "One Step Simplification" (formula "12") (ifInst ""  (formula "7")))
+    (builtin "One Step Simplification" (formula "13"))
+   (rule "false_right" (formula "12"))
+   (rule "tryEmpty" (formula "12") (term "1"))
+   (rule "emptyModality" (formula "12") (term "1"))
+   (rule "andRight" (formula "12"))
+   (branch
+      (rule "andRight" (formula "12"))
+      (branch
+          (builtin "One Step Simplification" (formula "12"))
+         (rule "Class_invariant_axiom_for_de_polyas_core3_open_cred_CredentialGenerator_GeneratedDataForVoter" (formula "12"))
+         (rule "dismissNonSelectedField" (formula "12") (term "0,0,0,0"))
+         (rule "dismissNonSelectedField" (formula "12") (term "0,0,1"))
+         (rule "dismissNonSelectedField" (formula "12") (term "0,0,1,0"))
+         (rule "dismissNonSelectedField" (formula "12") (term "0,0,0,0"))
+         (rule "dismissNonSelectedField" (formula "12") (term "0,0,1,0"))
+         (rule "dismissNonSelectedField" (formula "12") (term "0,0,0,0"))
+         (rule "pullOutSelect" (formula "12") (term "0,0,1") (inst "selectSK=de_polyas_core3_open_cred_CredentialGenerator_GeneratedDataForVoter_publicSigningKey_0"))
+         (rule "simplifySelectOfStore" (formula "1"))
+          (builtin "One Step Simplification" (formula "1"))
+         (rule "castDel" (formula "1") (term "0"))
+         (rule "applyEqReverse" (formula "13") (term "0,0,1") (ifseqformula "1"))
+         (rule "hideAuxiliaryEq" (formula "1"))
+         (rule "replace_known_right" (formula "12") (term "0,1") (ifseqformula "10"))
+          (builtin "One Step Simplification" (formula "12"))
+         (rule "pullOutSelect" (formula "12") (term "0,0,1") (inst "selectSK=de_polyas_core3_open_cred_CredentialGenerator_GeneratedDataForVoter_hashedPassword_0"))
+         (rule "simplifySelectOfStore" (formula "1"))
+          (builtin "One Step Simplification" (formula "1"))
+         (rule "castDel" (formula "1") (term "0"))
+         (rule "applyEqReverse" (formula "13") (term "0,0,1") (ifseqformula "1"))
+         (rule "hideAuxiliaryEq" (formula "1"))
+         (rule "replace_known_right" (formula "12") (term "0,1") (ifseqformula "9"))
+          (builtin "One Step Simplification" (formula "12"))
+         (rule "notRight" (formula "12"))
+         (rule "pullOutSelect" (formula "1") (term "0") (inst "selectSK=de_polyas_core3_open_cred_CredentialGenerator_GeneratedDataForVoter_password_0"))
+         (rule "simplifySelectOfStore" (formula "1"))
+          (builtin "One Step Simplification" (formula "1"))
+         (rule "castDel" (formula "1") (term "0"))
+         (rule "applyEqReverse" (formula "2") (term "0") (ifseqformula "1"))
+         (rule "close" (formula "13") (ifseqformula "2"))
+      )
+      (branch
+          (builtin "One Step Simplification" (formula "12"))
+         (rule "closeTrue" (formula "12"))
+      )
+   )
+   (branch "Case 2"
+       (builtin "One Step Simplification" (formula "12"))
+      (rule "allRight" (formula "12") (inst "sk=f_0"))
+      (rule "allRight" (formula "12") (inst "sk=o_0"))
+      (rule "orRight" (formula "12"))
+      (rule "orRight" (formula "12"))
+      (rule "eqSymm" (formula "14"))
+      (rule "pullOutSelect" (formula "14") (term "0") (inst "selectSK=f_0_0"))
+      (rule "simplifySelectOfStore" (formula "1"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "castDel" (formula "1") (term "1,0"))
+      (rule "eqSymm" (formula "15"))
+      (rule "eqSymm" (formula "1") (term "0,0,0"))
+      (rule "eqSymm" (formula "1") (term "1,0,0"))
+      (rule "replace_known_right" (formula "1") (term "0,0,0") (ifseqformula "13"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "simplifySelectOfStore" (formula "1"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "castDel" (formula "1") (term "1,0"))
+      (rule "eqSymm" (formula "1") (term "1,0,0"))
+      (rule "eqSymm" (formula "1") (term "0,0,0"))
+      (rule "replace_known_right" (formula "1") (term "0,0,0") (ifseqformula "13"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "simplifySelectOfStore" (formula "1"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "castDel" (formula "1") (term "1,0"))
+      (rule "eqSymm" (formula "1") (term "1,0,0"))
+      (rule "eqSymm" (formula "1") (term "0,0,0"))
+      (rule "replace_known_right" (formula "1") (term "0,0,0") (ifseqformula "13"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "simplifySelectOfStore" (formula "1"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "castDel" (formula "1") (term "1,0"))
+      (rule "eqSymm" (formula "1") (term "1,0,0"))
+      (rule "eqSymm" (formula "1") (term "0,0,0"))
+      (rule "replace_known_right" (formula "1") (term "0,0,0") (ifseqformula "13"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "simplifySelectOfCreate" (formula "1"))
+      (rule "castDel" (formula "1") (term "1,0"))
+      (rule "eqSymm" (formula "1") (term "0,0,0,0"))
+      (rule "replace_known_right" (formula "1") (term "0,0,0,0") (ifseqformula "13"))
+       (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "8")) (ifInst ""  (formula "15")))
+      (rule "closeFalse" (formula "1"))
+   )
+)
+(branch "Null Reference (self_46_1 = null)"
+    (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "8")))
+   (rule "closeFalse" (formula "1"))
+)
+)
+}

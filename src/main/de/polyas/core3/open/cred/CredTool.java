@@ -179,9 +179,7 @@ public final class CredTool {
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
       @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i]))),
-      @                               \dl_strContent(idCol),
-      @                               CredentialGenerator.GROUP.group.generator.value,
-      @                               CredentialGenerator.GROUP.curve.order;
+      @                               \dl_strContent(idCol);
       @*/
     private /*@helper@*/ void processCSVRecord(final CSVRecord record, final String password) {
         /*@ public normal_behavior
