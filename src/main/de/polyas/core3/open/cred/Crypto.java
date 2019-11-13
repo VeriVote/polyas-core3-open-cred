@@ -78,6 +78,7 @@ public final class Crypto {
       @ requires \static_invariant_for(BigInteger);
       @ requires \invariant_for(group);
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \result.value \by group.group.generator.value, group.curve.order;
       @*/
     public static /*@helper@*/ ECPoint publicCredentialFromPIN(ECGroup group, String password, String voterId) {
