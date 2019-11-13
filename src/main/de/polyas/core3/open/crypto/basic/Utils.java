@@ -73,7 +73,8 @@ public final class Utils {
       @ ensures \result.length == 16;
       @ ensures (\forall \bigint i; 0 <= i && i < \result.length; \dl_inChar(\result[i]));
       @ assignable \nothing;
-      @ determines \result, \result[*] \by \nothing;
+      @ determines \result \by \nothing;
+      @ determines \result[*] \by \nothing;
       @*/
     private static char[] hexCharacters() {
         return "0123456789ABCDEF".toCharArray();
