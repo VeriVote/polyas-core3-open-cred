@@ -28,6 +28,7 @@ public final class ECGroup implements CyclicGroup {
       @ requires \invariant_for(p);
       @ requires \invariant_for(exponent);
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \result.value \by p.value, exponent.value, curve.order;
       @*/
     public ECPoint pow(ECPoint p, BigInteger exponent) {
@@ -40,6 +41,7 @@ public final class ECGroup implements CyclicGroup {
     /*@ public normal_behavior
       @ requires true;
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \result[*] \by p.value;
       @*/
     public byte[] asBytes(ECPoint p) {
@@ -49,6 +51,7 @@ public final class ECGroup implements CyclicGroup {
     /*@ public normal_behavior
       @ requires true;
       @ assignable \nothing;
+      @ determines \result \by \nothing;
       @ determines \result[*] \by e.value;
       @*/
     public byte[] elementToBytes(ECPoint e) {
