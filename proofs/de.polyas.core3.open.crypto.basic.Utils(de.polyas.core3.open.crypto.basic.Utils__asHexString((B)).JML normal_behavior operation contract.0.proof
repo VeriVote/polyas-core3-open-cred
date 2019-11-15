@@ -1,0 +1,203 @@
+\profile "Java Profile";
+
+\settings {
+"#Proof-Settings-Config-File
+#Thu Nov 14 16:39:52 CET 2019
+[Labels]UseOriginLabels=false
+[StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
+[SMTSettings]invariantForall=false
+[Strategy]ActiveStrategy=JavaCardDLStrategy
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY1=USER_TACLETS_OFF
+[StrategyProperty]QUANTIFIERS_OPTIONS_KEY=QUANTIFIERS_NON_SPLITTING_WITH_PROGS
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
+[Choice]DefaultChoices=methodExpansion-methodExpansion\\:modularOnly , mergeGenerateIsWeakeningGoal-mergeGenerateIsWeakeningGoal\\:off , wdChecks-wdChecks\\:off , wdOperator-wdOperator\\:L , permissions-permissions\\:off , integerSimplificationRules-integerSimplificationRules\\:full , reach-reach\\:on , moreSeqRules-moreSeqRules\\:on , sequences-sequences\\:on , bigint-bigint\\:on , modelFields-modelFields\\:treatAsAxiom , Strings-Strings\\:on , JavaCard-JavaCard\\:off , runtimeExceptions-runtimeExceptions\\:allow , programRules-programRules\\:Java , intRules-intRules\\:javaSemantics , initialisation-initialisation\\:disableStaticInitialisation , assertions-assertions\\:on
+[StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
+[SMTSettings]UseBuiltUniqueness=false
+[SMTSettings]explicitTypeHierarchy=false
+[SMTSettings]instantiateHierarchyAssumptions=true
+[StrategyProperty]NON_LIN_ARITH_OPTIONS_KEY=NON_LIN_ARITH_DEF_OPS
+[SMTSettings]SelectedTaclets=
+[StrategyProperty]DEP_OPTIONS_KEY=DEP_ON
+[StrategyProperty]AUTO_INDUCTION_OPTIONS_KEY=AUTO_INDUCTION_OFF
+[Strategy]MaximumNumberOfAutomaticApplications=10000
+[StrategyProperty]STOPMODE_OPTIONS_KEY=STOPMODE_DEFAULT
+[StrategyProperty]CLASS_AXIOM_OPTIONS_KEY=CLASS_AXIOM_FREE
+[SMTSettings]useConstantsForBigOrSmallIntegers=true
+[StrategyProperty]MPS_OPTIONS_KEY=MPS_MERGE
+[StrategyProperty]SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OPTIONS_KEY=SYMBOLIC_EXECUTION_NON_EXECUTION_BRANCH_HIDING_OFF
+[Strategy]Timeout=-1
+[StrategyProperty]SYMBOLIC_EXECUTION_ALIAS_CHECK_OPTIONS_KEY=SYMBOLIC_EXECUTION_ALIAS_CHECK_NEVER
+[StrategyProperty]QUERY_NEW_OPTIONS_KEY=QUERY_OFF
+[SMTSettings]useUninterpretedMultiplication=true
+[StrategyProperty]BLOCK_OPTIONS_KEY=BLOCK_CONTRACT_INTERNAL
+[StrategyProperty]METHOD_OPTIONS_KEY=METHOD_CONTRACT
+[StrategyProperty]USER_TACLETS_OPTIONS_KEY3=USER_TACLETS_OFF
+[SMTSettings]maxGenericSorts=2
+[StrategyProperty]OSS_OPTIONS_KEY=OSS_ON
+[StrategyProperty]SPLITTING_OPTIONS_KEY=SPLITTING_DELAYED
+[SMTSettings]integersMinimum=-2147483645
+[StrategyProperty]VBT_PHASE=VBT_SYM_EX
+[SMTSettings]integersMaximum=2147483645
+"
+}
+
+\javaSource "../src";
+
+\proofObligation "#Proof Obligation Settings
+#Thu Nov 14 16:39:52 CET 2019
+contract=de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils\\:\\:asHexString([B)].JML normal_behavior operation contract.0
+name=de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils\\:\\:asHexString([B)].JML normal_behavior operation contract.0
+class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
+";
+
+\proof {
+(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+
+(autoModeTime "98")
+
+(branch "dummy ID"
+(rule "impRight" (formula "1") (newnames "b_7,result_422,exc_510,heapAtPre_0,o,f"))
+(rule "andLeft" (formula "1"))
+(rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "3"))
+(rule "andLeft" (formula "1"))
+(rule "eqSymm" (formula "5") (term "1,0,0,1,0,1"))
+(rule "replace_known_right" (formula "2") (term "0") (ifseqformula "4"))
+ (builtin "One Step Simplification" (formula "2"))
+(rule "assignment" (formula "5") (term "1"))
+ (builtin "One Step Simplification" (formula "5"))
+(rule "methodBodyExpand" (formula "5") (term "1") (newnames "heapBefore_asHexString,savedHeapBefore_asHexString"))
+ (builtin "One Step Simplification" (formula "5"))
+(rule "returnUnfold" (formula "5") (term "1") (inst "#v0=s"))
+(rule "variableDeclarationAssign" (formula "5") (term "1"))
+(rule "variableDeclaration" (formula "5") (term "1") (newnames "s"))
+(rule "methodCallWithAssignmentUnfoldTarget" (formula "5") (term "1") (inst "#v0=s_1"))
+(rule "variableDeclaration" (formula "5") (term "1") (newnames "s_1"))
+ (builtin "Use Operation Contract" (formula "5") (newnames "heapBefore_bytesToHexString,result_423,exc_511,heapAfter_bytesToHexString,anon_heap_bytesToHexString") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::bytesToHexString([B)].JML normal_behavior operation contract.0"))
+(branch "Post (bytesToHexString)"
+    (builtin "One Step Simplification" (formula "5"))
+    (builtin "One Step Simplification" (formula "7"))
+   (rule "andLeft" (formula "5"))
+   (rule "selectCreatedOfAnonAsFormulaEQ" (formula "6") (term "1,1,0") (ifseqformula "5"))
+   (rule "andLeft" (formula "6"))
+   (rule "andLeft" (formula "7"))
+   (rule "andLeft" (formula "6"))
+   (rule "notLeft" (formula "7"))
+   (rule "replace_known_right" (formula "6") (term "0") (ifseqformula "8"))
+    (builtin "One Step Simplification" (formula "6"))
+   (rule "assignment" (formula "10") (term "1"))
+    (builtin "One Step Simplification" (formula "10"))
+    (builtin "Use Operation Contract" (formula "10") (newnames "heapBefore_toLowerCase,result_424,exc_512,heapAfter_toLowerCase,anon_heap_toLowerCase") (contract "java.lang.String[java.lang.String::toLowerCase()].JML normal_behavior operation contract.0"))
+   (branch "Post (toLowerCase)"
+       (builtin "One Step Simplification" (formula "12"))
+       (builtin "One Step Simplification" (formula "9"))
+      (rule "andLeft" (formula "9"))
+      (rule "selectCreatedOfAnonAsFormulaEQ" (formula "10") (term "1,1,0") (ifseqformula "9"))
+      (rule "selectCreatedOfAnonAsFormulaEQ" (formula "10") (term "0,1,1,0") (ifseqformula "5"))
+      (rule "andLeft" (formula "10"))
+      (rule "andLeft" (formula "11"))
+      (rule "andLeft" (formula "10"))
+      (rule "andLeft" (formula "11"))
+      (rule "notLeft" (formula "12"))
+      (rule "replace_known_right" (formula "10") (term "0") (ifseqformula "13"))
+       (builtin "One Step Simplification" (formula "10"))
+      (rule "assignment" (formula "16") (term "1"))
+       (builtin "One Step Simplification" (formula "16"))
+      (rule "Class_invariant_axiom_for_java_lang_String" (formula "11"))
+      (rule "true_left" (formula "11"))
+      (rule "methodCallReturn" (formula "15") (term "1"))
+      (rule "assignment" (formula "15") (term "1"))
+       (builtin "One Step Simplification" (formula "15"))
+      (rule "methodCallEmpty" (formula "15") (term "1"))
+      (rule "tryEmpty" (formula "15") (term "1"))
+      (rule "emptyModality" (formula "15") (term "1"))
+      (rule "andRight" (formula "15"))
+      (branch
+         (rule "andRight" (formula "15"))
+         (branch
+             (builtin "One Step Simplification" (formula "15") (ifInst ""  (formula "12")))
+            (rule "closeTrue" (formula "15"))
+         )
+         (branch
+             (builtin "One Step Simplification" (formula "15"))
+            (rule "closeTrue" (formula "15"))
+         )
+      )
+      (branch
+          (builtin "One Step Simplification" (formula "15"))
+         (rule "allRight" (formula "15") (inst "sk=f_0"))
+         (rule "allRight" (formula "15") (inst "sk=o_0"))
+         (rule "orRight" (formula "15"))
+         (rule "eqSymm" (formula "16"))
+         (rule "pullOutSelect" (formula "16") (term "0") (inst "selectSK=f_0_0"))
+         (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "10"))
+          (builtin "One Step Simplification" (formula "1"))
+         (rule "selectCreatedOfAnonAsFormulaEQ" (formula "1") (term "0,1,0,0") (ifseqformula "6"))
+         (rule "eqSymm" (formula "17"))
+         (rule "pullOutSelect" (formula "1") (term "2,0") (inst "selectSK=f_0_1"))
+         (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "7"))
+          (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "17")))
+         (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
+         (rule "hideAuxiliaryEq" (formula "1"))
+         (rule "ifthenelse_split" (formula "1") (term "0"))
+         (branch " ¬o_0 = null ∧ ¬( o_0.<created> = TRUE ∨ o_0.<created>@anon_heap_bytesToHexString«anonHeapFunction» = TRUE) TRUE"
+            (rule "andLeft" (formula "1"))
+            (rule "notLeft" (formula "2"))
+            (rule "notLeft" (formula "1"))
+            (rule "orRight" (formula "14"))
+            (rule "applyEqReverse" (formula "20") (term "1") (ifseqformula "1"))
+            (rule "hideAuxiliaryEq" (formula "1"))
+            (rule "eqSymm" (formula "19"))
+            (rule "replace_known_right" (formula "18") (term "0,1") (ifseqformula "13"))
+             (builtin "One Step Simplification" (formula "18") (ifInst ""  (formula "12")))
+            (rule "closeTrue" (formula "18"))
+         )
+         (branch " ¬o_0 = null ∧ ¬( o_0.<created> = TRUE ∨ o_0.<created>@anon_heap_bytesToHexString«anonHeapFunction» = TRUE) FALSE"
+            (rule "close" (formula "18") (ifseqformula "1"))
+         )
+      )
+   )
+   (branch "Exceptional Post (toLowerCase)"
+       (builtin "One Step Simplification" (formula "9"))
+       (builtin "One Step Simplification" (formula "12"))
+      (rule "andLeft" (formula "9"))
+      (rule "selectCreatedOfAnonAsFormulaEQ" (formula "10") (term "1,0") (ifseqformula "9"))
+      (rule "selectCreatedOfAnonAsFormulaEQ" (formula "10") (term "0,1,0") (ifseqformula "5"))
+      (rule "andLeft" (formula "10"))
+      (rule "andLeft" (formula "11"))
+      (rule "andLeft" (formula "10"))
+      (rule "andLeft" (formula "12"))
+      (rule "notLeft" (formula "10"))
+      (rule "close" (formula "14") (ifseqformula "13"))
+   )
+   (branch "Pre (toLowerCase)"
+       (builtin "One Step Simplification" (formula "10"))
+      (rule "wellFormedAnonEQ" (formula "10") (term "1") (ifseqformula "5"))
+      (rule "replace_known_left" (formula "10") (term "0,1") (ifseqformula "1"))
+       (builtin "One Step Simplification" (formula "10") (ifInst ""  (formula "4")))
+      (rule "Class_invariant_axiom_for_java_lang_String" (formula "10"))
+      (rule "closeTrue" (formula "10"))
+   )
+   (branch "Null reference (s_1 = null)"
+       (builtin "One Step Simplification" (formula "10") (ifInst ""  (formula "8")))
+      (rule "closeTrue" (formula "10"))
+   )
+)
+(branch "Exceptional Post (bytesToHexString)"
+    (builtin "One Step Simplification" (formula "5"))
+    (builtin "One Step Simplification" (formula "7"))
+   (rule "andLeft" (formula "5"))
+   (rule "selectCreatedOfAnonAsFormulaEQ" (formula "6") (term "1,0") (ifseqformula "5"))
+   (rule "andLeft" (formula "6"))
+   (rule "andLeft" (formula "6"))
+   (rule "andLeft" (formula "8"))
+   (rule "notLeft" (formula "6"))
+   (rule "close" (formula "9") (ifseqformula "8"))
+)
+(branch "Pre (bytesToHexString)"
+    (builtin "One Step Simplification" (formula "5") (ifInst ""  (formula "4")) (ifInst ""  (formula "1")) (ifInst ""  (formula "4")) (ifInst ""  (formula "2")))
+   (rule "closeTrue" (formula "5"))
+)
+)
+}
