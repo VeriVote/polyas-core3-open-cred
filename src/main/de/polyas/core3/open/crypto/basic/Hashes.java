@@ -30,7 +30,7 @@ public final class Hashes {
     /*@ public normal_behavior
       @ requires \static_invariant_for(Crypto);
       @ assignable \nothing;
-      @ determines \result \by \nothing;
+      @ determines \result, \result[*] \by \nothing;
       @*/
     public static byte[] hash512(final String s1, final String s2, final String s3) {
         final HashCtx ctx = new HashCtx(Crypto.getSha512Digest());

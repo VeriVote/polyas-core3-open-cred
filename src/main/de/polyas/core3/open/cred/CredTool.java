@@ -249,8 +249,42 @@ public final class CredTool {
       @                               dataForVoter.hashedPassword, dataForVoter.publicSigningKey;
       @*/
     private /*@helper@*/ void initPolyasVals(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
+        initPolyasVals_addInputCols(record, dataForVoter);
+        initPolyasVals_addDataForVoter(record, dataForVoter);
+    }
+
+    /*@ public normal_behavior
+      @
+      @ requires \invariant_for(record);
+      @ requires \invariant_for(dataForVoter);
+      @ requires \invariant_for(this);
+      @
+      @ // Every element in inputColsForPolyas is in the record:
+      @ requires (\forall \bigint j; 0 <= j && j < inputColsForPolyas.seq.length;
+      @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)inputColsForPolyas.seq[j])));
+      @
+      @ ensures polyasVals != null && \invariant_for(polyasVals);
+      @ ensures \invariant_for(dataForVoter);
+      @ ensures \fresh(polyasVals) && \fresh(polyasVals.*);
+      @
+      @ assignable polyasVals;
+      @ determines polyasVals \by \nothing \new_objects polyasVals;
+      @ determines polyasVals.seq \by record.key_seq, record.value_seq,
+      @                               inputColsForPolyas.seq,
+      @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])));
+      @*/
+    private /*@helper@*/ void initPolyasVals_addInputCols(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
         polyasVals = new ArrayList();
         addInputCols(polyasVals, inputColsForPolyas, record);
+    }
+
+    /*@ public normal_behavior
+      @ requires polyasVals != null && \invariant_for(polyasVals);
+      @ requires \invariant_for(dataForVoter);
+      @ assignable polyasVals.seq;
+      @ determines polyasVals.seq \by polyasVals.seq, dataForVoter.hashedPassword, dataForVoter.publicSigningKey;
+      @*/
+    private /*@helper@*/ void initPolyasVals_addDataForVoter(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
     }
@@ -274,7 +308,29 @@ public final class CredTool {
       @*/
     private /*@helper@*/ void addInputCols(ArrayList vals, ArrayList cols, CSVRecord record) {
         Iterator it = cols.iterator();
-
+        addInputColsHelper(vals, cols, record, it);
+    }
+    /*@ public normal_behavior
+      @
+      @ // Every element in cols is in the record:
+      @ requires (\forall \bigint j; 0 <= j && j < cols.seq.length;
+      @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)cols.seq[j])));
+      @
+      @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+      @ requires vals != cols;
+      @ requires \invariant_for(record);
+      @ requires \invariant_for(vals);
+      @ requires \invariant_for(cols);
+      @ requires \invariant_for(it);
+      @ requires it instanceof java.util.CollectionIterator;
+      @ requires it.seq == cols.seq;
+      @ ensures \invariant_for(record);
+      @ ensures \invariant_for(vals);
+      @ ensures \invariant_for(cols);
+      @ assignable vals.seq, it.index;
+      @ determines vals.seq, it.seq, it.index, record.key_seq, record.value_seq, (\seq_def int i; 0; it.seq.length; \dl_strContent(((String)it.seq[i]))) \by \itself;
+      @*/
+    private /*@helper@*/ void addInputColsHelper(ArrayList vals, ArrayList cols, CSVRecord record, Iterator it) {
         /*@ loop_invariant (\forall \bigint j; 0 <= j && j < cols.seq.length;
           @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)cols.seq[j])));
           @ loop_invariant (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
@@ -282,19 +338,19 @@ public final class CredTool {
           @ loop_invariant \invariant_for(record);
           @ loop_invariant \invariant_for(vals);
           @ loop_invariant \invariant_for(cols);
-          @ loop_invariant 0 <= it.index && it.index <= it.seq.length;
+          @ loop_invariant \invariant_for(it);
           @ loop_invariant it != null && record != null && vals != null && cols != null;
           @ loop_invariant it instanceof java.util.CollectionIterator;
           @ loop_invariant it.seq == cols.seq;
-          @ loop_invariant \invariant_for(it);
           @ decreases it.seq.length - it.index;
           @ assignable vals.seq, it.index;
-          @ determines vals.seq, cols.seq, it.seq, it.index, record.key_seq, record.value_seq, (\seq_def int i; 0; cols.seq.length; \dl_strContent(((String)cols.seq[i]))) \by \itself;
+          @ determines vals.seq, it.seq, it.index, record.key_seq, record.value_seq, (\seq_def int i; 0; it.seq.length; \dl_strContent(((String)it.seq[i]))) \by \itself;
           @*/
         while (it.hasNext()) {
             addInputCol(vals, (String) it.next(), record);
         }
     }
+
     /*@ public normal_behavior
       @ requires (\exists \bigint i; 0 <= i && i < r.key_seq.length; ((String)r.key_seq[i]) == key);
       @ requires \invariant_for(r);

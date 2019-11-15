@@ -115,8 +115,7 @@ public final class Crypto {
      */
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result \by \nothing;
-      @ determines \dl_strContent(\result) \by \nothing;
+      @ determines \result, \dl_strContent(\result) \by \nothing;
       @*/
     public static String hashPasswordWithSHA256(String password, String salt) {
         return sha256(salt + password);
@@ -124,8 +123,7 @@ public final class Crypto {
 
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result \by \nothing;
-      @ determines \dl_strContent(\result) \by \nothing;
+      @ determines \result, \dl_strContent(\result) \by \nothing;
       @*/
     private static String sha256(String input) {
         return Utils.asHexString(SHA_256_DIGEST.digest(input.getBytes()));

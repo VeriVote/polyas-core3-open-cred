@@ -61,10 +61,10 @@ public final class CredentialGenerator {
         return new GeneratedDataForVoter(password, hashedPasswordWithSalt, pubCredHex);
     }
 
-    /*@ public normal_behavior // NOTE: UNPROVEN, WE ASSUME THAT TODO.
+    /*@ public normal_behavior // NOTE: UNPROVEN, WE ASSUME THAT THE RESULT OF THE PLUS OPERATOR ON STRINGS DEPENDS ONLY ON THE OPERANDS.
       @ requires true;
       @ assignable \nothing;
-      @ determines \result \by \nothing \new_objects \result;
+      @ determines \result \by \nothing;
       @ determines \dl_strContent(\result) \by \dl_strContent(s0), \dl_strContent(s1), \dl_strContent(s2);
       @*/
     private /*@helper@*/ static String append(String s0, String s1, String s2) {
@@ -76,8 +76,7 @@ public final class CredentialGenerator {
      */
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result \by \nothing;
-      @ determines \dl_strContent(\result) \by \nothing;
+      @ determines \result, \dl_strContent(\result) \by \nothing;
       @*/
     public static String newSalt() {
         final byte[] b = new byte[8];
