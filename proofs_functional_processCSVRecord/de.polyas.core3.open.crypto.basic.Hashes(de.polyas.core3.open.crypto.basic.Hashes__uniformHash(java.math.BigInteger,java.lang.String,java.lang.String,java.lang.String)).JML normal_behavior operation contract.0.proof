@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Sat Nov 09 21:31:18 CET 2019
+#Thu Nov 14 16:50:25 CET 2019
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -45,7 +45,7 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Sat Nov 09 21:31:18 CET 2019
+#Thu Nov 14 16:50:25 CET 2019
 contract=de.polyas.core3.open.crypto.basic.Hashes[de.polyas.core3.open.crypto.basic.Hashes\\:\\:uniformHash(java.math.BigInteger,java.lang.String,java.lang.String,java.lang.String)].JML normal_behavior operation contract.0
 name=de.polyas.core3.open.crypto.basic.Hashes[de.polyas.core3.open.crypto.basic.Hashes\\:\\:uniformHash(java.math.BigInteger,java.lang.String,java.lang.String,java.lang.String)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
@@ -54,10 +54,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 \proof {
 (keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
 
-(autoModeTime "62")
+(autoModeTime "71")
 
 (branch "dummy ID"
-(rule "impRight" (formula "1") (newnames "upperBound_2,s1_13,s2_13,s3_10,result_154,exc_175,heapAtPre_0,o,f"))
+(rule "impRight" (formula "1") (newnames "upperBound_1,s1_8,s2_8,s3_6,result_102,exc_124,heapAtPre_0,o,f"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "2"))
 (rule "andLeft" (formula "1"))
@@ -78,7 +78,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
  (builtin "One Step Simplification" (formula "10"))
 (rule "returnUnfold" (formula "10") (term "1") (inst "#v0=b"))
 (rule "variableDeclarationAssign" (formula "10") (term "1"))
-(rule "variableDeclaration" (formula "10") (term "1") (newnames "b_2"))
+(rule "variableDeclaration" (formula "10") (term "1") (newnames "b_1"))
 (rule "activeUseStaticFieldReadAccess" (formula "10") (term "1"))
 (rule "assignment_read_static_attribute" (formula "10") (term "1"))
  (builtin "One Step Simplification" (formula "10"))

@@ -16,6 +16,5 @@ A fragment of "Polyas Open Cred" translated from Kotlin to Java for doing formal
 
 * `CredTool` information flow
 * `Utils.bytesToHexString` information flow
-* `CredentialGenerator.generateDataForVoter` information flow
 * `PGP.readPublicKey` functional (left unproven, as its behavior depends on the contents of the passed `InputStream`)
 * `CredentialGenerator.append` information flow (left unproven, as it simply states that `strContent(s0 + s1 + s2)` depends only on `strContent(s0), strContent(s1), strContent(s2)`)

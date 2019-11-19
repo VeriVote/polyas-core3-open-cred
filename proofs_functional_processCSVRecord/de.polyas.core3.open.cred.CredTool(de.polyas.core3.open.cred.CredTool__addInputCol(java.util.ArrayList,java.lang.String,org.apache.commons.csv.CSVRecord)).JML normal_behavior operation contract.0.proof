@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Sun Nov 10 18:29:31 CET 2019
+#Thu Nov 14 17:10:24 CET 2019
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -45,7 +45,7 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Sun Nov 10 18:29:31 CET 2019
+#Thu Nov 14 17:10:24 CET 2019
 contract=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:addInputCol(java.util.ArrayList,java.lang.String,org.apache.commons.csv.CSVRecord)].JML normal_behavior operation contract.0
 name=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:addInputCol(java.util.ArrayList,java.lang.String,org.apache.commons.csv.CSVRecord)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
@@ -54,10 +54,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 \proof {
 (keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
 
-(autoModeTime "2666")
+(autoModeTime "1901")
 
 (branch "dummy ID"
-(rule "impRight" (formula "1") (newnames "vals_1,key_0,r_2,self_43,exc_57,heapAtPre_0,o,f"))
+(rule "impRight" (formula "1") (newnames "vals_29,key_15,r_15,self_659,exc_891,heapAtPre_0,o,f"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "3"))
@@ -126,7 +126,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
  (builtin "One Step Simplification" (formula "18"))
 (rule "variableDeclarationAssign" (formula "18") (term "1"))
 (rule "variableDeclaration" (formula "18") (term "1") (newnames "var_1"))
- (builtin "Use Operation Contract" (formula "18") (newnames "heapBefore_get,result_49,exc_58") (contract "org.apache.commons.csv.CSVRecord[org.apache.commons.csv.CSVRecord::get(java.lang.String)].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "18") (newnames "heapBefore_get,result_735,exc_892") (contract "org.apache.commons.csv.CSVRecord[org.apache.commons.csv.CSVRecord::get(java.lang.String)].JML normal_behavior operation contract.0"))
 (branch "Post (get)"
     (builtin "One Step Simplification" (formula "14"))
     (builtin "One Step Simplification" (formula "19"))
@@ -172,7 +172,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "commute_and_2" (formula "20") (term "0,0,0"))
    (rule "shift_paren_and" (formula "20") (term "0,0"))
    (rule "commute_and_2" (formula "20") (term "0,0,0"))
-    (builtin "Use Operation Contract" (formula "25") (newnames "heapBefore_add,result_50,exc_59,heapAfter_add,anon_heap_add") (contract "java.util.ArrayList[java.util.Collection::add(java.lang.Object)].JML normal_behavior operation contract.0"))
+    (builtin "Use Operation Contract" (formula "25") (newnames "heapBefore_add,result_736,exc_893,heapAfter_add,anon_heap_add") (contract "java.util.ArrayList[java.util.Collection::add(java.lang.Object)].JML normal_behavior operation contract.0"))
    (branch "Post (add)"
        (builtin "One Step Simplification" (formula "21"))
        (builtin "One Step Simplification" (formula "27"))
@@ -1301,7 +1301,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       )
    )
 )
-(branch "Null reference (_r_2 = null)"
+(branch "Null reference (_r_15 = null)"
     (builtin "One Step Simplification" (formula "18") (ifInst ""  (formula "15")))
    (rule "closeTrue" (formula "18"))
 )

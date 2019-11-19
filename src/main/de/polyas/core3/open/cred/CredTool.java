@@ -308,29 +308,7 @@ public final class CredTool {
       @*/
     private /*@helper@*/ void addInputCols(ArrayList vals, ArrayList cols, CSVRecord record) {
         Iterator it = cols.iterator();
-        addInputColsHelper(vals, cols, record, it);
-    }
-    /*@ public normal_behavior
-      @
-      @ // Every element in cols is in the record:
-      @ requires (\forall \bigint j; 0 <= j && j < cols.seq.length;
-      @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)cols.seq[j])));
-      @
-      @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
-      @ requires vals != cols;
-      @ requires \invariant_for(record);
-      @ requires \invariant_for(vals);
-      @ requires \invariant_for(cols);
-      @ requires \invariant_for(it);
-      @ requires it instanceof java.util.CollectionIterator;
-      @ requires it.seq == cols.seq;
-      @ ensures \invariant_for(record);
-      @ ensures \invariant_for(vals);
-      @ ensures \invariant_for(cols);
-      @ assignable vals.seq, it.index;
-      @ determines vals.seq, it.seq, it.index, record.key_seq, record.value_seq, (\seq_def int i; 0; it.seq.length; \dl_strContent(((String)it.seq[i]))) \by \itself;
-      @*/
-    private /*@helper@*/ void addInputColsHelper(ArrayList vals, ArrayList cols, CSVRecord record, Iterator it) {
+
         /*@ loop_invariant (\forall \bigint j; 0 <= j && j < cols.seq.length;
           @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)cols.seq[j])));
           @ loop_invariant (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);

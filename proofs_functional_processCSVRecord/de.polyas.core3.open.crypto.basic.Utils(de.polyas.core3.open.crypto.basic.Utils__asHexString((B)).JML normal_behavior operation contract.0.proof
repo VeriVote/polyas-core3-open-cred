@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Sat Nov 09 19:53:01 CET 2019
+#Thu Nov 14 16:39:52 CET 2019
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -45,7 +45,7 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Sat Nov 09 19:53:01 CET 2019
+#Thu Nov 14 16:39:52 CET 2019
 contract=de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils\\:\\:asHexString([B)].JML normal_behavior operation contract.0
 name=de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils\\:\\:asHexString([B)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
@@ -54,10 +54,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 \proof {
 (keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
 
-(autoModeTime "652")
+(autoModeTime "98")
 
 (branch "dummy ID"
-(rule "impRight" (formula "1") (newnames "b_0,result_49,exc_56,heapAtPre_0,o,f"))
+(rule "impRight" (formula "1") (newnames "b_7,result_422,exc_510,heapAtPre_0,o,f"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "notLeft" (formula "3"))
@@ -74,7 +74,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "variableDeclaration" (formula "5") (term "1") (newnames "s"))
 (rule "methodCallWithAssignmentUnfoldTarget" (formula "5") (term "1") (inst "#v0=s_1"))
 (rule "variableDeclaration" (formula "5") (term "1") (newnames "s_1"))
- (builtin "Use Operation Contract" (formula "5") (newnames "heapBefore_bytesToHexString,result_50,exc_57,heapAfter_bytesToHexString,anon_heap_bytesToHexString") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::bytesToHexString([B)].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "5") (newnames "heapBefore_bytesToHexString,result_423,exc_511,heapAfter_bytesToHexString,anon_heap_bytesToHexString") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::bytesToHexString([B)].JML normal_behavior operation contract.0"))
 (branch "Post (bytesToHexString)"
     (builtin "One Step Simplification" (formula "5"))
     (builtin "One Step Simplification" (formula "7"))
@@ -88,7 +88,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
     (builtin "One Step Simplification" (formula "6"))
    (rule "assignment" (formula "10") (term "1"))
     (builtin "One Step Simplification" (formula "10"))
-    (builtin "Use Operation Contract" (formula "10") (newnames "heapBefore_toLowerCase,result_51,exc_58,heapAfter_toLowerCase,anon_heap_toLowerCase") (contract "java.lang.String[java.lang.String::toLowerCase()].JML normal_behavior operation contract.0"))
+    (builtin "Use Operation Contract" (formula "10") (newnames "heapBefore_toLowerCase,result_424,exc_512,heapAfter_toLowerCase,anon_heap_toLowerCase") (contract "java.lang.String[java.lang.String::toLowerCase()].JML normal_behavior operation contract.0"))
    (branch "Post (toLowerCase)"
        (builtin "One Step Simplification" (formula "12"))
        (builtin "One Step Simplification" (formula "9"))
