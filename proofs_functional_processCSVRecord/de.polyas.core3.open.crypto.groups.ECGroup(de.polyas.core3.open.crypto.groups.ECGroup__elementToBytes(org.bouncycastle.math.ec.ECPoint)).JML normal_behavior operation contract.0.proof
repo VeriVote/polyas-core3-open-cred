@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Sat Nov 09 19:32:43 CET 2019
+#Thu Nov 14 16:38:09 CET 2019
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -45,7 +45,7 @@
 \javaSource "../src";
 
 \proofObligation "#Proof Obligation Settings
-#Sat Nov 09 19:32:43 CET 2019
+#Thu Nov 14 16:38:09 CET 2019
 contract=de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup\\:\\:elementToBytes(org.bouncycastle.math.ec.ECPoint)].JML normal_behavior operation contract.0
 name=de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup\\:\\:elementToBytes(org.bouncycastle.math.ec.ECPoint)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
@@ -54,10 +54,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 \proof {
 (keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
 
-(autoModeTime "310")
+(autoModeTime "135")
 
 (branch "dummy ID"
-(rule "impRight" (formula "1") (newnames "e_2,self_131,result_152,exc_173,heapAtPre_0,o,f"))
+(rule "impRight" (formula "1") (newnames "e_3,self_192,result_204,exc_248,heapAtPre_0,o,f"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "2"))
 (rule "andLeft" (formula "1"))
@@ -90,7 +90,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "returnUnfold" (formula "11") (term "1") (inst "#v0=x_arr"))
 (rule "variableDeclarationAssign" (formula "11") (term "1"))
 (rule "variableDeclaration" (formula "11") (term "1") (newnames "x_arr"))
- (builtin "Use Operation Contract" (formula "11") (newnames "heapBefore_asBytes,result_153,exc_174,heapAfter_asBytes,anon_heap_asBytes") (contract "de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup::asBytes(org.bouncycastle.math.ec.ECPoint)].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "11") (newnames "heapBefore_asBytes,result_205,exc_249,heapAfter_asBytes,anon_heap_asBytes") (contract "de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup::asBytes(org.bouncycastle.math.ec.ECPoint)].JML normal_behavior operation contract.0"))
 (branch "Post (asBytes)"
     (builtin "One Step Simplification" (formula "7"))
     (builtin "One Step Simplification" (formula "13"))
