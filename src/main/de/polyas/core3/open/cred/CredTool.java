@@ -178,33 +178,66 @@ public final class CredTool {
       @
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
-      @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i]))),
-      @                               \dl_strContent(idCol);
+      @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])));
       @*/
     private /*@helper@*/ void processCSVRecord(final CSVRecord record, final String password) {
-        /*@ public normal_behavior
-          @ requires true;
-          @ ensures print != null;
-          @ assignable print;
-          @ determines polyasVals.seq \by \itself;
-          @*/
-        {
-            if (input.getCurrentLineNumber() % 1000 == 0L) {
-                print = "Processed " + input.getCurrentLineNumber() + " lines";
-            }
-        }
-
+        CredentialGenerator.GeneratedDataForVoter dataForVoter = generateDataForVoter(record, password);
+        initDistVals(record, dataForVoter);
+        initPolyasVals(record, dataForVoter);
+    }
+    /*@ public normal_behavior
+      @
+      @ requires \static_invariant_for(java.math.BigInteger);
+      @ requires \static_invariant_for(CredentialGenerator);
+      @ requires \static_invariant_for(Crypto);
+      @ requires \invariant_for(record);
+      @ requires \invariant_for(this);
+      @
+      @ // The voter id is in the record:
+      @ requires (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == idCol);
+      @
+      @ // The voter id contains at least one non-whitespace symbol:
+      @ requires (\forall \bigint i; 0 <= i && i < record.key_seq.length;
+      @     ((String)record.key_seq[i]) == idCol
+      @         ==> (\exists \bigint j; 0 <= j && j < \dl_strContent((String)record.value_seq[i]).length;
+      @             ((char)(\dl_strContent((String)record.value_seq[i])[j])) > '\u0020'));
+      @
+      @ ensures \invariant_for(\result);
+      @ ensures print != null;
+      @ assignable print;
+      @
+      @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing;
+      @ determines polyasVals.seq \by \itself;
+      @*/
+    private /*@helper@*/ CredentialGenerator.GeneratedDataForVoter generateDataForVoter(final CSVRecord record, final String password) {
+        printStatus();
         final String voterId = record.get(idCol);
+        exitIfIdInvalid(voterId);
+        return CredentialGenerator.generateDataForVoter(voterId, password);
+    }
 
+    /*@ public normal_behavior
+      @ requires \invariant_for(this);
+      @ ensures print != null;
+      @ assignable print;
+      @ determines polyasVals.seq \by \itself;
+      @*/
+    private /*@helper@*/ void printStatus() {
+        if (input.getCurrentLineNumber() % 1000 == 0L) {
+            print = "Processed " + input.getCurrentLineNumber() + " lines";
+        }
+    }
+    /*@ public normal_behavior
+      @ requires (\exists \bigint j; 0 <= j && j < \dl_strContent(voterId).length;
+      @             ((char)(\dl_strContent(voterId)[j])) > '\u0020');
+      @ ensures true;
+      @ assignable \nothing;
+      @ determines polyasVals.seq \by \itself;
+      @*/
+    private /*@helper@*/ void exitIfIdInvalid(String voterId) {
         if (!voterIdCheck(voterId)) {
             exit("Empty or duplicate voter id");
         }
-
-        final GeneratedDataForVoter dataForVoter =
-                CredentialGenerator.generateDataForVoter(voterId, password);
-
-        initDistVals(record, dataForVoter);
-        initPolyasVals(record, dataForVoter);
     }
 
     /*@ public normal_behavior
@@ -221,13 +254,16 @@ public final class CredTool {
       @ ensures \invariant_for(dataForVoter);
       @ ensures \invariant_for(this);
       @
-      @ assignable distVals;
+      @ assignable distVals, vals, cols, this.record;
       @
       @ determines polyasVals.seq \by \itself;
       @*/
     private /*@helper@*/ void initDistVals(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
         distVals = new ArrayList();
-        addInputCols(distVals, inputColsForDist, record);
+        vals = distVals;
+        cols = inputColsForDist;
+        this.record = record;
+        addInputCols();
         distVals.add(0, dataForVoter.password);
     }
 
@@ -241,7 +277,7 @@ public final class CredTool {
       @ requires (\forall \bigint j; 0 <= j && j < inputColsForPolyas.seq.length;
       @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)inputColsForPolyas.seq[j])));
       @
-      @ assignable polyasVals;
+      @ assignable polyasVals, vals, cols, this.record;
       @
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
@@ -267,7 +303,7 @@ public final class CredTool {
       @ ensures \invariant_for(dataForVoter);
       @ ensures \fresh(polyasVals) && \fresh(polyasVals.*);
       @
-      @ assignable polyasVals;
+      @ assignable polyasVals, vals, cols, this.record;
       @ determines polyasVals \by \nothing \new_objects polyasVals;
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
@@ -275,7 +311,10 @@ public final class CredTool {
       @*/
     private /*@helper@*/ void initPolyasVals_addInputCols(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
         polyasVals = new ArrayList();
-        addInputCols(polyasVals, inputColsForPolyas, record);
+        vals = polyasVals;
+        cols = inputColsForPolyas;
+        this.record = record;
+        addInputCols();
     }
 
     /*@ public normal_behavior
@@ -289,6 +328,10 @@ public final class CredTool {
         polyasVals.add(dataForVoter.publicSigningKey);
     }
 
+    ArrayList vals;
+    ArrayList cols;
+    CSVRecord record;
+
     /*@ public normal_behavior
       @
       @ // Every element in cols is in the record:
@@ -297,6 +340,7 @@ public final class CredTool {
       @
       @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
       @ requires vals != cols;
+      @ requires record != null && vals != null && cols != null;
       @ requires \invariant_for(record);
       @ requires \invariant_for(vals);
       @ requires \invariant_for(cols);
@@ -306,7 +350,7 @@ public final class CredTool {
       @ assignable vals.seq;
       @ determines vals.seq \by vals.seq, cols.seq, record.key_seq, record.value_seq, (\seq_def int i; 0; cols.seq.length; \dl_strContent(((String)cols.seq[i])));
       @*/
-    private /*@helper@*/ void addInputCols(ArrayList vals, ArrayList cols, CSVRecord record) {
+    private /*@helper@*/ void addInputCols() {
         Iterator it = cols.iterator();
 
         /*@ loop_invariant (\forall \bigint j; 0 <= j && j < cols.seq.length;
