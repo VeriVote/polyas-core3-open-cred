@@ -7,8 +7,9 @@ A fragment of "Polyas Open Cred" translated from Kotlin to Java for doing formal
 For the correctness of the proof, the following assumptions are necessary:
 
 * The classes from the Java library are effectively final, i.e., not overridden with subclasses that require different class invariants.
-* The attacker cannot make assumptions about the heap size and the number/size of created objects. By observing how many/which new objects are created during the run of the program, the attack may be able to draw some conclusions about the input data.
+* The attacker cannot observe the heap size and the number/size of created objects. By observing how many/which new objects are created during the run of the program, the attack may be able to draw some conclusions about the input data.
 * The file that contains the PGP public key of printing facility is well-formed and actually contains a key (see `PGP.readPublicKey` below).
+* The hash function used is one-way.
 
 ## Issues found and fixed during verification
 
