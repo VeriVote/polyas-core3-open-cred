@@ -46,8 +46,8 @@
 
 \proofObligation "#Proof Obligation Settings
 #Fri Nov 15 03:14:20 CET 2019
-contract=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:initPolyasVals_addInputCols(org.apache.commons.csv.CSVRecord,de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter)].JML normal_behavior operation contract.0
-name=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:initPolyasVals_addInputCols(org.apache.commons.csv.CSVRecord,de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter)].JML normal_behavior operation contract.0
+contract=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:initPolyasValsAddInputCols(org.apache.commons.csv.CSVRecord,de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter)].JML normal_behavior operation contract.0
+name=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:initPolyasValsAddInputCols(org.apache.commons.csv.CSVRecord,de.polyas.core3.open.cred.CredentialGenerator.GeneratedDataForVoter)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
@@ -185,7 +185,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "commute_and" (formula "8") (term "0,0,0"))
 (rule "commute_and" (formula "9") (term "0,0,0"))
 (rule "commute_and" (formula "20") (term "0,0,1,0"))
-(rule "methodBodyExpand" (formula "45") (term "1") (newnames "heapBefore_initPolyasVals_addInputCols,savedHeapBefore_initPolyasVals_addInputCols"))
+(rule "methodBodyExpand" (formula "45") (term "1") (newnames "heapBefore_initPolyasValsAddInputCols,savedHeapBefore_initPolyasValsAddInputCols"))
  (builtin "One Step Simplification" (formula "45"))
 (rule "activeUseStaticFieldWriteAccess" (formula "45") (term "1") (inst "#v0=a"))
 (rule "variableDeclarationAssign" (formula "45") (term "1"))
