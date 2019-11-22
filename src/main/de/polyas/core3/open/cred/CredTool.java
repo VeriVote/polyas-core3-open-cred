@@ -292,7 +292,6 @@ public final class CredTool {
     /*@ public normal_behavior
       @
       @ requires \invariant_for(record);
-      @ requires \invariant_for(dataForVoter);
       @ requires \invariant_for(this);
       @
       @ // Every element in inputColsForPolyas is in the record:
@@ -300,7 +299,6 @@ public final class CredTool {
       @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)inputColsForPolyas.seq[j])));
       @
       @ ensures polyasVals != null && \invariant_for(polyasVals);
-      @ ensures \invariant_for(dataForVoter);
       @ ensures \fresh(polyasVals) && \fresh(polyasVals.*);
       @
       @ assignable polyasVals, vals, cols, this.record;
