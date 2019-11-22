@@ -285,8 +285,8 @@ public final class CredTool {
       @                               dataForVoter.hashedPassword, dataForVoter.publicSigningKey;
       @*/
     private /*@helper@*/ void initPolyasVals(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
-        initPolyasVals_addInputCols(record, dataForVoter);
-        initPolyasVals_addDataForVoter(record, dataForVoter);
+        initPolyasValsAddInputCols(record);
+        initPolyasValsAddDataForVoter(record, dataForVoter);
     }
 
     /*@ public normal_behavior
@@ -309,7 +309,7 @@ public final class CredTool {
       @                               inputColsForPolyas.seq,
       @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])));
       @*/
-    private /*@helper@*/ void initPolyasVals_addInputCols(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
+    private /*@helper@*/ void initPolyasValsAddInputCols(final CSVRecord record) {
         polyasVals = new ArrayList();
         vals = polyasVals;
         cols = inputColsForPolyas;
@@ -323,7 +323,7 @@ public final class CredTool {
       @ assignable polyasVals.seq;
       @ determines polyasVals.seq \by polyasVals.seq, dataForVoter.hashedPassword, dataForVoter.publicSigningKey;
       @*/
-    private /*@helper@*/ void initPolyasVals_addDataForVoter(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
+    private /*@helper@*/ void initPolyasValsAddDataForVoter(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
         polyasVals.add(dataForVoter.hashedPassword);
         polyasVals.add(dataForVoter.publicSigningKey);
     }
