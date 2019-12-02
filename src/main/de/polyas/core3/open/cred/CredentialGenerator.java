@@ -36,11 +36,7 @@ public final class CredentialGenerator {
       @ requires \static_invariant_for(java.math.BigInteger);
       @ ensures \invariant_for(\result);
       @ assignable \nothing;
-      @ determines \result \by \nothing \new_objects \result;
-      @ determines \result.password \by password;
-      @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing;
-      @ determines \dl_strContent(\result.password) \by \dl_strContent(password);
-      @ determines \dl_strContent(\result.hashedPassword), \dl_strContent(\result.publicSigningKey) \by GROUP.group.generator.value, GROUP.curve.order;
+      @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing \new_objects \result.hashedPassword, \result.publicSigningKey;
       @*/
     public static GeneratedDataForVoter generateDataForVoter(String voterId,
                                                              final String password) {
@@ -64,8 +60,8 @@ public final class CredentialGenerator {
     /*@ public normal_behavior // NOTE: UNPROVEN, WE ASSUME THAT THE RESULT OF THE PLUS OPERATOR ON STRINGS DEPENDS ONLY ON THE OPERANDS.
       @ requires true;
       @ assignable \nothing;
-      @ determines \result \by \nothing;
-      @ determines \dl_strContent(\result) \by \dl_strContent(s0), \dl_strContent(s1), \dl_strContent(s2);
+      @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by \dl_strContent(s0), \dl_strContent(s1), \dl_strContent(s2);
       @*/
     private /*@helper@*/ static String append(String s0, String s1, String s2) {
         return s0 + s1 + s2;
@@ -76,7 +72,8 @@ public final class CredentialGenerator {
      */
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result, \dl_strContent(\result) \by \nothing;
+      @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by \nothing;
       @*/
     public static String newSalt() {
         final byte[] b = new byte[8];
@@ -101,15 +98,6 @@ public final class CredentialGenerator {
          */
         final String publicSigningKey;
 
-        /*@ public normal_behavior
-          @ assignable this.*;
-          @ determines this.password \by password;
-          @ determines this.hashedPassword \by hashedPassword;
-          @ determines this.publicSigningKey \by publicSigningKey;
-          @ determines \dl_strContent(this.password) \by \dl_strContent(password);
-          @ determines \dl_strContent(this.hashedPassword) \by \dl_strContent(hashedPassword);
-          @ determines \dl_strContent(this.publicSigningKey) \by \dl_strContent(publicSigningKey);
-          @*/
         public GeneratedDataForVoter(final String password,
                                      final String hashedPassword,
                                      final String publicSigningKey) {
