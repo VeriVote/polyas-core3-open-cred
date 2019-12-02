@@ -78,7 +78,7 @@ public final class Crypto {
       @ requires \static_invariant_for(BigInteger);
       @ requires \invariant_for(group);
       @ assignable \nothing;
-      @ determines \result \by \nothing;
+      @ determines \result \by \nothing \new_objects \result;
       @ determines \result.value \by group.group.generator.value, group.curve.order;
       @*/
     public static /*@helper@*/ ECPoint publicCredentialFromPIN(ECGroup group, String password, String voterId) {
@@ -99,8 +99,8 @@ public final class Crypto {
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \invariant_for(group);
       @ assignable \nothing;
-      @ determines \result \by \nothing;
-      @ determines \dl_strContent(\result) \by group.group.generator.value, group.curve.order;
+      @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by group.group.generator.value, group.curve.order;
       @*/
     public static /*@helper@*/ String loginPasswordFromMasterPIN(ECGroup group, String voterId,
                                                     String password) {
@@ -115,7 +115,8 @@ public final class Crypto {
      */
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result, \dl_strContent(\result) \by \nothing;
+      @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by \nothing;
       @*/
     public static String hashPasswordWithSHA256(String password, String salt) {
         return sha256(salt + password);
@@ -123,7 +124,8 @@ public final class Crypto {
 
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result, \dl_strContent(\result) \by \nothing;
+      @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by \nothing;
       @*/
     private static String sha256(String input) {
         return Utils.asHexString(SHA_256_DIGEST.digest(input.getBytes()));

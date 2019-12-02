@@ -111,7 +111,7 @@ public final class CredTool {
      */
     private final CSVPrinter dist;
 
-    //@ public static invariant polyasMode == FieldsForPolyasMode.MIN || polyasMode == FieldsForPolyasMode.MIN;
+    //@ public static invariant polyasMode == FieldsForPolyasMode.MIN || polyasMode == FieldsForPolyasMode.MAX;
 
     //@ public instance invariant (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
     //@ public instance invariant (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
@@ -178,7 +178,8 @@ public final class CredTool {
       @
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
-      @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])));
+      @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])))
+      @                           \new_objects polyasVals.seq;
       @*/
     private /*@helper@*/ void processCSVRecord(final CSVRecord record, final String password) {
         CredentialGenerator.GeneratedDataForVoter dataForVoter = generateDataForVoter(record, password);
@@ -206,7 +207,7 @@ public final class CredTool {
       @ ensures print != null;
       @ assignable print;
       @
-      @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing;
+      @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing \new_objects \result.hashedPassword, \result.publicSigningKey;
       @ determines polyasVals.seq \by \itself;
       @*/
     private /*@helper@*/ CredentialGenerator.GeneratedDataForVoter generateDataForVoter(final CSVRecord record, final String password) {
@@ -282,7 +283,8 @@ public final class CredTool {
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
       @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i]))),
-      @                               dataForVoter.hashedPassword, dataForVoter.publicSigningKey;
+      @                               dataForVoter.hashedPassword, dataForVoter.publicSigningKey
+      @                           \new_objects polyasVals.seq;
       @*/
     private /*@helper@*/ void initPolyasVals(final CSVRecord record, GeneratedDataForVoter dataForVoter) {
         initPolyasValsAddInputCols(record);
@@ -305,7 +307,8 @@ public final class CredTool {
       @ determines polyasVals \by \nothing \new_objects polyasVals;
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
-      @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])));
+      @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])))
+      @                           \new_objects polyasVals.seq;
       @*/
     private /*@helper@*/ void initPolyasValsAddInputCols(final CSVRecord record) {
         polyasVals = new ArrayList();

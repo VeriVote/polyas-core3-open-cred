@@ -15,8 +15,8 @@ public final class Utils {
       @ requires true;
       @ requires_free (\forall \bigint i; 0 <= i && i < bytes.length; \dl_inByte(bytes[i]));
       @ assignable \nothing;
-      @ determines \result \by bytes.length;
-      @ determines \dl_strContent(\result) \by bytes[*];
+      @ determines \result \by bytes.length \new_objects \result;
+    //@ determines \dl_strContent(\result) \by bytes[*];
       @*/
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
@@ -27,8 +27,8 @@ public final class Utils {
           @ loop_invariant r != null;
           @ decreases bytes.length - i;
           @ assignable r.str;
-          @ determines r.str \by \itself;
-          @ determines \dl_strContent(r.str), bytes[*] \by \itself;
+          @ determines r.str, bytes[*] \by \itself;
+        //@ determines \dl_strContent(r.str), bytes[*] \by \itself;
           @*/
         for (int i = 0; i < bytes.length; ++i) {
             byte b = bytes[i];
@@ -40,7 +40,7 @@ public final class Utils {
               @ assignable \strictly_nothing;
               @ determines x \by b;
               @ determines r.str \by \itself;
-              @ determines \dl_strContent(r.str) \by \itself;
+            //@ determines \dl_strContent(r.str) \by \itself;
               @*/
             {
                 if (b < 0) {
@@ -60,7 +60,7 @@ public final class Utils {
               @ determines first4Bits \by x;
               @ determines second4Bits \by x;
               @ determines r.str \by \itself;
-              @ determines \dl_strContent(r.str) \by \itself;
+            //@ determines \dl_strContent(r.str) \by \itself;
               @*/
             {
                 first4Bits = ((x) / 16) % 16;
@@ -78,7 +78,8 @@ public final class Utils {
       @ ensures \result.length == 16;
       @ ensures (\forall \bigint i; 0 <= i && i < \result.length; \dl_inChar(\result[i]));
       @ assignable \nothing;
-      @ determines \result, \result[*] \by \nothing;
+      @ determines \result \by \nothing \new_objects \result;
+      @ determines \result[*] \by \nothing;
       @*/
     private static char[] hexCharacters() {
         return "0123456789ABCDEF".toCharArray();
@@ -86,8 +87,8 @@ public final class Utils {
 
     /*@ public normal_behavior
       @ assignable \nothing;
-      @ determines \result \by \nothing;
-      @ determines \dl_strContent(\result) \by b[*];
+      @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by b[*];
       @*/
     public static String asHexString(byte[] b) {
         return bytesToHexString(b).toLowerCase();
