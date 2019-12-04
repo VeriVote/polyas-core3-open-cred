@@ -35,6 +35,8 @@ public final class CredentialGenerator {
       @ requires \static_invariant_for(Crypto);
       @ requires \static_invariant_for(java.math.BigInteger);
       @ ensures \invariant_for(\result);
+      @ ensures \fresh(\result) && \fresh(\result.hashedPassword) && \fresh(\result.publicSigningKey)
+      @         && \typeof(\result) == \type(GeneratedDataForVoter) && \typeof(\result.hashedPassword) == \type(String) && \typeof(\result.publicSigningKey) == \type(String);
       @ assignable \nothing;
       @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing \new_objects \result.hashedPassword, \result.publicSigningKey;
       @*/
@@ -59,6 +61,7 @@ public final class CredentialGenerator {
 
     /*@ public normal_behavior // NOTE: UNPROVEN, WE ASSUME THAT THE RESULT OF THE PLUS OPERATOR ON STRINGS DEPENDS ONLY ON THE OPERANDS.
       @ requires true;
+      @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
     //@ determines \dl_strContent(\result) \by \dl_strContent(s0), \dl_strContent(s1), \dl_strContent(s2);
@@ -71,6 +74,7 @@ public final class CredentialGenerator {
      * Generates 8 random bytes and returns them as lower case hex string.
      */
     /*@ public normal_behavior
+      @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
     //@ determines \dl_strContent(\result) \by \nothing;

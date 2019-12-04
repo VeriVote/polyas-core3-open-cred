@@ -14,21 +14,22 @@ public final class Utils {
     /*@ public normal_behavior
       @ requires true;
       @ requires_free (\forall \bigint i; 0 <= i && i < bytes.length; \dl_inByte(bytes[i]));
+      @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by bytes.length \new_objects \result;
-    //@ determines \dl_strContent(\result) \by bytes[*];
+      @ //determines \dl_strContent(\result) \by bytes[*];
       @*/
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
 
-        /*@ loop_invariant r.str != null;
+        /*@ loop_invariant r.str != null && \fresh(r.str) && \typeof(r.str) == \type(String);
           @ loop_invariant 0 <= i && i <= bytes.length;
           @ loop_invariant bytes != null;
           @ loop_invariant r != null;
           @ decreases bytes.length - i;
           @ assignable r.str;
           @ determines r.str, bytes[*] \by \itself;
-        //@ determines \dl_strContent(r.str), bytes[*] \by \itself;
+          @ //determines \dl_strContent(r.str), bytes[*] \by \itself;
           @*/
         for (int i = 0; i < bytes.length; ++i) {
             byte b = bytes[i];
@@ -60,7 +61,7 @@ public final class Utils {
               @ determines first4Bits \by x;
               @ determines second4Bits \by x;
               @ determines r.str \by \itself;
-            //@ determines \dl_strContent(r.str) \by \itself;
+              @ //determines \dl_strContent(r.str) \by \itself;
               @*/
             {
                 first4Bits = ((x) / 16) % 16;
@@ -77,6 +78,7 @@ public final class Utils {
       @ requires true;
       @ ensures \result.length == 16;
       @ ensures (\forall \bigint i; 0 <= i && i < \result.length; \dl_inChar(\result[i]));
+      @ ensures \fresh(\result) && \typeof(\result) == \type(char[]);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
       @ determines \result[*] \by \nothing;
@@ -86,9 +88,10 @@ public final class Utils {
     }
 
     /*@ public normal_behavior
+      @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
-    //@ determines \dl_strContent(\result) \by b[*];
+      @ determines \dl_strContent(\result) \by b[*];
       @*/
     public static String asHexString(byte[] b) {
         return bytesToHexString(b).toLowerCase();
