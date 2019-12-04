@@ -77,6 +77,7 @@ public final class Crypto {
     /*@ public normal_behavior
       @ requires \static_invariant_for(BigInteger);
       @ requires \invariant_for(group);
+      @ ensures \fresh(\result) && \fresh(\result.*) && \typeof(\result) == \type(ECPoint);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
       @ determines \result.value \by group.group.generator.value, group.curve.order;
@@ -98,6 +99,7 @@ public final class Crypto {
     /*@ public normal_behavior
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \invariant_for(group);
+      @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
     //@ determines \dl_strContent(\result) \by group.group.generator.value, group.curve.order;
@@ -114,6 +116,7 @@ public final class Crypto {
      * Computes the SHA256 digest of the given salt concatenated with base.
      */
     /*@ public normal_behavior
+      @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
     //@ determines \dl_strContent(\result) \by \nothing;
@@ -123,6 +126,7 @@ public final class Crypto {
     }
 
     /*@ public normal_behavior
+      @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
     //@ determines \dl_strContent(\result) \by \nothing;

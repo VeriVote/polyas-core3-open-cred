@@ -27,6 +27,7 @@ public final class ECGroup implements CyclicGroup {
       @ requires \static_invariant_for(BigInteger);
       @ requires \invariant_for(p);
       @ requires \invariant_for(exponent);
+      @ ensures \fresh(\result) && \fresh(\result.*) && \typeof(\result) == \type(ECPoint);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
       @ determines \result.value \by p.value, exponent.value, curve.order;
@@ -40,6 +41,7 @@ public final class ECGroup implements CyclicGroup {
 
     /*@ public normal_behavior
       @ requires true;
+      @ ensures \fresh(\result) && \typeof(\result) == \type(byte[]);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
       @ determines \result[*] \by p.value;
@@ -50,6 +52,7 @@ public final class ECGroup implements CyclicGroup {
 
     /*@ public normal_behavior
       @ requires true;
+      @ ensures \fresh(\result) && \typeof(\result) == \type(byte[]);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
       @ determines \result[*] \by e.value;
