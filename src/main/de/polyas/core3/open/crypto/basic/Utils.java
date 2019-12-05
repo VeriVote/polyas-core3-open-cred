@@ -41,7 +41,7 @@ public final class Utils {
               @ assignable \strictly_nothing;
               @ determines x \by b;
               @ determines r.str \by \itself;
-            //@ determines \dl_strContent(r.str) \by \itself;
+              @ //determines \dl_strContent(r.str) \by \itself;
               @*/
             {
                 if (b < 0) {
