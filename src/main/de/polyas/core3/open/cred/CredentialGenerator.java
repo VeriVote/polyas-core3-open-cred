@@ -64,7 +64,7 @@ public final class CredentialGenerator {
       @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
-    //@ determines \dl_strContent(\result) \by \dl_strContent(s0), \dl_strContent(s1), \dl_strContent(s2);
+      @ determines \dl_strContent(\result) \by \dl_strContent(s0), \dl_strContent(s1), \dl_strContent(s2);
       @*/
     private /*@helper@*/ static String append(String s0, String s1, String s2) {
         return s0 + s1 + s2;
@@ -77,7 +77,7 @@ public final class CredentialGenerator {
       @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
-    //@ determines \dl_strContent(\result) \by \nothing;
+      @ determines \dl_strContent(\result) \by \nothing;
       @*/
     public static String newSalt() {
         final byte[] b = new byte[8];

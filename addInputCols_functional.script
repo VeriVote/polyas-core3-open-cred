@@ -1,0 +1,91 @@
+macro autopilot;
+
+# Normal Execution
+rule "One Step Simplification";
+macro autopilot;
+rule applyEqReverse
+    formula="\exists int i;
+   (  leq(Z(0(#)), i)
+    & lt(i,
+         seqLen(Seq::select(heapAfter_next,
+                            org.apache.commons.csv.CSVRecord::select(heap, self, de.polyas.core3.open.cred.CredTool::$record),
+                            org.apache.commons.csv.CSVRecord::$key_seq)))
+    &   (java.lang.String)(any::seqGet(Seq::select(heapAfter_next,
+                                                   org.apache.commons.csv.CSVRecord::select(heap,
+                                                                                            self,
+                                                                                            de.polyas.core3.open.cred.CredTool::$record),
+                                                   org.apache.commons.csv.CSVRecord::$key_seq),
+                                       i))
+      = (java.lang.String)result_2)"
+    on="result_2";
+rule seqCastRemoveBeta
+    formula="(  leq(Z(0(#)), i)
+    & lt(i,
+         seqLen(Seq::select(heapAfter_next,
+                            org.apache.commons.csv.CSVRecord::select(heap, self, de.polyas.core3.open.cred.CredTool::$record),
+                            org.apache.commons.csv.CSVRecord::$key_seq)))
+    &   (java.lang.String)(any::seqGet(Seq::select(heapAfter_next,
+                                                   org.apache.commons.csv.CSVRecord::select(heap,
+                                                                                            self,
+                                                                                            de.polyas.core3.open.cred.CredTool::$record),
+                                                   org.apache.commons.csv.CSVRecord::$key_seq),
+                                       i))
+      = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap,
+                                                                java.util.ArrayList::select(heap,
+                                                                                            self,
+                                                                                            de.polyas.core3.open.cred.CredTool::$cols),
+                                                                java.util.Collection::$seq),
+                                                    int::select(anon_heap_LOOP<<anonHeapFunction>>,
+                                                                result,
+                                                                java.util.Iterator::$index))))"
+    on="(java.lang.String)(java.lang.Object::seqGet(Seq::select(heap,
+                                                                java.util.ArrayList::select(heap,
+                                                                                            self,
+                                                                                            de.polyas.core3.open.cred.CredTool::$cols),
+                                                                java.util.Collection::$seq),
+                                                    int::select(anon_heap_LOOP<<anonHeapFunction>>,
+                                                                result,
+                                                                java.util.Iterator::$index))))";
+instantiate var="j" with="int::select(anon_heap_LOOP<<anonHeapFunction>>, result, java.util.Iterator::$index)" hide;
+rule impLeft;
+tryclose;
+rule exLeft;
+instantiate
+    rule="(  leq(Z(0(#)), i)
+    & lt(i,
+         seqLen(Seq::select(heapAfter_next,
+                            org.apache.commons.csv.CSVRecord::select(heap, self, de.polyas.core3.open.cred.CredTool::$record),
+                            org.apache.commons.csv.CSVRecord::$key_seq)))
+    &   (java.lang.String)(any::seqGet(Seq::select(heapAfter_next,
+                                                   org.apache.commons.csv.CSVRecord::select(heap,
+                                                                                            self,
+                                                                                            de.polyas.core3.open.cred.CredTool::$record),
+                                                   org.apache.commons.csv.CSVRecord::$key_seq),
+                                       i))
+      = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap,
+                                                                java.util.ArrayList::select(heap,
+                                                                                            self,
+                                                                                            de.polyas.core3.open.cred.CredTool::$cols),
+                                                                java.util.Collection::$seq),
+                                                    int::select(anon_heap_LOOP<<anonHeapFunction>>,
+                                                                result,
+                                                                java.util.Iterator::$index))))"
+    with="i_0";
+tryclose;
+
+# ClassCastException
+rule applyEqReverse
+    formula="java.lang.String::instance(result_2) = TRUE"
+         on="result_2";
+rule seqCastInstance
+    formula="  java.lang.String::instance(java.lang.Object::seqGet(Seq::select(heap,
+                                                                   java.util.ArrayList::select(heap,
+                                                                                               self,
+                                                                                               de.polyas.core3.open.cred.CredTool::$cols),
+                                                                   java.util.Collection::$seq),
+                                                       int::select(anon_heap_LOOP<<anonHeapFunction>>,
+                                                                   result,
+                                                                   java.util.Iterator::$index)))
+ = TRUE";
+tryclose;
+
