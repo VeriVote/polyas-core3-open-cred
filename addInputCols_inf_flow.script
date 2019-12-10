@@ -1,0 +1,126 @@
+rule "One Step Simplification";
+rule impRight;
+rule andLeft;
+macro symbex occ=0;
+
+select branch="Invariant Initially Valid";
+auto;
+
+select branch="Pre (hasNext)";
+auto;
+
+select branch="Information Flow Validity";
+rule "One Step Simplification";
+rule impRight;
+rule andLeft;
+macro symbex occ=0;
+    select branch="Pre (hasNext)";
+    rule "castAdd"
+        formula="it_A.<inv>@heapAfter_addInputCol"
+        on="it_A";
+    auto;
+    
+    select branch="Pre (addInputCol)";
+    rule andRight occ=0;
+    rule andRight occ=0;
+        rule impLeft formula="lt(int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index), seqLen(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$seq))) ->   java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index)) = result_1";
+        auto;
+        rule applyEqReverse
+            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)result_1)"
+            on="result_1";
+        rule seqCastRemoveBeta
+            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index))))";
+        instantiate var="j" with="int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index)" hide;
+        auto;
+    rule andRight occ=0;
+    rule andRight occ=0;
+        auto;
+        auto;
+        auto;
+        auto;
+    
+    macro autopilot;
+    select branch="Pre (addInputCol)";
+    rule "One Step Simplification";
+    macro autopilot;
+    macro autopilot;
+    select branch="Pre (hasNext)";
+    rule "One Step Simplification";
+    rule "castAdd"
+        formula="it_B.<inv>@heapAfter_addInputCol_0 & wellFormed(heapAfter_addInputCol_0)"
+        on="it_B";
+    auto;
+    
+    auto steps=50000;
+    
+    macro autopilot;
+    
+macro symbex;
+tryclose;
+
+assert goals=2;
+
+select number=1;
+
+rule "One Step Simplification";
+rule impRight;
+rule andLeft;
+macro symbex occ=0;
+    select number=-1;
+    macro autopilot;
+    
+    select number=-1;
+    tryclose -1 steps=100000 assertClosed=true;
+    
+    select number=-1;
+    rule "One Step Simplification";
+    rule "castAdd"
+        formula="java.lang.Object::<inv>(heapAfter_addInputCol_0, it_1_B) & wellFormed(heapAfter_addInputCol_0)"
+        on="it_1_B";
+    tryclose -1 steps=100000 assertClosed=true;
+    
+    select number=-1;
+    rule "One Step Simplification";
+    tryclose -1 steps=100000 assertClosed=true;
+    
+    select number=-1;
+    rule "castAdd"
+        formula="java.lang.Object::<inv>(heapAfter_addInputCol, it_1_A)"
+        on="it_1_A";
+    tryclose -1 steps=100000 assertClosed=true;
+
+    select number=-1;
+    rule andRight occ=0;
+    rule andRight occ=0;
+        rule impLeft formula="   lt(int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index), seqLen(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$seq))) ->   java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index)) = result_5";
+        auto;
+        rule applyEqReverse
+            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)result_5)"
+            on="result_5";
+        rule seqCastRemoveBeta
+            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index))))";
+        instantiate var="j" with="int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index)" hide;
+        tryclose -1 steps=200000 assertClosed=true;
+    rule andRight occ=0;
+    rule andRight occ=0;
+        tryclose -1 steps=100000 assertClosed=true;
+        tryclose -1 steps=100000 assertClosed=true;
+        tryclose -1 steps=100000 assertClosed=true;
+        tryclose -1 steps=100000 assertClosed=true;
+        
+    tryclose -1 steps=100000 assertClosed=true;
+
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;
+auto;

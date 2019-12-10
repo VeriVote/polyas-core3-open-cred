@@ -1,0 +1,10 @@
+macro symbex;
+
+select branch="ClassCastException (!(o instanceof String))";
+rule applyEqReverse
+    formula="java.lang.String::instance(result_4) = TRUE"
+    on="result_4";
+rule seqCastInstance
+    formula="java.lang.String::instance(java.lang.Object::seqGet(Seq::select(anon_heap_iterator<<anonHeapFunction>>, result_0, java.util.Iterator::$seq), int::select(anon_heap_LOOP<<anonHeapFunction>>, result_0, java.util.Iterator::$index))) = TRUE";
+
+tryclose steps=1000000;

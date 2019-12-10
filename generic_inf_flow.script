@@ -1,0 +1,11 @@
+rule "One Step Simplification";
+rule impRight;
+rule andLeft;
+macro symbex occ=0;
+
+select number=-1;
+macro autopilot-prep;
+
+select number=-1;
+macro use-inf-flow-contracts;
+tryclose steps=1000000;
