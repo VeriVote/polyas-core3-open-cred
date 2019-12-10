@@ -77,39 +77,39 @@ public final class CredTool {
     /**
      * The PGP key of the distributor.
      */
-    private final PGPPublicKey distPubKey;
+    private PGPPublicKey distPubKey;
 
 
     /**
      * The headers of the input file.
      */
-    private final LinkedList inputCols;
+    private LinkedList inputCols;
 
     /**
      * Columns to be included in the distributor (printing facility) file.
      */
-    private final ArrayList inputColsForDist;
+    private ArrayList inputColsForDist;
     // all except for the voter identifier
 
     /**
      * Columns to be included in the polyas file.
      */
-    private final ArrayList inputColsForPolyas;
+    private ArrayList inputColsForPolyas;
 
     /**
      * CVS Parser for input registry.
      */
-    private final CSVParser input;
+    private CSVParser input;
 
     /**
      * CSV Writer for Polyas.
      */
-    private final CSVPrinter polyas;
+    private CSVPrinter polyas;
 
     /**
      * CSV Writer for the credential distributing party.
      */
-    private final CSVPrinter dist;
+    private CSVPrinter dist;
 
     //@ public static invariant polyasMode == FieldsForPolyasMode.MIN || polyasMode == FieldsForPolyasMode.MAX;
 
@@ -133,17 +133,50 @@ public final class CredTool {
         outPath = Paths.get(".");
         distPubKey = readPublicKey(distPubKeyFilename);
 
-        inputCols = parseInputCols(registryFilename);
-        inputColsForDist = extractInputColsForDist(inputCols, idCol);
-        inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
+        /*@ public normal_behavior
+          @ requires \static_invariant_for(CredTool);
+          @ requires \static_invariant_for(CSVFormat);
+          @ requires registryFilename != null && idCol != null;
+          @ ensures inputCols != null && inputColsForDist != null & inputColsForPolyas != null;
+          @ ensures (\forall \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) != null);
+          @ ensures (\exists \bigint i; 0 <= i && i < inputCols.seq.length; ((String)inputCols.seq[i]) == idCol);
+          @ ensures (\forall \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) != null);
+          @ ensures (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
+          @ ensures (\exists \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) == idCol);
+          @ assignable inputCols, inputColsForDist, inputColsForPolyas;
+          @*/
+        {
+            inputCols = parseInputCols(registryFilename);
+            inputColsForDist = extractInputColsForDist(inputCols, idCol);
+            inputColsForPolyas = extractInputColsForPolyas(inputCols, idCol);
+        }
 
-        input = parseInput(registryFilename);
-        polyas = printPolyas(inputColsForPolyas);
-        dist = printDist(inputColsForDist);
-        // a sanity check of input registry
-        print = "Headers found in input file: " + inputCols;
+        /*@ public normal_behavior
+          @ requires \static_invariant_for(CredTool);
+          @ requires \static_invariant_for(CSVFormat);
+          @ requires registryFilename != null && inputColsForPolyas != null && inputColsForDist != null;
+          @ requires (\forall \bigint i; 0 <= i && i < inputColsForPolyas.seq.length; ((String)inputColsForPolyas.seq[i]) != null);
+          @ requires (\forall \bigint i; 0 <= i && i < inputColsForDist.seq.length; ((String)inputColsForDist.seq[i]) != null);
+          @ ensures input != null && polyas != null && dist != null;
+          @ assignable input, dist, polyas;
+          @*/
+        {
+            input = parseInput(registryFilename);
+            polyas = printPolyas(inputColsForPolyas);
+            dist = printDist(inputColsForDist);
+        }
 
-        //assert(inputCols.contains(idCol));
+        /*@ public normal_behavior
+          @ requires inputCols != null;
+          @ ensures print != null;
+          @ assignable print;
+          @*/
+        {
+            // a sanity check of input registry
+            print = "Headers found in input file: " + inputCols;
+
+            //assert(inputCols.contains(idCol));
+        }
     }
 
     /**
@@ -220,7 +253,7 @@ public final class CredTool {
     }
 
     /*@ public normal_behavior
-      @ requires \invariant_for(this);
+      @ requires print != null && input != null;
       @ ensures print != null;
       @ assignable print;
       @ determines polyasVals.seq \by \itself;
@@ -329,9 +362,9 @@ public final class CredTool {
         polyasVals.add(dataForVoter.publicSigningKey);
     }
 
-    ArrayList vals;
-    ArrayList cols;
-    CSVRecord record;
+    /*@nullable@*/ ArrayList vals;
+    /*@nullable@*/ ArrayList cols;
+    /*@nullable@*/ CSVRecord record;
 
     /*@ public normal_behavior
       @
@@ -342,7 +375,7 @@ public final class CredTool {
       @ requires (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
       @ requires vals != cols;
       @ requires record != null && vals != null && cols != null;
-      @ requires \invariant_for(record);
+      @ requires record != null &&  \invariant_for(record);
       @ requires \invariant_for(vals);
       @ requires \invariant_for(cols);
       @ ensures \invariant_for(record);
