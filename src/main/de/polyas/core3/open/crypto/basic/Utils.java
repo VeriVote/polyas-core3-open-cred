@@ -17,7 +17,6 @@ public final class Utils {
       @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by bytes.length \new_objects \result;
-      @ //determines \dl_strContent(\result) \by bytes[*];
       @*/
     public static String bytesToHexString(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
@@ -29,44 +28,19 @@ public final class Utils {
           @ decreases bytes.length - i;
           @ assignable r.str;
           @ determines r.str, bytes[*] \by \itself;
-          @ //determines \dl_strContent(r.str), bytes[*] \by \itself;
           @*/
         for (int i = 0; i < bytes.length; ++i) {
             byte b = bytes[i];
-
             int x = 0;
 
-            /*@ normal_behavior
-              @ ensures 0 <= x && x < 256;
-              @ assignable \strictly_nothing;
-              @ determines x \by b;
-              @ determines r.str \by \itself;
-              @ //determines \dl_strContent(r.str) \by \itself;
-              @*/
-            {
-                if (b < 0) {
-                    x = 256 + b;
-                } else {
-                    x = b;
-                }
+            if (b < 0) {
+                x = 256 + b;
+            } else {
+                x = b;
             }
 
-            int first4Bits = 0;
-            int second4Bits = 0;
-
-            /*@ normal_behavior
-              @ ensures 0 <= first4Bits && first4Bits < 16;
-              @ ensures 0 <= second4Bits && second4Bits < 16;
-              @ assignable \strictly_nothing;
-              @ determines first4Bits \by x;
-              @ determines second4Bits \by x;
-              @ determines r.str \by \itself;
-              @ //determines \dl_strContent(r.str) \by \itself;
-              @*/
-            {
-                first4Bits = ((x) / 16) % 16;
-                second4Bits = ((x) % 16);
-            }
+            int first4Bits = ((x) / 16) % 16;
+            int second4Bits = ((x) % 16);
 
             r.append(hexCharacters()[first4Bits]).append(hexCharacters()[second4Bits]);
         }
