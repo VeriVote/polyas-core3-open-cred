@@ -1,0 +1,43 @@
+rule "One Step Simplification";
+rule impRight;
+rule andLeft;
+macro symbex occ=0;
+
+select branch="Information Flow Validity";
+rule "One Step Simplification";
+rule impRight;
+rule andLeft;
+macro symbex occ=0;
+
+tryclose;
+
+select branch="Information Flow Validity";
+rule impLeft occ=0;
+select number=-1;
+rule impLeft occ=0;
+select number=-1;
+macro symbex occ=0;
+
+tryclose;
+
+assert goals=1;
+
+macro symbex occ=0;
+
+select branch="Information Flow Validity";
+rule "One Step Simplification";
+rule impRight;
+rule andLeft;
+macro symbex occ=0;
+
+tryclose;
+
+assert goals=1;
+
+rule impLeft occ=0;
+select number=-1;
+rule impLeft occ=0;
+select number=-1;
+macro symbex occ=0;
+
+tryclose;

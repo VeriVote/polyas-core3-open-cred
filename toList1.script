@@ -1,4 +1,4 @@
-macro autopilot steps;
+macro autopilot;
 
 select number=1;
 auto;
@@ -11,9 +11,12 @@ cut "i_1 = seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, result_0, ja
 
 tryclose 1 assertClosed=true;
     
-rule replaceKnownAuxiliaryConstant_taclet000100_15
+rule replaceKnownSelect_taclet000100_14
     formula="!java.lang.String::seqGet(Seq::select(heapAfter_add, result_0, java.util.Collection::$seq), i_1) = null"
-    on="Seq::select(heapAfter_add, result_0, java.util.Collection::$seq)";
+    on="Seq::select(heapAfter_add, result_0, java.util.Collection::$seq)"
+    inst_EQ="heapAfter_add"
+    inst_o="result_0"
+    inst_f="java.util.Collection::$seq";
 rule replaceKnownAuxiliaryConstant_taclet000100_15
     formula="!java.lang.String::seqGet(java_util_Collection_seq_5<<selectSK>>, i_1) = null"
     on="java_util_Collection_seq_5<<selectSK>>";
