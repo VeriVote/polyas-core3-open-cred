@@ -39,6 +39,17 @@ public final class Hashes {
         return ctx.digest.digest();
     }
 
+    private /*@spec_public@*/ static int currentIndex;
+
+    private /*@spec_public@*/ static final BigInteger[] VALUES = {
+        BigInteger.valueOf(3),
+        BigInteger.valueOf(1),
+        BigInteger.valueOf(4),
+        BigInteger.valueOf(1),
+        BigInteger.valueOf(5),
+        BigInteger.valueOf(9)
+    };
+
     /**
      * Computes the uniform hash of the provided data.
      *
@@ -59,11 +70,13 @@ public final class Hashes {
      */
     /*@ public normal_behavior
       @ requires \static_invariant_for(BigInteger);
-      @ assignable \strictly_nothing;
-      @ determines \result.value \by \nothing;
+      @ requires currentIndex < VALUES.length;
+      @ ensures currentIndex == \old(currentIndex) + 1;
+      @ assignable currentIndex;
+      @ determines \result.value \by currentIndex, (\seq_def int i; 0; VALUES.length; VALUES[i].value);
       @*/
     public static BigInteger uniformHash(final BigInteger upperBound, final String /*@nullable@*/ s1,
                                          final /*@nullable@*/ String s2, final /*@nullable@*/ String s3) {
-        return BigInteger.ZERO; // XXX: TODO: later change to constant array of big integers
+        return VALUES[currentIndex++];
     }
 }
