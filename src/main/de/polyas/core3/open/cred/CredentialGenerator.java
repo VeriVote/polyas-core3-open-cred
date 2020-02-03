@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 
 import org.bouncycastle.math.ec.ECPoint;
 
+import de.polyas.core3.open.crypto.basic.Hashes;
 import de.polyas.core3.open.crypto.basic.Utils;
 import de.polyas.core3.open.crypto.groups.ECGroup;
 
@@ -34,6 +35,9 @@ public final class CredentialGenerator {
     /*@ public normal_behavior
       @ requires \static_invariant_for(Crypto);
       @ requires \static_invariant_for(java.math.BigInteger);
+      @ requires \static_invariant_for(Hashes);
+      @ requires Hashes.currentIndex < Hashes.VALUES.length;
+      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
       @ ensures \invariant_for(\result);
       @ ensures \fresh(\result) && \fresh(\result.hashedPassword) && \fresh(\result.publicSigningKey)
       @         && \typeof(\result) == \type(GeneratedDataForVoter) && \typeof(\result.hashedPassword) == \type(String) && \typeof(\result.publicSigningKey) == \type(String);

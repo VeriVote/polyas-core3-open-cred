@@ -223,6 +223,7 @@ public final class CredTool {
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \static_invariant_for(CredentialGenerator);
       @ requires \static_invariant_for(Crypto);
+      @ requires \static_invariant_for(Hashes);
       @ requires \invariant_for(record);
       @ requires \invariant_for(this);
       @
@@ -235,6 +236,9 @@ public final class CredTool {
       @         ==> (\exists \bigint j; 0 <= j && j < \dl_strContent((String)record.value_seq[i]).length;
       @             ((char)(\dl_strContent((String)record.value_seq[i])[j])) > '\u0020'));
       @
+      @ requires Hashes.currentIndex < Hashes.VALUES.length;
+      @
+      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
       @ ensures \invariant_for(\result);
       @ ensures print != null;
       @ ensures \fresh(\result) && \fresh(\result.hashedPassword) && \fresh(\result.publicSigningKey)
