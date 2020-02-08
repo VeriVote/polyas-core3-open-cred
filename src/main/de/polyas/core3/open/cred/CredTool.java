@@ -209,6 +209,10 @@ public final class CredTool {
       @         ==> (\exists \bigint j; 0 <= j && j < \dl_strContent((String)record.value_seq[i]).length;
       @             ((char)(\dl_strContent((String)record.value_seq[i])[j])) > '\u0020'));
       @
+      @ // Hash oracle preconditions
+      @ requires \static_invariant_for(Hashes);
+      @ requires 0 <= Hashes.currentIndex && Hashes.currentIndex < Hashes.VALUES.length - 1;
+      @
       @ determines polyasVals.seq \by record.key_seq, record.value_seq,
       @                               inputColsForPolyas.seq,
       @                               (\seq_def int i; 0; inputColsForPolyas.seq.length; \dl_strContent(((String)inputColsForPolyas.seq[i])));
@@ -223,7 +227,6 @@ public final class CredTool {
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \static_invariant_for(CredentialGenerator);
       @ requires \static_invariant_for(Crypto);
-      @ requires \static_invariant_for(Hashes);
       @ requires \invariant_for(record);
       @ requires \invariant_for(this);
       @
@@ -236,15 +239,17 @@ public final class CredTool {
       @         ==> (\exists \bigint j; 0 <= j && j < \dl_strContent((String)record.value_seq[i]).length;
       @             ((char)(\dl_strContent((String)record.value_seq[i])[j])) > '\u0020'));
       @
-      @ requires Hashes.currentIndex < Hashes.VALUES.length;
+      @ // Hash oracle preconditions
+      @ requires \static_invariant_for(Hashes);
+      @ requires 0 <= Hashes.currentIndex && Hashes.currentIndex < Hashes.VALUES.length - 1;
       @
-      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
+      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 2;
       @ ensures \invariant_for(\result);
       @ ensures print != null;
       @ ensures \fresh(\result) && \fresh(\result.hashedPassword) && \fresh(\result.publicSigningKey)
       @         && \typeof(\result) == \type(GeneratedDataForVoter)
       @         && \typeof(\result.hashedPassword) == \type(String) && \typeof(\result.publicSigningKey) == \type(String);
-      @ assignable print;
+      @ assignable print, Hashes.currentIndex;
       @
       @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing \new_objects \result.hashedPassword, \result.publicSigningKey;
       @ determines polyasVals.seq \by \itself;

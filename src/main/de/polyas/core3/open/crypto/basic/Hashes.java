@@ -70,7 +70,7 @@ public final class Hashes {
      */
     /*@ public normal_behavior
       @ requires \static_invariant_for(BigInteger);
-      @ requires currentIndex < VALUES.length;
+      @ requires 0 <= currentIndex && currentIndex < VALUES.length;
       @ ensures currentIndex == \old(currentIndex) + 1;
       @ assignable currentIndex;
       @ determines \result.value \by currentIndex, (\seq_def int i; 0; VALUES.length; VALUES[i].value);
