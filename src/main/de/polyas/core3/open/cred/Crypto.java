@@ -77,14 +77,10 @@ public final class Crypto {
     /*@ public normal_behavior
       @ requires \static_invariant_for(BigInteger);
       @ requires \invariant_for(group);
-      @ requires \static_invariant_for(Hashes);
-      @ requires Hashes.currentIndex < Hashes.VALUES.length;
-      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
       @ ensures \fresh(\result) && \fresh(\result.*) && \typeof(\result) == \type(ECPoint);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
-      @ determines \result.value \by group.group.generator.value, group.curve.order,
-      @     Hashes.currentIndex, (\seq_def int i; 0; Hashes.VALUES.length; Hashes.VALUES[i].value);
+      @ determines \result.value \by group.group.generator.value, group.curve.order;
       @*/
     public static /*@helper@*/ ECPoint publicCredentialFromPIN(ECGroup group, String password, String voterId) {
         final BigInteger sk = Hashes.uniformHash(group.order(), password, voterId, null);
@@ -103,12 +99,10 @@ public final class Crypto {
     /*@ public normal_behavior
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \invariant_for(group);
-      @ requires \static_invariant_for(Hashes);
-      @ requires Hashes.currentIndex < Hashes.VALUES.length;
-      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
       @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by group.group.generator.value, group.curve.order;
       @*/
     public static /*@helper@*/ String loginPasswordFromMasterPIN(ECGroup group, String voterId,
                                                     String password) {
@@ -125,6 +119,7 @@ public final class Crypto {
       @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by \nothing;
       @*/
     public static String hashPasswordWithSHA256(String password, String salt) {
         return sha256(salt + password);
@@ -134,6 +129,7 @@ public final class Crypto {
       @ ensures \fresh(\result) && \typeof(\result) == \type(String);
       @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
+    //@ determines \dl_strContent(\result) \by \nothing;
       @*/
     private static String sha256(String input) {
         return Utils.asHexString(SHA_256_DIGEST.digest(input.getBytes()));
