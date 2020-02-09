@@ -78,10 +78,10 @@ public final class Crypto {
       @ requires \static_invariant_for(BigInteger);
       @ requires \invariant_for(group);
       @ requires \static_invariant_for(Hashes);
-      @ requires 0 <= Hashes.currentIndex && Hashes.currentIndex < Hashes.VALUES.length;
+      @ requires Hashes.currentIndex < Hashes.VALUES.length;
       @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
       @ ensures \fresh(\result) && \fresh(\result.*) && \typeof(\result) == \type(ECPoint);
-      @ assignable Hashes.currentIndex;
+      @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
       @ determines \result.value \by group.group.generator.value, group.curve.order,
       @     Hashes.currentIndex, (\seq_def int i; 0; Hashes.VALUES.length; Hashes.VALUES[i].value);
@@ -104,10 +104,10 @@ public final class Crypto {
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \invariant_for(group);
       @ requires \static_invariant_for(Hashes);
-      @ requires 0 <= Hashes.currentIndex && Hashes.currentIndex < Hashes.VALUES.length;
+      @ requires Hashes.currentIndex < Hashes.VALUES.length;
       @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
       @ ensures \fresh(\result) && \typeof(\result) == \type(String);
-      @ assignable Hashes.currentIndex;
+      @ assignable \nothing;
       @ determines \result \by \nothing \new_objects \result;
       @*/
     public static /*@helper@*/ String loginPasswordFromMasterPIN(ECGroup group, String voterId,

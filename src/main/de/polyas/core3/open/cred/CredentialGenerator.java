@@ -36,12 +36,12 @@ public final class CredentialGenerator {
       @ requires \static_invariant_for(Crypto);
       @ requires \static_invariant_for(java.math.BigInteger);
       @ requires \static_invariant_for(Hashes);
-      @ requires 0 <= Hashes.currentIndex && Hashes.currentIndex < Hashes.VALUES.length - 1;
-      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 2;
+      @ requires Hashes.currentIndex < Hashes.VALUES.length;
+      @ ensures Hashes.currentIndex == \old(Hashes.currentIndex) + 1;
       @ ensures \invariant_for(\result);
       @ ensures \fresh(\result) && \fresh(\result.hashedPassword) && \fresh(\result.publicSigningKey)
       @         && \typeof(\result) == \type(GeneratedDataForVoter) && \typeof(\result.hashedPassword) == \type(String) && \typeof(\result.publicSigningKey) == \type(String);
-      @ assignable Hashes.currentIndex;
+      @ assignable \nothing;
       @ determines \result.hashedPassword, \result.publicSigningKey \by \nothing \new_objects \result.hashedPassword, \result.publicSigningKey;
       @*/
     public static GeneratedDataForVoter generateDataForVoter(String voterId,
