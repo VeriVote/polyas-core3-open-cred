@@ -41,7 +41,7 @@ public final class Hashes {
 
     private /*@spec_public@*/ static int currentIndex;
 
-    private /*@spec_public@*/ static final BigInteger[] VALUES = {
+    private /*@spec_public@*/ static BigInteger[] VALUES = {
         BigInteger.valueOf(3),
         BigInteger.valueOf(1),
         BigInteger.valueOf(4),
