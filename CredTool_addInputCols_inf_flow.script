@@ -4,9 +4,22 @@ rule andLeft;
 macro symbex occ=0;
 
 select branch="Invariant Initially Valid";
+rule andRight
+    matches="&.*&.*java\.lang\.Object::<inv>\(heapAfter_iterator, result\)";
+auto;
+rule castAdd
+    formula="java.lang.Object::<inv>(heapAfter_iterator, result)"
+    on="result";
+rule Class_invariant_axiom_for_java_util_CollectionIterator
+    formula="java.lang.Object::<inv>(heapAfter_iterator, (java.util.CollectionIterator)result)";
 auto;
 
 select branch="Pre (hasNext)";
+rule castAdd
+    formula="java.lang.Object::<inv>(heapAfter_iterator, result)"
+    on="result";
+rule Class_invariant_axiom_for_java_util_CollectionIterator
+    formula="java.lang.Object::<inv>(heapAfter_iterator, (java.util.CollectionIterator)result)";
 auto;
 
 select branch="Information Flow Validity";
@@ -16,7 +29,7 @@ rule andLeft;
 macro symbex occ=0;
     select branch="Pre (hasNext)";
     rule "castAdd"
-        formula="it_A.<inv>@heapAfter_addInputCol"
+        formula="java.lang.Object::<inv>(heapAfter_addInputCol, it_A)"
         on="it_A";
     auto;
     
@@ -43,7 +56,6 @@ macro symbex occ=0;
     select branch="Pre (addInputCol)";
     rule "One Step Simplification";
     macro autopilot;
-    macro autopilot;
     select branch="Pre (hasNext)";
     rule "One Step Simplification";
     rule "castAdd"
@@ -54,14 +66,39 @@ macro symbex occ=0;
     auto steps=50000;
     
     macro autopilot;
-    
+
 macro symbex;
 tryclose;
 
-assert goals=2;
+assert goals=4;
 
-select number=1;
+select branch="Invariant Initially Valid";
+rule "One Step Simplification";
+macro autopilot;
+auto;
+rule castAdd
+    formula="java.lang.Object::<inv>(heapAfter_iterator_0, result_3)"
+    on="result_3";
+rule Class_invariant_axiom_for_java_util_CollectionIterator
+    formula="java.lang.Object::<inv>(heapAfter_iterator_0, (java.util.CollectionIterator)result_3)";
+auto;
+auto;
+rule castAdd
+    formula="java.lang.Object::<inv>(heapAfter_iterator_0, result_3)"
+    on="result_3";
+rule Class_invariant_axiom_for_java_util_CollectionIterator
+    formula="java.lang.Object::<inv>(heapAfter_iterator_0, (java.util.CollectionIterator)result_3)";
+auto;
 
+select branch="Pre (hasNext)";
+rule castAdd
+    formula="java.lang.Object::<inv>(heapAfter_iterator_0, result_3)"
+    on="result_3";
+rule Class_invariant_axiom_for_java_util_CollectionIterator
+    formula="java.lang.Object::<inv>(heapAfter_iterator_0, (java.util.CollectionIterator)result_3)";
+auto;
+
+select branch="Information Flow Validity";
 rule "One Step Simplification";
 rule impRight;
 rule andLeft;
@@ -110,17 +147,6 @@ macro symbex occ=0;
         
     tryclose -1 steps=100000 assertClosed=true;
 
-auto;
-auto;
-auto;
-auto;
-auto;
-auto;
-auto;
-auto;
-auto;
-auto;
-auto;
 auto;
 auto;
 auto;

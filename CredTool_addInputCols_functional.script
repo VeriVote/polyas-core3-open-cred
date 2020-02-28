@@ -1,6 +1,20 @@
 macro autopilot;
 
+# Invariant Initially Valid:
+
+rule castAdd
+    formula="java.lang.Object::<inv>(heapAfter_iterator, result)"
+    on="result";
+auto;
+
+# Body Preserves Invariant:
+
 # Normal Execution
+rule castAdd
+    formula="java.lang.Object::<inv>(heapAfter_addInputCol, result)"
+    on="result";
+auto;
+
 rule "One Step Simplification";
 macro autopilot;
 rule applyEqReverse
