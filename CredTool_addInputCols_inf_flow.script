@@ -5,21 +5,21 @@ macro symbex occ=0;
 
 select branch="Invariant Initially Valid";
 rule andRight
-    matches="&.*&.*java\.lang\.Object::<inv>\(heapAfter_iterator, result\)";
+    matches="&.*&.*java\.lang\.Object::<inv>\(heapAfter_listIterator,\s*result\)";
 auto;
 rule castAdd
-    formula="java.lang.Object::<inv>(heapAfter_iterator, result)"
+    formula="java.lang.Object::<inv>(heapAfter_listIterator, result)"
     on="result";
-rule Class_invariant_axiom_for_java_util_CollectionIterator
-    formula="java.lang.Object::<inv>(heapAfter_iterator, (java.util.CollectionIterator)result)";
+rule Class_invariant_axiom_for_java_util_ListIteratorImpl
+    formula="java.lang.Object::<inv>(heapAfter_listIterator, (java.util.ListIteratorImpl)result)";
 auto;
 
 select branch="Pre (hasNext)";
 rule castAdd
-    formula="java.lang.Object::<inv>(heapAfter_iterator, result)"
+    formula="java.lang.Object::<inv>(heapAfter_listIterator, result)"
     on="result";
-rule Class_invariant_axiom_for_java_util_CollectionIterator
-    formula="java.lang.Object::<inv>(heapAfter_iterator, (java.util.CollectionIterator)result)";
+rule Class_invariant_axiom_for_java_util_ListIteratorImpl
+    formula="java.lang.Object::<inv>(heapAfter_listIterator, (java.util.ListIteratorImpl)result)";
 auto;
 
 select branch="Information Flow Validity";
@@ -36,26 +36,30 @@ macro symbex occ=0;
     select branch="Pre (addInputCol)";
     rule andRight occ=0;
     rule andRight occ=0;
-        rule impLeft formula="lt(int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index), seqLen(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$seq))) ->   java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index)) = result_1";
-        auto;
         rule applyEqReverse
             formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)result_1)"
             on="result_1";
         rule seqCastRemoveBeta
-            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index))))";
-        instantiate var="j" with="int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.Iterator::$index)" hide;
+            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_A<<anonHeapFunction>>, self_A_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.ListIterator::$seq), int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.ListIterator::$index))))";
+        instantiate var="j" with="int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.ListIterator::$index)" hide;
         auto;
     rule andRight occ=0;
     rule andRight occ=0;
         auto;
         auto;
+        rule applyEqReverse
+            formula="!(java.lang.String)result_1 = null"
+            on="result_1";
+        rule seqCastRemoveBeta
+            formula="!  (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.ListIterator::$seq), int::select(heap_Before_LOOP_A<<anonHeapFunction>>, it_A, java.util.ListIterator::$index))) = null";
         auto;
         auto;
-    
+
     macro autopilot;
     select branch="Pre (addInputCol)";
     rule "One Step Simplification";
     macro autopilot;
+    auto;
     select branch="Pre (hasNext)";
     rule "One Step Simplification";
     rule "castAdd"
@@ -64,8 +68,7 @@ macro symbex occ=0;
     auto;
     
     auto steps=50000;
-    
-    macro autopilot;
+    auto steps=50000;
 
 macro symbex;
 tryclose;
@@ -77,25 +80,25 @@ rule "One Step Simplification";
 macro autopilot;
 auto;
 rule castAdd
-    formula="java.lang.Object::<inv>(heapAfter_iterator_0, result_3)"
+    formula="java.lang.Object::<inv>(heapAfter_listIterator_0, result_3)"
     on="result_3";
-rule Class_invariant_axiom_for_java_util_CollectionIterator
-    formula="java.lang.Object::<inv>(heapAfter_iterator_0, (java.util.CollectionIterator)result_3)";
+rule Class_invariant_axiom_for_java_util_ListIteratorImpl
+    formula="java.lang.Object::<inv>(heapAfter_listIterator_0, (java.util.ListIteratorImpl)result_3)";
 auto;
 auto;
 rule castAdd
-    formula="java.lang.Object::<inv>(heapAfter_iterator_0, result_3)"
+    formula="java.lang.Object::<inv>(heapAfter_listIterator_0, result_3)"
     on="result_3";
-rule Class_invariant_axiom_for_java_util_CollectionIterator
-    formula="java.lang.Object::<inv>(heapAfter_iterator_0, (java.util.CollectionIterator)result_3)";
+rule Class_invariant_axiom_for_java_util_ListIteratorImpl
+    formula="java.lang.Object::<inv>(heapAfter_listIterator_0, (java.util.ListIteratorImpl)result_3)";
 auto;
 
 select branch="Pre (hasNext)";
 rule castAdd
-    formula="java.lang.Object::<inv>(heapAfter_iterator_0, result_3)"
+    formula="java.lang.Object::<inv>(heapAfter_listIterator_0, result_3)"
     on="result_3";
-rule Class_invariant_axiom_for_java_util_CollectionIterator
-    formula="java.lang.Object::<inv>(heapAfter_iterator_0, (java.util.CollectionIterator)result_3)";
+rule Class_invariant_axiom_for_java_util_ListIteratorImpl
+    formula="java.lang.Object::<inv>(heapAfter_listIterator_0, (java.util.ListIteratorImpl)result_3)";
 auto;
 
 select branch="Information Flow Validity";
@@ -129,24 +132,28 @@ macro symbex occ=0;
     select number=-1;
     rule andRight occ=0;
     rule andRight occ=0;
-        rule impLeft formula="   lt(int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index), seqLen(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$seq))) ->   java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index)) = result_5";
-        auto;
         rule applyEqReverse
             formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)result_5)"
             on="result_5";
         rule seqCastRemoveBeta
-            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$seq), int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index))))";
-        instantiate var="j" with="int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.Iterator::$index)" hide;
+            formula="\exists int i; (  geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq))) &   java.lang.String::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, org.apache.commons.csv.CSVRecord::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, self_B_A, de.polyas.core3.open.cred.CredTool::$record), org.apache.commons.csv.CSVRecord::$key_seq), i) = (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.ListIterator::$seq), int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.ListIterator::$index))))";
+        instantiate var="j" with="int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.ListIterator::$index)" hide;
         tryclose -1 steps=200000 assertClosed=true;
     rule andRight occ=0;
     rule andRight occ=0;
         tryclose -1 steps=100000 assertClosed=true;
         tryclose -1 steps=100000 assertClosed=true;
+        rule applyEqReverse
+            formula="!(java.lang.String)result_5 = null"
+            on="result_5";
+        rule seqCastRemoveBeta
+            formula="!  (java.lang.String)(java.lang.Object::seqGet(Seq::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.ListIterator::$seq), int::select(heap_Before_LOOP_0_A<<anonHeapFunction>>, it_1_A, java.util.ListIterator::$index))) = null";
         tryclose -1 steps=100000 assertClosed=true;
         tryclose -1 steps=100000 assertClosed=true;
         
     tryclose -1 steps=100000 assertClosed=true;
 
+auto;
 auto;
 auto;
 auto;
