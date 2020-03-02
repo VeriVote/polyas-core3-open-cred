@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.apache.commons.csv.CSVFormat;
@@ -394,25 +395,32 @@ public final class CredTool {
       @ determines vals.seq \by vals.seq, cols.seq, record.key_seq, record.value_seq, (\seq_def int i; 0; cols.seq.length; \dl_strContent(((String)cols.seq[i])));
       @*/
     private /*@helper@*/ void addInputCols() {
-        Iterator it = cols.iterator();
+        ListIterator it = cols.listIterator();
 
-        /*@ loop_invariant (\forall \bigint j; 0 <= j && j < cols.seq.length;
-          @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)cols.seq[j])));
-          @ loop_invariant (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
-          @ loop_invariant vals != cols;
-          @ loop_invariant \invariant_for(record);
-          @ loop_invariant \invariant_for(vals);
-          @ loop_invariant \invariant_for(cols);
-          @ loop_invariant \invariant_for(it);
-          @ loop_invariant it != null && record != null && vals != null && cols != null;
-          @ loop_invariant it instanceof java.util.CollectionIterator;
-          @ loop_invariant it.seq == cols.seq;
-          @ decreases it.seq.length - it.index;
-          @ assignable vals.seq, it.index;
-          @ determines vals.seq, it.seq, it.index, record.key_seq, record.value_seq, (\seq_def int i; 0; it.seq.length; \dl_strContent(((String)it.seq[i]))) \by \itself;
-          @*/
-        while (it.hasNext()) {
-            addInputCol(vals, (String) it.next(), record);
+        try {
+            /*@ loop_invariant (\forall \bigint j; 0 <= j && j < cols.seq.length;
+              @     (\exists \bigint i; 0 <= i && i < record.key_seq.length; ((String)record.key_seq[i]) == ((String)cols.seq[j])));
+              @ loop_invariant (\forall \bigint i; 0 <= i && i < cols.seq.length; ((String)cols.seq[i]) != null);
+              @ loop_invariant vals != cols;
+              @ loop_invariant \invariant_for(record);
+              @ loop_invariant \invariant_for(vals);
+              @ loop_invariant \invariant_for(cols);
+              @ loop_invariant \invariant_for(it);
+              @ loop_invariant it != null && record != null && vals != null && cols != null;
+              @ loop_invariant it.seq == cols.seq;
+              @ loop_invariant it instanceof java.util.ListIteratorImpl;
+              @ decreases it.seq.length - it.index;
+              @ assignable vals.seq, it.index;
+              @ determines vals.seq, it.seq, it.index, record.key_seq, record.value_seq, (\seq_def int i; 0; it.seq.length; \dl_strContent(((String)it.seq[i]))) \by \itself;
+              @*/
+            while (it.hasNext()) {
+                addInputCol(vals, (String) it.next(), record);
+            }
+        } catch (RuntimeException e) {
+            // Because `cols` is not modified in any way while it is being iterated over, no
+            // exception should occur here.
+            // However, this `catch` clause is still necessary to conform to the Iterator
+            // specification.
         }
     }
 
@@ -501,20 +509,28 @@ public final class CredTool {
     private static ArrayList extractInputColsForDist(final LinkedList cols, final String id) {
         final ArrayList result = new ArrayList();
 
-        final Iterator it = cols.iterator();
+        final ListIterator it = cols.listIterator();
 
-        /*@ loop_invariant \invariant_for(it);
-          @ loop_invariant it.seq == cols.seq;
-          @ loop_invariant (\forall \bigint i; 0 <= i && i < result.seq.length; ((String)result.seq[i]) != null);
-          @ decreases cols.seq.length - it.index;
-          @ assignable result.seq, it.index;
-          @*/
-        while (it.hasNext()) {
-            String next = (String) it.next();
+        try {
+            /*@ loop_invariant \invariant_for(it);
+              @ loop_invariant it.seq == cols.seq;
+              @ loop_invariant (\forall \bigint i; 0 <= i && i < result.seq.length; ((String)result.seq[i]) != null);
+              @ loop_invariant it instanceof java.util.ListIteratorImpl;
+              @ decreases cols.seq.length - it.index;
+              @ assignable result.seq, it.index;
+              @*/
+            while (it.hasNext()) {
+                String next = (String) it.next();
 
-            if (!id.equals(next)) {
-                result.add(next);
+                if (!id.equals(next)) {
+                    result.add(next);
+                }
             }
+        } catch(RuntimeException e) {
+            // Because `cols` is not modified in any way while it is being iterated over, no
+            // exception should occur here.
+            // However, this `catch` clause is still necessary to conform to the Iterator
+            // specification.
         }
 
         return result;
