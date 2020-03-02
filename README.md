@@ -2,7 +2,7 @@
 
 A fragment of "Polyas Open Cred" translated from Kotlin to Java for doing formal program verification. The fragment is most likely not fully functional as simplifying assumptions are made.
 
-All relevant proofs can be found in the sub-directories named "proofs...". The statistics belonging to these proofs are found in the corresponding "stats..." sub-directories. These proofs were executed on a computer with an Intel Core i7-4720HQ (2x2.60GHz) processor and 16 GB of RAM.
+All relevant proofs can be found in the sub-directories named "proofs...". The statistics belonging to these proofs are found in the corresponding "stats..." sub-directories. These proofs were executed on a computer with an Intel Core i7-4720HQ (2x2.60GHz) processor and 16 GB of RAM. The specification and inital proof took about 80 to 90 hours.
 
 Executing `./run.sh path/to/key.jar` will re-run all proofs, saving them and the statistics in this directory.
 
