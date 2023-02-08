@@ -21,13 +21,11 @@ For the correctness of the proof, the following assumptions are necessary:
 
 ## Finished proofs (see "Proofs" folders)
 
-* functional proofs for `CredTool.CredTool` and all methods called by it
-* functional proofs for `CredTool.processCSVRecord` and all methods called by it
-* information flow proofs for all methods in `CredentialGenerator` (except for `generateDataForVoter` and `append`), `Utils` (except for `bytesToHexString`), `Crypto`, `Hashes`, `ECGroup`
+* functional proofs for `CredTool.CredTool` and most (see below) methods called by it
+* functional proofs for `CredTool.processCSVRecord` and most (see below) methods called by it
+* information flow proofs for `CredTool.processCSVRecord` and most (see below) methods called by it
 
 ## Missing proofs
 
-* `CredTool.CredTool` information flow (left unproven, as it is not necessary for the noninterference property of the credential generation)
-* `Utils.bytesToHexString` information flow
 * `PGP.readPublicKey` functional (left unproven, as its behavior depends on the contents of the passed `InputStream`)
 * `CredentialGenerator.append` information flow (left unproven, as it simply states that `strContent(s0 + s1 + s2)` depends only on `strContent(s0), strContent(s1), strContent(s2)`)
