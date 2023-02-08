@@ -22,5 +22,7 @@ For the correctness of the proof, the following assumptions are necessary:
 
 ## Missing proofs
 
+* `CredTool.CredTool` information flow (left unproven, as it is not necessary for the noninterference property of the credential generation)
+* `Utils.bytesToHexString` information flow
 * `PGP.readPublicKey` functional (left unproven, as its behavior depends on the contents of the passed `InputStream`)
 * `CredentialGenerator.append` information flow (left unproven, as it simply states that `strContent(s0 + s1 + s2)` depends only on `strContent(s0), strContent(s1), strContent(s2)`)
