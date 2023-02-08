@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Thu Dec 19 17:40:13 CET 2019
+#Sun Feb 09 14:54:48 CET 2020
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -42,22 +42,24 @@
 "
 }
 
-\javaSource "../src";
+\bootclasspath "../../../../../../home/flo/git/polyas-core3-open-cred/boot";
+
+\javaSource "../../../../../../home/flo/git/polyas-core3-open-cred/src";
 
 \proofObligation "#Proof Obligation Settings
-#Thu Dec 19 17:40:13 CET 2019
+#Sun Feb 09 14:54:48 CET 2020
 contract=de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup\\:\\:asBytes(org.bouncycastle.math.ec.ECPoint)].JML normal_behavior operation contract.0
 name=de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup\\:\\:asBytes(org.bouncycastle.math.ec.ECPoint)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+(keyLog "0" (keyUser "flo" ) (keyVersion ""))
 
-(autoModeTime "132")
+(autoModeTime "640")
 
 (branch "dummy ID"
- (builtin "One Step Simplification" (formula "1") (newnames "p_29,self_582,result_561,exc_737,heapAtPre_0,o,f"))
+ (builtin "One Step Simplification" (formula "1") (newnames "p_1,self_51,result_48,exc_64,heapAtPre_0,o,f"))
 (rule "impRight" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "2"))
@@ -75,15 +77,15 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
  (builtin "One Step Simplification" (formula "9"))
 (rule "Class_invariant_axiom_for_de_polyas_core3_open_crypto_groups_ECGroup" (formula "6"))
 (rule "andLeft" (formula "6"))
-(rule "andLeft" (formula "7"))
 (rule "andLeft" (formula "6"))
+(rule "andLeft" (formula "8"))
 (rule "notLeft" (formula "6"))
 (rule "notLeft" (formula "6"))
+(rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECNamedCurveParameterSpec" (formula "7"))
+(rule "andLeft" (formula "7"))
+(rule "notLeft" (formula "7"))
 (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_custom_sec_SecP256K1Curve" (formula "6"))
 (rule "true_left" (formula "6"))
-(rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECNamedCurveParameterSpec" (formula "6"))
-(rule "andLeft" (formula "6"))
-(rule "notLeft" (formula "6"))
 (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "6"))
 (rule "true_left" (formula "6"))
 (rule "methodBodyExpand" (formula "11") (term "1") (newnames "heapBefore_asBytes,savedHeapBefore_asBytes"))
@@ -91,7 +93,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 (rule "returnUnfold" (formula "11") (term "1") (inst "#v0=x_arr"))
 (rule "variableDeclarationAssign" (formula "11") (term "1"))
 (rule "variableDeclaration" (formula "11") (term "1") (newnames "x_arr"))
- (builtin "Use Operation Contract" (formula "11") (newnames "heapBefore_getEncoded,result_562,exc_738,heapAfter_getEncoded,anon_heap_getEncoded") (contract "org.bouncycastle.math.ec.ECPoint[org.bouncycastle.math.ec.ECPoint::getEncoded(boolean)].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "11") (newnames "heapBefore_getEncoded,result_49,exc_65,heapAfter_getEncoded,anon_heap_getEncoded") (contract "org.bouncycastle.math.ec.ECPoint[org.bouncycastle.math.ec.ECPoint::getEncoded(boolean)].JML normal_behavior operation contract.0"))
 (branch "Post (getEncoded)"
     (builtin "One Step Simplification" (formula "13"))
     (builtin "One Step Simplification" (formula "7"))
@@ -106,8 +108,8 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "andLeft" (formula "9"))
    (rule "notLeft" (formula "12"))
    (rule "notLeft" (formula "9"))
-   (rule "replace_known_right" (formula "8") (term "0") (ifseqformula "13"))
-    (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "12")))
+   (rule "replace_known_right" (formula "8") (term "0,1") (ifseqformula "12"))
+    (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "13")))
    (rule "assignment" (formula "19") (term "1"))
     (builtin "One Step Simplification" (formula "19"))
    (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "10"))
@@ -121,12 +123,12 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
     (builtin "One Step Simplification" (formula "18") (ifInst ""  (formula "11")) (ifInst ""  (formula "12")) (ifInst ""  (formula "9")) (ifInst ""  (formula "12")))
    (rule "eqSymm" (formula "18") (term "1,0,0,1"))
    (rule "Class_invariant_axiom_for_de_polyas_core3_open_crypto_groups_ECGroup" (formula "18") (term "0"))
-   (rule "pullOutSelect" (formula "18") (term "1,1,1,0") (inst "selectSK=de_polyas_core3_open_crypto_groups_ECGroup_group_0"))
-   (rule "applyEq" (formula "19") (term "0,0,1,0,0") (ifseqformula "1"))
+   (rule "pullOutSelect" (formula "18") (term "0,0,1,0,0") (inst "selectSK=de_polyas_core3_open_crypto_groups_ECGroup_group_0"))
+   (rule "applyEq" (formula "19") (term "1,1,1,0") (ifseqformula "1"))
    (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "8"))
     (builtin "One Step Simplification" (formula "1") (ifInst ""  (formula "17")) (ifInst ""  (formula "3")))
-   (rule "applyEqReverse" (formula "19") (term "1,1,1,0") (ifseqformula "1"))
    (rule "applyEqReverse" (formula "19") (term "0,0,1,0,0") (ifseqformula "1"))
+   (rule "applyEqReverse" (formula "19") (term "1,1,1,0") (ifseqformula "1"))
    (rule "hideAuxiliaryEq" (formula "1"))
    (rule "replace_known_right" (formula "18") (term "0,1,0,0") (ifseqformula "14"))
     (builtin "One Step Simplification" (formula "18"))
@@ -139,7 +141,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "hideAuxiliaryEq" (formula "1"))
    (rule "replace_known_right" (formula "18") (term "0,0,0") (ifseqformula "15"))
     (builtin "One Step Simplification" (formula "18"))
-   (rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECNamedCurveParameterSpec" (formula "18") (term "1,0"))
+   (rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECParameterSpec" (formula "18") (term "1,0"))
    (rule "pullOutSelect" (formula "18") (term "1,1,1,0") (inst "selectSK=org_bouncycastle_jce_spec_ECParameterSpec_generator_0"))
    (rule "applyEq" (formula "19") (term "0,0,0,1,0") (ifseqformula "1"))
    (rule "simplifySelectOfAnonEQ" (formula "1") (ifseqformula "8"))
@@ -150,7 +152,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "19") (term "1,0"))
     (builtin "One Step Simplification" (formula "19"))
    (rule "ifthenelse_split" (formula "1") (term "0"))
-   (branch "self_582.group.<created> = TRUE TRUE"
+   (branch "self_51.group.<created> = TRUE TRUE"
       (rule "applyEqReverse" (formula "20") (term "0,0,0") (ifseqformula "2"))
       (rule "hideAuxiliaryEq" (formula "2"))
       (rule "replace_known_right" (formula "19") (term "0,0") (ifseqformula "14"))
@@ -165,7 +167,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
        (builtin "One Step Simplification" (formula "21"))
       (rule "closeTrue" (formula "21"))
    )
-   (branch "self_582.group.<created> = TRUE FALSE"
+   (branch "self_51.group.<created> = TRUE FALSE"
       (rule "referencedObjectIsCreatedRight" (formula "12") (ifseqformula "16"))
       (rule "close" (formula "12") (ifseqformula "2"))
    )
@@ -187,7 +189,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "11"))
    (rule "closeTrue" (formula "11"))
 )
-(branch "Null reference (_p_29 = null)"
+(branch "Null reference (_p_1 = null)"
     (builtin "One Step Simplification" (formula "11") (ifInst ""  (formula "10")))
    (rule "closeTrue" (formula "11"))
 )

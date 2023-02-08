@@ -1,0 +1,19 @@
+open goals,0
+Nodes,54,647
+Branches,1,583
+Interactive steps,1
+Symbolic execution steps,847
+Automode time,50min
+Automode time,3028196ms
+Avg. time per step,55.414ms
+Rule applications
+Quantifier instantiations,1528
+One-step Simplifier apps,8392
+SMT solver apps,0
+Dependency Contract apps,0
+Operation Contract apps,2
+Block/Loop Contract apps,3
+Loop invariant apps,0
+Merge Rule apps,0
+Total rule apps,64,071
+interactive,Class_invariant_axiom_for_de_polyas_core3_open_cred_CredTool,1

@@ -7,4 +7,52 @@ rule applyEqReverse
 rule seqCastInstance
     formula="java.lang.String::instance(java.lang.Object::seqGet(Seq::select(anon_heap_iterator<<anonHeapFunction>>, result_0, java.util.Iterator::$seq), int::select(anon_heap_LOOP<<anonHeapFunction>>, result_0, java.util.Iterator::$index))) = TRUE";
 
+tryclose;
+macro autopilot;
+
+select formula="\forall int i; (     geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heapAfter_add, self, java.util.Collection::$seq))) -> !  java.lang.String::seqGet(Seq::select(heapAfter_add, self, java.util.Collection::$seq), i) = null)";
+rule allRight;
+rule impRight;
+cut "seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq)) = i_0";
+select branch="CUT: seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq)) = i_0 TRUE";
+rule ifthenelse_split;
+
 tryclose steps=1000000;
+
+select formula="\forall int i; (     geq(i, Z(0(#))) & lt(i, seqLen(Seq::select(heapAfter_add, self, java.util.Collection::$seq))) -> !  java.lang.String::seqGet(Seq::select(heapAfter_add, self, java.util.Collection::$seq), i) = null)";
+rule allRight;
+rule impRight;
+cut "seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq)) = i_0";
+select branch="CUT: seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq)) = i_0 TRUE";
+rule ifthenelse_split;
+
+tryclose steps=1000000;
+
+select number=0;
+
+rule applyEqReverse
+    formula="!java.lang.String::seqGet(Seq::select(heapAfter_add, self, java.util.Collection::$seq), i_0) = null"
+    on="i_0";
+rule replaceKnownSelect_taclet00000000100_20
+    formula="!  java.lang.String::seqGet(Seq::select(heapAfter_add, self, java.util.Collection::$seq), seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq))) = null"
+    on="Seq::select(heapAfter_add, self, java.util.Collection::$seq)"
+    inst_EQ="heapAfter_add"
+    inst_o="self"
+    inst_f="java.util.Collection::$seq"
+    inst_sk="java_util_Collection_seq_5<<selectSK>>";
+rule replaceKnownAuxiliaryConstant_taclet00000000100_21
+    formula="!java.lang.String::seqGet(java_util_Collection_seq_5<<selectSK>>, seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq))) = null"
+    on="java_util_Collection_seq_5<<selectSK>>";
+rule seqGetAlphaCast
+    formula="!  java.lang.String::seqGet(Seq::select(anon_heap_add<<anonHeapFunction>>, self, java.util.Collection::$seq), seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq))) = null"
+    on="java.lang.String::seqGet(Seq::select(anon_heap_add<<anonHeapFunction>>, self, java.util.Collection::$seq), seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq)))";
+rule applyEqReverse
+    formula="!  java.lang.String::seqGet(Seq::select(anon_heap_add<<anonHeapFunction>>, self, java.util.Collection::$seq), seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq))) = null"
+    on="java.lang.String::seqGet(Seq::select(anon_heap_add<<anonHeapFunction>>, self, java.util.Collection::$seq), seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq)))";
+rule applyEq
+    formula="!  (java.lang.String)(any::seqGet(Seq::select(anon_heap_add<<anonHeapFunction>>, self, java.util.Collection::$seq), seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq)))) = null"
+    on="(any::seqGet(Seq::select(anon_heap_add<<anonHeapFunction>>, self, java.util.Collection::$seq), seqLen(Seq::select(anon_heap_LOOP<<anonHeapFunction>>, self, java.util.Collection::$seq))))";
+rule castDel
+    formula="!(java.lang.String)((java.lang.String)result_4) = null"
+    on="(java.lang.String)((java.lang.String)result_4)";
+auto;

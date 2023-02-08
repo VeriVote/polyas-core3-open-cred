@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Thu Dec 19 18:02:00 CET 2019
+#Sun Feb 09 15:07:26 CET 2020
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -42,22 +42,24 @@
 "
 }
 
-\javaSource "../src";
+\bootclasspath "../../../../../../home/flo/git/polyas-core3-open-cred/boot";
+
+\javaSource "../../../../../../home/flo/git/polyas-core3-open-cred/src";
 
 \proofObligation "#Proof Obligation Settings
-#Thu Dec 19 18:02:00 CET 2019
+#Sun Feb 09 15:07:26 CET 2020
 contract=de.polyas.core3.open.cred.Crypto[de.polyas.core3.open.cred.Crypto\\:\\:sha256(java.lang.String)].JML normal_behavior operation contract.0
 name=de.polyas.core3.open.cred.Crypto[de.polyas.core3.open.cred.Crypto\\:\\:sha256(java.lang.String)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+(keyLog "0" (keyUser "flo" ) (keyVersion ""))
 
-(autoModeTime "383")
+(autoModeTime "491")
 
 (branch "dummy ID"
- (builtin "One Step Simplification" (formula "1") (newnames "input_4,result_244,exc_324,heapAtPre_0,o,f"))
+ (builtin "One Step Simplification" (formula "1") (newnames "input_19,result_1006,exc_1326,heapAtPre_0,o,f"))
 (rule "impRight" (formula "1"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "1"))
@@ -98,7 +100,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
  (builtin "One Step Simplification" (formula "8"))
 (rule "variableDeclarationAssign" (formula "8") (term "1"))
 (rule "variableDeclaration" (formula "8") (term "1") (newnames "var_2"))
- (builtin "Use Operation Contract" (formula "8") (newnames "heapBefore_getBytes,result_245,exc_325,heapAfter_getBytes,anon_heap_getBytes") (contract "java.lang.String[java.lang.String::getBytes()].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "8") (newnames "heapBefore_getBytes,result_1007,exc_1327,heapAfter_getBytes,anon_heap_getBytes") (contract "java.lang.String[java.lang.String::getBytes()].JML normal_behavior operation contract.0"))
 (branch "Post (getBytes)"
     (builtin "One Step Simplification" (formula "10"))
     (builtin "One Step Simplification" (formula "5"))
@@ -114,13 +116,13 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "andLeft" (formula "8"))
    (rule "notLeft" (formula "8"))
    (rule "notLeft" (formula "8"))
-   (rule "replace_known_right" (formula "7") (term "0") (ifseqformula "11"))
-    (builtin "One Step Simplification" (formula "7") (ifInst ""  (formula "10")))
+   (rule "replace_known_right" (formula "7") (term "0,1") (ifseqformula "10"))
+    (builtin "One Step Simplification" (formula "7") (ifInst ""  (formula "11")))
    (rule "assignment" (formula "16") (term "1"))
     (builtin "One Step Simplification" (formula "16"))
    (rule "Class_invariant_axiom_for_java_lang_String" (formula "9"))
    (rule "true_left" (formula "9"))
-    (builtin "Use Operation Contract" (formula "15") (newnames "heapBefore_digest,result_246,exc_326,heapAfter_digest,anon_heap_digest") (contract "java.security.MessageDigest[java.security.MessageDigest::digest([B)].JML normal_behavior operation contract.0"))
+    (builtin "Use Operation Contract" (formula "15") (newnames "heapBefore_digest,result_1008,exc_1328,heapAfter_digest,anon_heap_digest") (contract "java.security.MessageDigest[java.security.MessageDigest::digest([B)].JML normal_behavior operation contract.0"))
    (branch "Post (digest)"
        (builtin "One Step Simplification" (formula "10"))
        (builtin "One Step Simplification" (formula "17"))
@@ -138,14 +140,14 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (rule "notLeft" (formula "15"))
       (rule "notLeft" (formula "12"))
       (rule "orRight" (formula "15"))
-      (rule "replace_known_right" (formula "11") (term "0") (ifseqformula "17"))
-       (builtin "One Step Simplification" (formula "11") (ifInst ""  (formula "15")) (ifInst ""  (formula "16")))
+      (rule "replace_known_right" (formula "11") (term "1,0,1") (ifseqformula "16"))
+       (builtin "One Step Simplification" (formula "11") (ifInst ""  (formula "17")) (ifInst ""  (formula "15")))
       (rule "assignment" (formula "24") (term "1"))
        (builtin "One Step Simplification" (formula "24"))
       (rule "blockEmpty" (formula "24") (term "1"))
       (rule "Class_invariant_axiom_for_java_security_MessageDigest" (formula "13"))
       (rule "true_left" (formula "13"))
-       (builtin "Use Operation Contract" (formula "23") (newnames "heapBefore_asHexString,result_247,exc_327,heapAfter_asHexString,anon_heap_asHexString") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::asHexString([B)].JML normal_behavior operation contract.0"))
+       (builtin "Use Operation Contract" (formula "23") (newnames "heapBefore_asHexString,result_1009,exc_1329,heapAfter_asHexString,anon_heap_asHexString") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::asHexString([B)].JML normal_behavior operation contract.0"))
       (branch "Post (asHexString)"
           (builtin "One Step Simplification" (formula "15"))
           (builtin "One Step Simplification" (formula "25"))
@@ -166,8 +168,8 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
          (rule "notLeft" (formula "18"))
          (rule "orRight" (formula "19"))
          (rule "orRight" (formula "19"))
-         (rule "replace_known_right" (formula "17") (term "1,0,0,1") (ifseqformula "20"))
-          (builtin "One Step Simplification" (formula "17") (ifInst ""  (formula "22")) (ifInst ""  (formula "19")) (ifInst ""  (formula "21")))
+         (rule "replace_known_right" (formula "17") (term "0,0,0,1") (ifseqformula "19"))
+          (builtin "One Step Simplification" (formula "17") (ifInst ""  (formula "22")) (ifInst ""  (formula "20")) (ifInst ""  (formula "21")))
          (rule "assignment" (formula "32") (term "1"))
           (builtin "One Step Simplification" (formula "32"))
          (rule "blockEmpty" (formula "32") (term "1"))
@@ -227,7 +229,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
          (rule "hideAuxiliaryEq" (formula "1"))
          (rule "commute_or_2" (formula "2") (term "0,1,0,0"))
          (rule "ifthenelse_split" (formula "1") (term "0"))
-         (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_getBytes<<anonHeapFunction>> = TRUE) TRUE"
+         (branch " ¬o_0 = null ∧ ¬( o_0.<created> = TRUE ∨ o_0.<created>@anon_heap_getBytes«anonHeapFunction» = TRUE) TRUE"
             (rule "andLeft" (formula "1"))
             (rule "notLeft" (formula "1"))
             (rule "notLeft" (formula "1"))
@@ -240,11 +242,11 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
              (builtin "One Step Simplification" (formula "36") (ifInst ""  (formula "22")))
             (rule "closeTrue" (formula "36"))
          )
-         (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_getBytes<<anonHeapFunction>> = TRUE) FALSE"
+         (branch " ¬o_0 = null ∧ ¬( o_0.<created> = TRUE ∨ o_0.<created>@anon_heap_getBytes«anonHeapFunction» = TRUE) FALSE"
             (rule "applyEqReverse" (formula "2") (term "2,0") (ifseqformula "1"))
             (rule "hideAuxiliaryEq" (formula "1"))
             (rule "ifthenelse_split" (formula "1") (term "0"))
-            (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_digest<<anonHeapFunction>> = TRUE | o_0.<created>@anon_heap_getBytes<<anonHeapFunction>> = TRUE) TRUE"
+            (branch " ¬o_0 = null ∧ ¬( o_0.<created> = TRUE ∨ o_0.<created>@anon_heap_digest«anonHeapFunction» = TRUE ∨ o_0.<created>@anon_heap_getBytes«anonHeapFunction» = TRUE) TRUE"
                (rule "andLeft" (formula "1"))
                (rule "notLeft" (formula "1"))
                (rule "notLeft" (formula "1"))
@@ -257,7 +259,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                 (builtin "One Step Simplification" (formula "37") (ifInst ""  (formula "22")))
                (rule "closeTrue" (formula "37"))
             )
-            (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_digest<<anonHeapFunction>> = TRUE | o_0.<created>@anon_heap_getBytes<<anonHeapFunction>> = TRUE) FALSE"
+            (branch " ¬o_0 = null ∧ ¬( o_0.<created> = TRUE ∨ o_0.<created>@anon_heap_digest«anonHeapFunction» = TRUE ∨ o_0.<created>@anon_heap_getBytes«anonHeapFunction» = TRUE) FALSE"
                (rule "close" (formula "36") (ifseqformula "1"))
             )
          )
@@ -333,7 +335,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
    (rule "Class_invariant_axiom_for_java_lang_String" (formula "8"))
    (rule "closeTrue" (formula "8"))
 )
-(branch "Null reference (_input_4 = null)"
+(branch "Null reference (_input_19 = null)"
     (builtin "One Step Simplification" (formula "8") (ifInst ""  (formula "7")))
    (rule "closeTrue" (formula "8"))
 )

@@ -1,0 +1,18 @@
+open goals,0
+Nodes,15,907
+Branches,22
+Interactive steps,0
+Symbolic execution steps,138
+Automode time,63.9s
+Automode time,63922ms
+Avg. time per step,4.018ms
+Rule applications
+Quantifier instantiations,0
+One-step Simplifier apps,3201
+SMT solver apps,0
+Dependency Contract apps,0
+Operation Contract apps,6
+Block/Loop Contract apps,0
+Loop invariant apps,0
+Merge Rule apps,0
+Total rule apps,17,384

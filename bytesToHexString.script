@@ -16,13 +16,14 @@ rule impLeft occ=0;
 select number=-1;
 rule impLeft occ=0;
 select number=-1;
-macro symbex occ=0;
+macro symbex matches=".*b_After_A\s*=\s*b\s*&\s*r_A\s*=\s*r\s*&\s*_bytes_A_A\s*=\s*_bytes_A\s*&\s*i_After_A\s*=\s*i\s*&\s*heap_After_LOOP_A\s*=\s*heap.*";
 
 tryclose;
 
 assert goals=1;
+select number=0;
 
-macro symbex occ=0;
+macro symbex matches=".*resultAtPost_B\s*=\s*result_B\s*&\s*excAtPost_B\s*=\s*exc_B\s*&\s*heapAtPost_B\s*=\s*heap.*";
 
 select branch="Information Flow Validity";
 rule "One Step Simplification";
@@ -38,6 +39,6 @@ rule impLeft occ=0;
 select number=-1;
 rule impLeft occ=0;
 select number=-1;
-macro symbex occ=0;
+macro symbex matches=".*b_0_After_A\s*=\s*b_0\s*&\s*r_1_A\s*=\s*r_1\s*&\s*_bytes_B_A\s*=\s*_bytes_B\s*&\s*i_1_After_A\s*=\s*i_1\s*&\s*heap_After_LOOP_0_A\s*=\s*heap.*";
 
 tryclose;

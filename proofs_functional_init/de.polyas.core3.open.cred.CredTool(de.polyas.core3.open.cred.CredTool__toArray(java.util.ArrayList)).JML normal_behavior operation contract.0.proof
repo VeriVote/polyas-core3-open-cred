@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Thu Dec 19 22:41:49 CET 2019
+#Mon Feb 10 03:17:28 CET 2020
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -42,19 +42,21 @@
 "
 }
 
-\javaSource "../src/main";
+\bootclasspath "../../../../../../home/flo/git/polyas-core3-open-cred/boot";
+
+\javaSource "../../../../../../home/flo/git/polyas-core3-open-cred/src/main";
 
 \proofObligation "#Proof Obligation Settings
-#Thu Dec 19 22:41:49 CET 2019
+#Mon Feb 10 03:17:28 CET 2020
 contract=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:toArray(java.util.ArrayList)].JML normal_behavior operation contract.0
 name=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:toArray(java.util.ArrayList)].JML normal_behavior operation contract.0
 class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+(keyLog "0" (keyUser "flo" ) (keyVersion ""))
 
-(autoModeTime "31915")
+(autoModeTime "27669")
 
 (branch "dummy ID"
 (rule "impRight" (formula "1") (newnames "list,result,exc,heapAtPre,o,f") (proofscript))
@@ -177,11 +179,11 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
       (rule "onlyCreatedObjectsAreReferenced" (formula "18") (term "0") (ifseqformula "4"))
       (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "19"))
        (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "20") (term "0") (ifseqformula "5"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "21"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "21") (term "0") (ifseqformula "5"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "22"))
        (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "22") (term "0") (ifseqformula "6"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "23"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "21") (term "0") (ifseqformula "6"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "22"))
        (builtin "One Step Simplification" (formula "1"))
       (rule "instanceCreationAssignment" (formula "30") (term "1") (inst "#v0=n_1"))
       (rule "variableDeclarationAssign" (formula "30") (term "1"))
@@ -360,14 +362,14 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
        (builtin "One Step Simplification" (formula "1"))
       (rule "onlyCreatedObjectsAreReferenced" (formula "8") (term "1,0") (ifseqformula "3"))
       (rule "onlyCreatedObjectsAreReferenced" (formula "9") (term "1,1") (ifseqformula "3"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "20") (term "0") (ifseqformula "3"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "18") (term "0") (ifseqformula "3"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "19"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "20") (term "0") (ifseqformula "4"))
       (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "21"))
        (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "19") (term "0") (ifseqformula "4"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "20"))
-       (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "21") (term "0") (ifseqformula "5"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "22"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "22") (term "0") (ifseqformula "5"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "23"))
        (builtin "One Step Simplification" (formula "1"))
       (rule "staticMethodCallStaticWithAssignmentViaTypereference" (formula "30") (term "1") (inst "#v0=s_arr_1"))
       (rule "variableDeclaration" (formula "30") (term "1") (newnames "s_arr_1"))
@@ -619,7 +621,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "commute_or" (formula "16") (term "0,0"))
             (rule "commute_or_2" (formula "16") (term "0"))
             (rule "cut_direct" (formula "18") (term "0"))
-            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null TRUE"
+            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null TRUE"
                 (builtin "One Step Simplification" (formula "19"))
                (rule "true_left" (formula "19"))
                (rule "applyEq" (formula "19") (term "1,1") (ifseqformula "18"))
@@ -646,10 +648,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                (rule "leq_literals" (formula "15"))
                (rule "closeFalse" (formula "15"))
             )
-            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null FALSE"
+            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null FALSE"
                 (builtin "One Step Simplification" (formula "18"))
                (rule "cut_direct" (formula "17") (term "0"))
-               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null TRUE"
+               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null TRUE"
                    (builtin "One Step Simplification" (formula "18"))
                   (rule "true_left" (formula "18"))
                   (rule "applyEq" (formula "19") (term "1,0") (ifseqformula "17"))
@@ -674,10 +676,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                    (builtin "One Step Simplification" (formula "3"))
                   (rule "closeFalse" (formula "3"))
                )
-               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null FALSE"
+               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null FALSE"
                    (builtin "One Step Simplification" (formula "17"))
                   (rule "cut_direct" (formula "19") (term "0"))
-                  (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX TRUE"
+                  (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) TRUE"
                       (builtin "One Step Simplification" (formula "20"))
                      (rule "true_left" (formula "20"))
                      (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
@@ -699,7 +701,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                      (rule "leq_literals" (formula "2"))
                      (rule "closeFalse" (formula "2"))
                   )
-                  (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX FALSE"
+                  (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) FALSE"
                       (builtin "One Step Simplification" (formula "19"))
                      (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
                      (rule "applyEq" (formula "36") (term "0") (ifseqformula "18"))
@@ -1394,7 +1396,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                         (rule "inEqSimp_sepPosMonomial0" (formula "47") (term "0,0,0,1,0,0,0,0,0"))
                         (rule "mul_literals" (formula "47") (term "1,0,0,0,1,0,0,0,0,0"))
                         (rule "ifthenelse_split" (formula "30") (term "0"))
-                        (branch "result_1.<created> = TRUE TRUE"
+                        (branch " boolean::select(heap, result_1, java.lang.Object::<created>) = TRUE TRUE"
                            (rule "applyEqReverse" (formula "32") (term "2,0") (ifseqformula "31"))
                            (rule "hideAuxiliaryEq" (formula "31"))
                            (rule "applyEq" (formula "31") (term "2,0") (ifseqformula "30"))
@@ -1429,7 +1431,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                            (rule "replace_known_right" (formula "45") (term "0,1,0,0") (ifseqformula "43"))
                             (builtin "One Step Simplification" (formula "45"))
                            (rule "cut_direct" (formula "16") (term "0"))
-                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null TRUE"
+                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null TRUE"
                                (builtin "One Step Simplification" (formula "17"))
                               (rule "true_left" (formula "17"))
                               (rule "applyEq" (formula "18") (term "1,0") (ifseqformula "16"))
@@ -2304,7 +2306,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                  (rule "hideAuxiliaryEq" (formula "1"))
                                  (rule "commute_and" (formula "55"))
                                  (rule "ifthenelse_split" (formula "3") (term "0"))
-                                 (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                 (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                     (rule "andLeft" (formula "3"))
                                     (rule "notLeft" (formula "3"))
                                     (rule "notLeft" (formula "3"))
@@ -2326,7 +2328,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                      (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "56")))
                                     (rule "closeFalse" (formula "2"))
                                  )
-                                 (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                 (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                     (rule "applyEqReverse" (formula "57") (term "1") (ifseqformula "3"))
                                     (rule "applyEqReverse" (formula "1") (term "2,0") (ifseqformula "3"))
                                     (rule "hideAuxiliaryEq" (formula "3"))
@@ -2338,7 +2340,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "hideAuxiliaryEq" (formula "2"))
                                     (rule "commute_and" (formula "54"))
                                     (rule "ifthenelse_split" (formula "1") (term "0"))
-                                    (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                    (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                        (rule "andLeft" (formula "1"))
                                        (rule "notLeft" (formula "1"))
                                        (rule "notLeft" (formula "1"))
@@ -2350,16 +2352,16 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                         (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "40")))
                                        (rule "closeTrue" (formula "41"))
                                     )
-                                    (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                    (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                        (rule "close" (formula "55") (ifseqformula "1"))
                                     )
                                  )
                               )
                            )
-                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null FALSE"
+                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null FALSE"
                                (builtin "One Step Simplification" (formula "16"))
                               (rule "cut_direct" (formula "17") (term "0"))
-                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null TRUE"
+                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null TRUE"
                                   (builtin "One Step Simplification" (formula "18"))
                                  (rule "true_left" (formula "18"))
                                  (rule "applyEq" (formula "18") (term "1,1") (ifseqformula "17"))
@@ -3245,7 +3247,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "hideAuxiliaryEq" (formula "3"))
                                     (rule "commute_and" (formula "55"))
                                     (rule "ifthenelse_split" (formula "2") (term "0"))
-                                    (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                    (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                        (rule "andLeft" (formula "2"))
                                        (rule "notLeft" (formula "2"))
                                        (rule "notLeft" (formula "2"))
@@ -3266,7 +3268,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                         (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "56")))
                                        (rule "closeFalse" (formula "2"))
                                     )
-                                    (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                    (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                        (rule "applyEqReverse" (formula "57") (term "0") (ifseqformula "2"))
                                        (rule "applyEqReverse" (formula "3") (term "2,0") (ifseqformula "2"))
                                        (rule "hideAuxiliaryEq" (formula "2"))
@@ -3277,7 +3279,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                        (rule "hideAuxiliaryEq" (formula "1"))
                                        (rule "commute_and" (formula "54"))
                                        (rule "ifthenelse_split" (formula "1") (term "0"))
-                                       (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                       (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                           (rule "andLeft" (formula "1"))
                                           (rule "notLeft" (formula "1"))
                                           (rule "notLeft" (formula "1"))
@@ -3289,16 +3291,16 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                            (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "40")))
                                           (rule "closeTrue" (formula "41"))
                                        )
-                                       (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                       (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                           (rule "close" (formula "55") (ifseqformula "1"))
                                        )
                                     )
                                  )
                               )
-                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null FALSE"
+                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null FALSE"
                                   (builtin "One Step Simplification" (formula "17"))
                                  (rule "cut_direct" (formula "18") (term "0"))
-                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX TRUE"
+                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) TRUE"
                                      (builtin "One Step Simplification" (formula "19"))
                                     (rule "true_left" (formula "19"))
                                     (rule "applyEq" (formula "44") (term "0") (ifseqformula "18"))
@@ -4164,7 +4166,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                        (rule "hideAuxiliaryEq" (formula "1"))
                                        (rule "commute_and" (formula "56"))
                                        (rule "ifthenelse_split" (formula "3") (term "0"))
-                                       (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                       (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                           (rule "andLeft" (formula "3"))
                                           (rule "notLeft" (formula "4"))
                                           (rule "notLeft" (formula "3"))
@@ -4186,7 +4188,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                            (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "57")))
                                           (rule "closeFalse" (formula "2"))
                                        )
-                                       (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                       (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                           (rule "applyEqReverse" (formula "58") (term "1") (ifseqformula "3"))
                                           (rule "applyEqReverse" (formula "1") (term "2,0") (ifseqformula "3"))
                                           (rule "hideAuxiliaryEq" (formula "3"))
@@ -4198,7 +4200,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                           (rule "hideAuxiliaryEq" (formula "2"))
                                           (rule "commute_and" (formula "55"))
                                           (rule "ifthenelse_split" (formula "1") (term "0"))
-                                          (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                          (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                              (rule "andLeft" (formula "1"))
                                              (rule "notLeft" (formula "1"))
                                              (rule "notLeft" (formula "1"))
@@ -4210,13 +4212,13 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                               (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "38")))
                                              (rule "closeTrue" (formula "41"))
                                           )
-                                          (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                          (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                              (rule "close" (formula "56") (ifseqformula "1"))
                                           )
                                        )
                                     )
                                  )
-                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX FALSE"
+                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) FALSE"
                                      (builtin "One Step Simplification" (formula "18"))
                                     (rule "applyEq" (formula "11") (term "1,0") (ifseqformula "18"))
                                     (rule "applyEq" (formula "31") (term "0") (ifseqformula "17"))
@@ -5101,7 +5103,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                        (rule "hideAuxiliaryEq" (formula "1"))
                                        (rule "commute_and" (formula "57"))
                                        (rule "ifthenelse_split" (formula "3") (term "0"))
-                                       (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                       (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                           (rule "andLeft" (formula "3"))
                                           (rule "notLeft" (formula "3"))
                                           (rule "notLeft" (formula "3"))
@@ -5123,7 +5125,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                            (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "58")))
                                           (rule "closeFalse" (formula "2"))
                                        )
-                                       (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                       (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                           (rule "applyEqReverse" (formula "59") (term "1") (ifseqformula "3"))
                                           (rule "applyEqReverse" (formula "1") (term "2,0") (ifseqformula "3"))
                                           (rule "hideAuxiliaryEq" (formula "3"))
@@ -5135,7 +5137,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                           (rule "hideAuxiliaryEq" (formula "2"))
                                           (rule "commute_and" (formula "56"))
                                           (rule "ifthenelse_split" (formula "1") (term "0"))
-                                          (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                          (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                              (rule "andLeft" (formula "1"))
                                              (rule "notLeft" (formula "1"))
                                              (rule "notLeft" (formula "1"))
@@ -5147,7 +5149,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                               (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "38")))
                                              (rule "closeTrue" (formula "41"))
                                           )
-                                          (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                          (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                              (rule "close" (formula "57") (ifseqformula "1"))
                                           )
                                        )
@@ -5156,13 +5158,13 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                               )
                            )
                         )
-                        (branch "result_1.<created> = TRUE FALSE"
+                        (branch " boolean::select(heap, result_1, java.lang.Object::<created>) = TRUE FALSE"
                            (rule "applyEqReverse" (formula "31") (term "2,0") (ifseqformula "30"))
                            (rule "hideAuxiliaryEq" (formula "30"))
                            (rule "Class_invariant_axiom_for_java_util_ArrayList" (formula "47") (term "0,0,0,0,0,0"))
                             (builtin "One Step Simplification" (formula "47"))
                            (rule "cut_direct" (formula "17") (term "0"))
-                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null TRUE"
+                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null TRUE"
                                (builtin "One Step Simplification" (formula "18"))
                               (rule "true_left" (formula "18"))
                               (rule "applyEq" (formula "18") (term "1,1") (ifseqformula "17"))
@@ -6072,7 +6074,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "hideAuxiliaryEq" (formula "1"))
                                     (rule "commute_and" (formula "57"))
                                     (rule "ifthenelse_split" (formula "3") (term "0"))
-                                    (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                    (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                        (rule "andLeft" (formula "3"))
                                        (rule "notLeft" (formula "3"))
                                        (rule "notLeft" (formula "3"))
@@ -6094,7 +6096,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                         (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "58")))
                                        (rule "closeFalse" (formula "2"))
                                     )
-                                    (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                    (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                        (rule "applyEqReverse" (formula "1") (term "2,0") (ifseqformula "3"))
                                        (rule "applyEqReverse" (formula "59") (term "1") (ifseqformula "3"))
                                        (rule "hideAuxiliaryEq" (formula "3"))
@@ -6106,7 +6108,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                        (rule "hideAuxiliaryEq" (formula "2"))
                                        (rule "commute_and" (formula "56"))
                                        (rule "ifthenelse_split" (formula "1") (term "0"))
-                                       (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                       (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                           (rule "andLeft" (formula "1"))
                                           (rule "notLeft" (formula "2"))
                                           (rule "notLeft" (formula "1"))
@@ -6118,17 +6120,17 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                            (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "39")))
                                           (rule "closeTrue" (formula "41"))
                                        )
-                                       (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                       (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                           (rule "close" (formula "57") (ifseqformula "1"))
                                        )
                                     )
                                  )
                               )
                            )
-                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null FALSE"
+                           (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null FALSE"
                                (builtin "One Step Simplification" (formula "17"))
                               (rule "cut_direct" (formula "16") (term "0"))
-                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null TRUE"
+                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null TRUE"
                                   (builtin "One Step Simplification" (formula "17"))
                                  (rule "true_left" (formula "17"))
                                  (rule "applyEq" (formula "18") (term "1,0") (ifseqformula "16"))
@@ -7055,7 +7057,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                        (rule "hideAuxiliaryEq" (formula "1"))
                                        (rule "commute_and" (formula "57"))
                                        (rule "ifthenelse_split" (formula "3") (term "0"))
-                                       (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                       (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                           (rule "andLeft" (formula "3"))
                                           (rule "notLeft" (formula "3"))
                                           (rule "notLeft" (formula "3"))
@@ -7077,7 +7079,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                            (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "58")))
                                           (rule "closeFalse" (formula "2"))
                                        )
-                                       (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                       (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                           (rule "applyEqReverse" (formula "1") (term "2,0") (ifseqformula "3"))
                                           (rule "applyEqReverse" (formula "59") (term "1") (ifseqformula "3"))
                                           (rule "hideAuxiliaryEq" (formula "3"))
@@ -7089,7 +7091,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                           (rule "hideAuxiliaryEq" (formula "2"))
                                           (rule "commute_and" (formula "56"))
                                           (rule "ifthenelse_split" (formula "1") (term "0"))
-                                          (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                          (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                              (rule "andLeft" (formula "1"))
                                              (rule "notLeft" (formula "2"))
                                              (rule "notLeft" (formula "1"))
@@ -7101,17 +7103,17 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                               (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "39")))
                                              (rule "closeTrue" (formula "41"))
                                           )
-                                          (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                          (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                              (rule "close" (formula "57") (ifseqformula "1"))
                                           )
                                        )
                                     )
                                  )
                               )
-                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null FALSE"
+                              (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null FALSE"
                                   (builtin "One Step Simplification" (formula "16"))
                                  (rule "cut_direct" (formula "18") (term "0"))
-                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX TRUE"
+                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) TRUE"
                                      (builtin "One Step Simplification" (formula "19"))
                                     (rule "true_left" (formula "19"))
                                     (rule "applyEq" (formula "46") (term "0") (ifseqformula "18"))
@@ -7989,7 +7991,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                           (rule "hideAuxiliaryEq" (formula "1"))
                                           (rule "commute_and" (formula "58"))
                                           (rule "ifthenelse_split" (formula "3") (term "0"))
-                                          (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                          (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                              (rule "andLeft" (formula "3"))
                                              (rule "notLeft" (formula "3"))
                                              (rule "notLeft" (formula "3"))
@@ -8011,7 +8013,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                               (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "59")))
                                              (rule "closeFalse" (formula "2"))
                                           )
-                                          (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                          (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                              (rule "applyEqReverse" (formula "60") (term "1") (ifseqformula "3"))
                                              (rule "applyEqReverse" (formula "1") (term "2,0") (ifseqformula "3"))
                                              (rule "hideAuxiliaryEq" (formula "3"))
@@ -8023,7 +8025,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                              (rule "hideAuxiliaryEq" (formula "2"))
                                              (rule "commute_and" (formula "57"))
                                              (rule "ifthenelse_split" (formula "1") (term "0"))
-                                             (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                             (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                                 (rule "andLeft" (formula "1"))
                                                 (rule "notLeft" (formula "1"))
                                                 (rule "notLeft" (formula "1"))
@@ -8035,14 +8037,14 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                                  (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "40")))
                                                 (rule "closeTrue" (formula "41"))
                                              )
-                                             (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                             (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                                 (rule "close" (formula "58") (ifseqformula "1"))
                                              )
                                           )
                                        )
                                     )
                                  )
-                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX FALSE"
+                                 (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) FALSE"
                                      (builtin "One Step Simplification" (formula "18"))
                                     (rule "applyEq" (formula "47") (term "0") (ifseqformula "18"))
                                     (rule "applyEq" (formula "11") (term "1,0") (ifseqformula "18"))
@@ -8954,7 +8956,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                           (rule "hideAuxiliaryEq" (formula "3"))
                                           (rule "commute_and" (formula "59"))
                                           (rule "ifthenelse_split" (formula "2") (term "0"))
-                                          (branch "!o_0 = null & !o_0.<created> = TRUE TRUE"
+                                          (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE TRUE"
                                              (rule "andLeft" (formula "2"))
                                              (rule "notLeft" (formula "2"))
                                              (rule "notLeft" (formula "2"))
@@ -8975,7 +8977,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                               (builtin "One Step Simplification" (formula "2") (ifInst ""  (formula "60")))
                                              (rule "closeFalse" (formula "2"))
                                           )
-                                          (branch "!o_0 = null & !o_0.<created> = TRUE FALSE"
+                                          (branch " !o_0 = null & ! boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE FALSE"
                                              (rule "applyEqReverse" (formula "3") (term "2,0") (ifseqformula "2"))
                                              (rule "applyEqReverse" (formula "61") (term "0") (ifseqformula "2"))
                                              (rule "hideAuxiliaryEq" (formula "2"))
@@ -8986,7 +8988,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                              (rule "hideAuxiliaryEq" (formula "1"))
                                              (rule "commute_and" (formula "58"))
                                              (rule "ifthenelse_split" (formula "1") (term "0"))
-                                             (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) TRUE"
+                                             (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) TRUE"
                                                 (rule "andLeft" (formula "1"))
                                                 (rule "notLeft" (formula "1"))
                                                 (rule "notLeft" (formula "1"))
@@ -8998,7 +9000,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                                  (builtin "One Step Simplification" (formula "41") (ifInst ""  (formula "40")))
                                                 (rule "closeTrue" (formula "41"))
                                              )
-                                             (branch " !o_0 = null & !( o_0.<created> = TRUE | o_0.<created>@anon_heap_LOOP<<anonHeapFunction>> = TRUE) FALSE"
+                                             (branch " !o_0 = null & !( boolean::select(heap, o_0, java.lang.Object::<created>) = TRUE | boolean::select(anon_heap_LOOP<<anonHeapFunction>>, o_0, java.lang.Object::<created>) = TRUE) FALSE"
                                                 (rule "close" (formula "59") (ifseqformula "1"))
                                              )
                                           )
@@ -9537,23 +9539,25 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "seqCastInstance" (formula "59") (proofscript))
                                      (builtin "One Step Simplification" (formula "60") (ifInst ""  (formula "44")) (proofscript))
                                     (rule "false_right" (formula "60"))
+                                    (rule "orRight" (formula "59"))
                                     (rule "notRight" (formula "59"))
                                     (rule "inEqSimp_ltRight" (formula "50"))
-                                    (rule "mul_literals" (formula "1") (term "0,0"))
+                                    (rule "times_zero_1" (formula "1") (term "0,0"))
                                     (rule "add_zero_left" (formula "1") (term "0"))
                                     (rule "inEqSimp_ltToLeq" (formula "32") (term "0,0,0"))
                                     (rule "polySimp_mulComm0" (formula "32") (term "1,0,0,0,0,0"))
-                                    (rule "inEqSimp_ltToLeq" (formula "19") (term "0,0,0"))
-                                    (rule "polySimp_mulComm0" (formula "19") (term "1,0,0,0,0,0"))
                                     (rule "inEqSimp_ltToLeq" (formula "4"))
                                     (rule "polySimp_mulComm0" (formula "4") (term "1,0,0"))
                                     (rule "polySimp_addComm1" (formula "4") (term "0"))
-                                    (rule "applyEq" (formula "7") (term "0") (ifseqformula "8"))
-                                    (rule "applyEq" (formula "35") (term "1,2,1,0,0,0,0") (ifseqformula "7"))
-                                    (rule "applyEq" (formula "6") (term "0") (ifseqformula "7"))
-                                    (rule "applyEq" (formula "16") (term "0") (ifseqformula "26"))
-                                    (rule "applyEq" (formula "29") (term "1,2,1,0,0,0,0,0,1,0") (ifseqformula "6"))
+                                    (rule "inEqSimp_ltToLeq" (formula "19") (term "0,0,0"))
+                                    (rule "polySimp_mulComm0" (formula "19") (term "1,0,0,0,0,0"))
+                                    (rule "applyEq" (formula "18") (term "0") (ifseqformula "28"))
+                                    (rule "applyEq" (formula "59") (term "0") (ifseqformula "40"))
+                                    (rule "applyEq" (formula "31") (term "1,2,1,0,0,0,0,0,1,0") (ifseqformula "8"))
+                                    (rule "applyEq" (formula "6") (term "0") (ifseqformula "8"))
+                                    (rule "applyEq" (formula "5") (term "0") (ifseqformula "7"))
                                     (rule "applyEq" (formula "5") (term "0") (ifseqformula "6"))
+                                    (rule "applyEq" (formula "32") (term "1,2,1,0,0,0,0") (ifseqformula "5"))
                                     (rule "applyEq" (formula "15") (term "0,1,0,0,0,0,0") (ifseqformula "24"))
                                     (rule "inEqSimp_sepPosMonomial0" (formula "28") (term "0,0,0"))
                                     (rule "polySimp_mulComm0" (formula "28") (term "1,0,0,0"))
@@ -9570,10 +9574,6 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "mul_literals" (formula "15") (term "0,1,0,0,0"))
                                     (rule "polySimp_mulLiterals" (formula "15") (term "1,1,0,0,0"))
                                     (rule "polySimp_elimOne" (formula "15") (term "1,1,0,0,0"))
-                                    (rule "inEqSimp_subsumption1" (formula "30") (ifseqformula "26"))
-                                    (rule "leq_literals" (formula "30") (term "0"))
-                                     (builtin "One Step Simplification" (formula "30"))
-                                    (rule "true_left" (formula "30"))
                                     (rule "inEqSimp_subsumption1" (formula "27") (ifseqformula "4"))
                                     (rule "inEqSimp_homoInEq0" (formula "27") (term "0"))
                                     (rule "polySimp_pullOutFactor1b" (formula "27") (term "0,0"))
@@ -9587,6 +9587,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "leq_literals" (formula "23") (term "0"))
                                      (builtin "One Step Simplification" (formula "23"))
                                     (rule "true_left" (formula "23"))
+                                    (rule "inEqSimp_subsumption1" (formula "28") (ifseqformula "25"))
+                                    (rule "leq_literals" (formula "28") (term "0"))
+                                     (builtin "One Step Simplification" (formula "28"))
+                                    (rule "true_left" (formula "28"))
                                     (rule "inEqSimp_exactShadow3" (formula "4") (ifseqformula "22"))
                                     (rule "polySimp_rightDist" (formula "4") (term "0,0"))
                                     (rule "mul_literals" (formula "4") (term "0,0,0"))
@@ -9638,7 +9642,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                     (rule "commute_or" (formula "16") (term "0,0"))
                                     (rule "commute_or_2" (formula "16") (term "0"))
                                     (rule "ifthenelse_split" (formula "31") (term "0"))
-                                    (branch "result_1.<created> = TRUE TRUE"
+                                    (branch " boolean::select(heap, result_1, java.lang.Object::<created>) = TRUE TRUE"
                                        (rule "applyEqReverse" (formula "33") (term "2,0") (ifseqformula "32"))
                                        (rule "hideAuxiliaryEq" (formula "32"))
                                        (rule "applyEq" (formula "32") (term "2,0") (ifseqformula "31"))
@@ -9647,45 +9651,49 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                         (builtin "One Step Simplification" (formula "33"))
                                        (rule "true_left" (formula "33"))
                                        (rule "hideAuxiliaryEq" (formula "32"))
-                                       (rule "cut_direct" (formula "17") (term "0"))
-                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null TRUE"
-                                           (builtin "One Step Simplification" (formula "18"))
-                                          (rule "true_left" (formula "18"))
-                                          (rule "applyEq" (formula "19") (term "1,0") (ifseqformula "17"))
-                                          (rule "replace_known_right" (formula "19") (term "0") (ifseqformula "48"))
+                                       (rule "cut_direct" (formula "18") (term "0"))
+                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null TRUE"
+                                           (builtin "One Step Simplification" (formula "19"))
+                                          (rule "true_left" (formula "19"))
+                                          (rule "applyEq" (formula "19") (term "1,1") (ifseqformula "18"))
+                                          (rule "replace_known_right" (formula "19") (term "1") (ifseqformula "48"))
                                            (builtin "One Step Simplification" (formula "19"))
                                           (rule "applyEq" (formula "48") (term "0") (ifseqformula "19"))
-                                          (rule "replace_known_right" (formula "18") (term "0") (ifseqformula "48"))
-                                           (builtin "One Step Simplification" (formula "18"))
+                                          (rule "replace_known_right" (formula "17") (term "0") (ifseqformula "48"))
+                                           (builtin "One Step Simplification" (formula "17"))
                                           (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
+                                          (rule "seqGetAlphaCast" (formula "2") (term "0"))
+                                          (rule "castedGetAny" (formula "2") (term "0"))
+                                           (builtin "One Step Simplification" (formula "2"))
+                                          (rule "true_left" (formula "2"))
                                           (rule "allLeft" (formula "15") (inst "t=i_0"))
                                           (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
                                            (builtin "One Step Simplification" (formula "15"))
                                           (rule "inEqSimp_commuteGeq" (formula "15") (term "1"))
-                                          (rule "inEqSimp_contradInEq1" (formula "15") (term "0") (ifseqformula "26"))
-                                          (rule "qeq_literals" (formula "15") (term "0,0"))
+                                          (rule "inEqSimp_contradInEq1" (formula "15") (term "1") (ifseqformula "5"))
+                                          (rule "inEqSimp_homoInEq1" (formula "15") (term "0,1"))
+                                          (rule "polySimp_pullOutFactor1b" (formula "15") (term "0,0,1"))
+                                          (rule "add_literals" (formula "15") (term "1,1,0,0,1"))
+                                          (rule "times_zero_1" (formula "15") (term "1,0,0,1"))
+                                          (rule "add_literals" (formula "15") (term "0,0,1"))
+                                          (rule "leq_literals" (formula "15") (term "0,1"))
                                            (builtin "One Step Simplification" (formula "15"))
-                                          (rule "inEqSimp_contradInEq1" (formula "15") (ifseqformula "5"))
-                                          (rule "andLeft" (formula "15"))
-                                          (rule "inEqSimp_homoInEq1" (formula "15"))
-                                          (rule "polySimp_pullOutFactor1b" (formula "15") (term "0"))
-                                          (rule "add_literals" (formula "15") (term "1,1,0"))
-                                          (rule "times_zero_1" (formula "15") (term "1,0"))
-                                          (rule "add_zero_right" (formula "15") (term "0"))
-                                          (rule "leq_literals" (formula "15"))
-                                          (rule "closeFalse" (formula "15"))
+                                          (rule "inEqSimp_contradInEq0" (formula "26") (ifseqformula "15"))
+                                          (rule "qeq_literals" (formula "26") (term "0"))
+                                           (builtin "One Step Simplification" (formula "26"))
+                                          (rule "closeFalse" (formula "26"))
                                        )
-                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null FALSE"
-                                           (builtin "One Step Simplification" (formula "17"))
-                                          (rule "cut_direct" (formula "18") (term "0"))
-                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null TRUE"
+                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null FALSE"
+                                           (builtin "One Step Simplification" (formula "18"))
+                                          (rule "cut_direct" (formula "17") (term "0"))
+                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null TRUE"
+                                              (builtin "One Step Simplification" (formula "18"))
+                                             (rule "true_left" (formula "18"))
+                                             (rule "applyEq" (formula "19") (term "1,0") (ifseqformula "17"))
+                                             (rule "replace_known_right" (formula "19") (term "0") (ifseqformula "49"))
                                               (builtin "One Step Simplification" (formula "19"))
-                                             (rule "true_left" (formula "19"))
-                                             (rule "applyEq" (formula "19") (term "1,1") (ifseqformula "18"))
-                                             (rule "replace_known_right" (formula "19") (term "1") (ifseqformula "49"))
-                                              (builtin "One Step Simplification" (formula "19"))
+                                             (rule "applyEq" (formula "49") (term "0") (ifseqformula "19"))
                                              (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
-                                             (rule "applyEq" (formula "48") (term "0") (ifseqformula "18"))
                                              (rule "allLeft" (formula "15") (inst "t=i_0"))
                                              (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
                                               (builtin "One Step Simplification" (formula "15"))
@@ -9703,40 +9711,41 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                              (rule "leq_literals" (formula "15"))
                                              (rule "closeFalse" (formula "15"))
                                           )
-                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null FALSE"
-                                              (builtin "One Step Simplification" (formula "18"))
-                                             (rule "cut_direct" (formula "19") (term "0"))
-                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX TRUE"
+                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null FALSE"
+                                              (builtin "One Step Simplification" (formula "17"))
+                                             (rule "cut_direct" (formula "19") (term "1"))
+                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) TRUE"
                                                  (builtin "One Step Simplification" (formula "20"))
                                                 (rule "true_left" (formula "20"))
+                                                (rule "applyEq" (formula "50") (term "0") (ifseqformula "19"))
                                                 (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
-                                                (rule "applyEq" (formula "49") (term "0") (ifseqformula "18"))
+                                                (rule "seqGetAlphaCast" (formula "2") (term "0"))
+                                                (rule "castedGetAny" (formula "2") (term "0"))
+                                                 (builtin "One Step Simplification" (formula "2"))
+                                                (rule "true_left" (formula "2"))
                                                 (rule "allLeft" (formula "15") (inst "t=i_0"))
                                                 (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
                                                  (builtin "One Step Simplification" (formula "15"))
                                                 (rule "inEqSimp_commuteGeq" (formula "15") (term "1"))
-                                                (rule "inEqSimp_contradInEq1" (formula "15") (term "1") (ifseqformula "5"))
-                                                (rule "inEqSimp_homoInEq1" (formula "15") (term "0,1"))
-                                                (rule "polySimp_pullOutFactor1b" (formula "15") (term "0,0,1"))
-                                                (rule "add_literals" (formula "15") (term "1,1,0,0,1"))
-                                                (rule "times_zero_1" (formula "15") (term "1,0,0,1"))
-                                                (rule "add_literals" (formula "15") (term "0,0,1"))
-                                                (rule "leq_literals" (formula "15") (term "0,1"))
+                                                (rule "inEqSimp_contradInEq1" (formula "15") (term "0") (ifseqformula "26"))
+                                                (rule "qeq_literals" (formula "15") (term "0,0"))
                                                  (builtin "One Step Simplification" (formula "15"))
-                                                (rule "inEqSimp_subsumption0" (formula "4") (ifseqformula "15"))
-                                                (rule "leq_literals" (formula "4") (term "0"))
-                                                 (builtin "One Step Simplification" (formula "4"))
-                                                (rule "true_left" (formula "4"))
-                                                (rule "inEqSimp_contradInEq0" (formula "25") (ifseqformula "14"))
-                                                (rule "qeq_literals" (formula "25") (term "0"))
-                                                 (builtin "One Step Simplification" (formula "25"))
-                                                (rule "closeFalse" (formula "25"))
+                                                (rule "inEqSimp_contradInEq0" (formula "5") (ifseqformula "15"))
+                                                (rule "andLeft" (formula "5"))
+                                                (rule "inEqSimp_homoInEq1" (formula "5"))
+                                                (rule "polySimp_pullOutFactor1b" (formula "5") (term "0"))
+                                                (rule "add_literals" (formula "5") (term "1,1,0"))
+                                                (rule "times_zero_1" (formula "5") (term "1,0"))
+                                                (rule "add_literals" (formula "5") (term "0"))
+                                                (rule "leq_literals" (formula "5"))
+                                                (rule "closeFalse" (formula "5"))
                                              )
-                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX FALSE"
+                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) FALSE"
                                                  (builtin "One Step Simplification" (formula "19"))
-                                                (rule "applyEq" (formula "33") (term "0") (ifseqformula "19"))
-                                                (rule "applyEq" (formula "51") (term "0") (ifseqformula "19"))
                                                 (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
+                                                (rule "applyEq" (formula "50") (term "0") (ifseqformula "18"))
+                                                (rule "applyEq" (formula "32") (term "0") (ifseqformula "18"))
+                                                (rule "eqSymm" (formula "32"))
                                                 (rule "allLeft" (formula "15") (inst "t=i_0"))
                                                 (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
                                                  (builtin "One Step Simplification" (formula "15"))
@@ -9749,28 +9758,32 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                                 (rule "add_literals" (formula "15") (term "0,0,1"))
                                                 (rule "leq_literals" (formula "15") (term "0,1"))
                                                  (builtin "One Step Simplification" (formula "15"))
-                                                (rule "inEqSimp_contradInEq0" (formula "26") (ifseqformula "15"))
-                                                (rule "qeq_literals" (formula "26") (term "0"))
-                                                 (builtin "One Step Simplification" (formula "26"))
-                                                (rule "closeFalse" (formula "26"))
+                                                (rule "inEqSimp_contradInEq1" (formula "15") (ifseqformula "26"))
+                                                (rule "qeq_literals" (formula "15") (term "0"))
+                                                 (builtin "One Step Simplification" (formula "15"))
+                                                (rule "closeFalse" (formula "15"))
                                              )
                                           )
                                        )
                                     )
-                                    (branch "result_1.<created> = TRUE FALSE"
+                                    (branch " boolean::select(heap, result_1, java.lang.Object::<created>) = TRUE FALSE"
                                        (rule "applyEqReverse" (formula "32") (term "2,0") (ifseqformula "31"))
                                        (rule "hideAuxiliaryEq" (formula "31"))
-                                       (rule "cut_direct" (formula "17") (term "0"))
-                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null TRUE"
-                                           (builtin "One Step Simplification" (formula "18"))
-                                          (rule "true_left" (formula "18"))
-                                          (rule "applyEq" (formula "19") (term "1,0") (ifseqformula "17"))
-                                          (rule "replace_known_right" (formula "19") (term "0") (ifseqformula "50"))
+                                       (rule "cut_direct" (formula "18") (term "0"))
+                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null TRUE"
+                                           (builtin "One Step Simplification" (formula "19"))
+                                          (rule "true_left" (formula "19"))
+                                          (rule "applyEq" (formula "19") (term "1,1") (ifseqformula "18"))
+                                          (rule "replace_known_right" (formula "19") (term "1") (ifseqformula "50"))
                                            (builtin "One Step Simplification" (formula "19"))
                                           (rule "applyEq" (formula "50") (term "0") (ifseqformula "19"))
-                                          (rule "replace_known_right" (formula "18") (term "0") (ifseqformula "50"))
-                                           (builtin "One Step Simplification" (formula "18"))
+                                          (rule "replace_known_right" (formula "17") (term "0") (ifseqformula "50"))
+                                           (builtin "One Step Simplification" (formula "17"))
                                           (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
+                                          (rule "seqGetAlphaCast" (formula "2") (term "0"))
+                                          (rule "castedGetAny" (formula "2") (term "0"))
+                                           (builtin "One Step Simplification" (formula "2"))
+                                          (rule "true_left" (formula "2"))
                                           (rule "allLeft" (formula "15") (inst "t=i_0"))
                                           (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
                                            (builtin "One Step Simplification" (formula "15"))
@@ -9783,51 +9796,55 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                           (rule "add_zero_right" (formula "15") (term "0,0,1"))
                                           (rule "leq_literals" (formula "15") (term "0,1"))
                                            (builtin "One Step Simplification" (formula "15"))
-                                          (rule "inEqSimp_contradInEq1" (formula "15") (ifseqformula "26"))
-                                          (rule "qeq_literals" (formula "15") (term "0"))
-                                           (builtin "One Step Simplification" (formula "15"))
-                                          (rule "closeFalse" (formula "15"))
+                                          (rule "inEqSimp_subsumption0" (formula "4") (ifseqformula "15"))
+                                          (rule "leq_literals" (formula "4") (term "0"))
+                                           (builtin "One Step Simplification" (formula "4"))
+                                          (rule "true_left" (formula "4"))
+                                          (rule "inEqSimp_contradInEq0" (formula "25") (ifseqformula "14"))
+                                          (rule "qeq_literals" (formula "25") (term "0"))
+                                           (builtin "One Step Simplification" (formula "25"))
+                                          (rule "closeFalse" (formula "25"))
                                        )
-                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null FALSE"
-                                           (builtin "One Step Simplification" (formula "17"))
-                                          (rule "cut_direct" (formula "18") (term "0"))
-                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null TRUE"
+                                       (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null FALSE"
+                                           (builtin "One Step Simplification" (formula "18"))
+                                          (rule "cut_direct" (formula "17") (term "0"))
+                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null TRUE"
+                                              (builtin "One Step Simplification" (formula "18"))
+                                             (rule "true_left" (formula "18"))
+                                             (rule "applyEq" (formula "19") (term "1,0") (ifseqformula "17"))
+                                             (rule "replace_known_right" (formula "19") (term "0") (ifseqformula "51"))
                                               (builtin "One Step Simplification" (formula "19"))
-                                             (rule "true_left" (formula "19"))
-                                             (rule "applyEq" (formula "19") (term "1,1") (ifseqformula "18"))
-                                             (rule "replace_known_right" (formula "19") (term "1") (ifseqformula "51"))
-                                              (builtin "One Step Simplification" (formula "19"))
-                                             (rule "applyEq" (formula "51") (term "0") (ifseqformula "19"))
                                              (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
+                                             (rule "applyEq" (formula "50") (term "0") (ifseqformula "18"))
+                                             (rule "seqGetAlphaCast" (formula "2") (term "0"))
+                                             (rule "castedGetAny" (formula "2") (term "0"))
+                                              (builtin "One Step Simplification" (formula "2"))
+                                             (rule "true_left" (formula "2"))
                                              (rule "allLeft" (formula "15") (inst "t=i_0"))
                                              (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
                                               (builtin "One Step Simplification" (formula "15"))
                                              (rule "inEqSimp_commuteGeq" (formula "15") (term "1"))
-                                             (rule "inEqSimp_contradInEq1" (formula "15") (term "1") (ifseqformula "5"))
-                                             (rule "inEqSimp_homoInEq1" (formula "15") (term "0,1"))
-                                             (rule "polySimp_pullOutFactor1b" (formula "15") (term "0,0,1"))
-                                             (rule "add_literals" (formula "15") (term "1,1,0,0,1"))
-                                             (rule "times_zero_1" (formula "15") (term "1,0,0,1"))
-                                             (rule "add_zero_right" (formula "15") (term "0,0,1"))
-                                             (rule "leq_literals" (formula "15") (term "0,1"))
+                                             (rule "inEqSimp_contradInEq1" (formula "15") (term "0") (ifseqformula "26"))
+                                             (rule "qeq_literals" (formula "15") (term "0,0"))
                                               (builtin "One Step Simplification" (formula "15"))
-                                             (rule "inEqSimp_subsumption0" (formula "4") (ifseqformula "15"))
-                                             (rule "leq_literals" (formula "4") (term "0"))
-                                              (builtin "One Step Simplification" (formula "4"))
-                                             (rule "true_left" (formula "4"))
-                                             (rule "inEqSimp_contradInEq0" (formula "25") (ifseqformula "14"))
-                                             (rule "qeq_literals" (formula "25") (term "0"))
-                                              (builtin "One Step Simplification" (formula "25"))
-                                             (rule "closeFalse" (formula "25"))
+                                             (rule "inEqSimp_contradInEq0" (formula "5") (ifseqformula "15"))
+                                             (rule "andLeft" (formula "5"))
+                                             (rule "inEqSimp_homoInEq1" (formula "5"))
+                                             (rule "polySimp_pullOutFactor1b" (formula "5") (term "0"))
+                                             (rule "add_literals" (formula "5") (term "1,1,0"))
+                                             (rule "times_zero_1" (formula "5") (term "1,0"))
+                                             (rule "add_zero_right" (formula "5") (term "0"))
+                                             (rule "leq_literals" (formula "5"))
+                                             (rule "closeFalse" (formula "5"))
                                           )
-                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null FALSE"
-                                              (builtin "One Step Simplification" (formula "18"))
-                                             (rule "cut_direct" (formula "19") (term "0"))
-                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX TRUE"
+                                          (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null FALSE"
+                                              (builtin "One Step Simplification" (formula "17"))
+                                             (rule "cut_direct" (formula "19") (term "1"))
+                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) TRUE"
                                                  (builtin "One Step Simplification" (formula "20"))
                                                 (rule "true_left" (formula "20"))
-                                                (rule "applyEq" (formula "52") (term "0") (ifseqformula "19"))
                                                 (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
+                                                (rule "applyEq" (formula "51") (term "0") (ifseqformula "18"))
                                                 (rule "allLeft" (formula "15") (inst "t=i_0"))
                                                 (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
                                                  (builtin "One Step Simplification" (formula "15"))
@@ -9845,10 +9862,11 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                                                 (rule "leq_literals" (formula "5"))
                                                 (rule "closeFalse" (formula "5"))
                                              )
-                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX FALSE"
+                                             (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) FALSE"
                                                  (builtin "One Step Simplification" (formula "19"))
-                                                (rule "applyEq" (formula "34") (term "0") (ifseqformula "19"))
                                                 (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "19"))
+                                                (rule "applyEq" (formula "33") (term "0") (ifseqformula "18"))
+                                                (rule "eqSymm" (formula "33"))
                                                 (rule "applyEq" (formula "52") (term "0") (ifseqformula "18"))
                                                 (rule "allLeft" (formula "15") (inst "t=i_0"))
                                                 (rule "replace_known_left" (formula "15") (term "0,0,0") (ifseqformula "2"))
@@ -10495,7 +10513,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
             (rule "commute_or" (formula "11") (term "0,0"))
             (rule "commute_or" (formula "22") (term "0,0"))
             (rule "cut_direct" (formula "12") (term "0"))
-            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null TRUE"
+            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null TRUE"
                 (builtin "One Step Simplification" (formula "13"))
                (rule "true_left" (formula "13"))
                (rule "applyEq" (formula "14") (term "1,0") (ifseqformula "12"))
@@ -10722,10 +10740,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                   )
                )
             )
-            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MAX = null FALSE"
+            (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MAX) = null FALSE"
                 (builtin "One Step Simplification" (formula "12"))
                (rule "cut_direct" (formula "13") (term "0"))
-               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null TRUE"
+               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null TRUE"
                    (builtin "One Step Simplification" (formula "14"))
                   (rule "true_left" (formula "14"))
                   (rule "applyEq" (formula "14") (term "1,1") (ifseqformula "13"))
@@ -10951,10 +10969,10 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                      )
                   )
                )
-               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN = null FALSE"
+               (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) = null FALSE"
                    (builtin "One Step Simplification" (formula "13"))
                   (rule "cut_direct" (formula "14") (term "1"))
-                  (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN TRUE"
+                  (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) TRUE"
                       (builtin "One Step Simplification" (formula "15"))
                      (rule "true_left" (formula "15"))
                      (rule "replace_known_left" (formula "38") (term "0,0,1,0") (ifseqformula "14"))
@@ -11175,7 +11193,7 @@ class=de.uka.ilkd.key.proof.init.FunctionalOperationContractPO
                         )
                      )
                   )
-                  (branch "CUT: de.polyas.core3.open.cred.CredTool.polyasMode = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode.MIN FALSE"
+                  (branch "CUT: de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool::$polyasMode) = de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::select(heap, null, de.polyas.core3.open.cred.CredTool.FieldsForPolyasMode::$MIN) FALSE"
                       (builtin "One Step Simplification" (formula "14"))
                      (rule "replace_known_right" (formula "39") (term "0,0,1,0") (ifseqformula "24"))
                       (builtin "One Step Simplification" (formula "39") (ifInst ""  (formula "14")))

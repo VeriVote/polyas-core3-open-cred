@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Thu Dec 19 18:08:00 CET 2019
+#Sun Feb 09 23:40:41 CET 2020
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -42,19 +42,21 @@
 "
 }
 
-\javaSource "../src";
+\bootclasspath "../../../../../../home/flo/git/polyas-core3-open-cred/boot";
+
+\javaSource "../../../../../../home/flo/git/polyas-core3-open-cred/src";
 
 \proofObligation "#Proof Obligation Settings
-#Thu Dec 19 18:08:00 CET 2019
+#Sun Feb 09 23:40:41 CET 2020
 contract=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:exitIfIdInvalid(java.lang.String)].Non-interference contract.0
 name=de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool\\:\\:exitIfIdInvalid(java.lang.String)].Non-interference contract.0
 class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+(keyLog "0" (keyUser "flo" ) (keyVersion ""))
 
-(autoModeTime "1229")
+(autoModeTime "2978")
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))
@@ -191,7 +193,7 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
 (rule "compound_assignment_2" (formula "21") (term "1") (inst "#v=x_1"))
 (rule "variableDeclarationAssign" (formula "21") (term "1"))
 (rule "variableDeclaration" (formula "21") (term "1") (newnames "x_1"))
- (builtin "Use Operation Contract" (formula "21") (newnames "heapBefore_voterIdCheck,result_902,exc_1196,heapAfter_voterIdCheck,anon_heap_voterIdCheck") (contract "de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool::voterIdCheck(java.lang.String)].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "21") (newnames "heapBefore_voterIdCheck,result_1799,exc_2381,heapAfter_voterIdCheck,anon_heap_voterIdCheck") (contract "de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool::voterIdCheck(java.lang.String)].JML normal_behavior operation contract.0"))
 (branch "Post (voterIdCheck)"
     (builtin "One Step Simplification" (formula "21"))
     (builtin "One Step Simplification" (formula "23") (ifInst ""  (formula "29")) (ifInst ""  (formula "13")) (ifInst ""  (formula "29")) (ifInst ""  (formula "16")))
@@ -244,7 +246,7 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
    (rule "applyEqRigid" (formula "5") (term "0,0") (ifseqformula "6"))
     (builtin "One Step Simplification" (formula "5"))
    (rule "true_left" (formula "5"))
-    (builtin "Use Operation Contract" (formula "28") (newnames "heapBefore_voterIdCheck_0,result_903,exc_1197,heapAfter_voterIdCheck_0,anon_heap_voterIdCheck_0") (contract "de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool::voterIdCheck(java.lang.String)].JML normal_behavior operation contract.0"))
+    (builtin "Use Operation Contract" (formula "28") (newnames "heapBefore_voterIdCheck_0,result_1800,exc_2382,heapAfter_voterIdCheck_0,anon_heap_voterIdCheck_0") (contract "de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool::voterIdCheck(java.lang.String)].JML normal_behavior operation contract.0"))
    (branch "Post (voterIdCheck)"
        (builtin "One Step Simplification" (formula "32"))
        (builtin "One Step Simplification" (formula "29"))
@@ -384,14 +386,14 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
             (rule "applyEq" (formula "41") (term "0") (ifseqformula "1"))
             (rule "onlyCreatedObjectsAreReferenced" (formula "12") (term "1,1") (ifseqformula "13"))
             (rule "ifthenelse_split" (formula "10") (term "0"))
-            (branch " ! de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_B<<anonHeapFunction>> = null & ! de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_B<<anonHeapFunction>> = TRUE TRUE"
+            (branch " ¬ de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_B«anonHeapFunction» = null ∧ ¬ de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_B«anonHeapFunction» = TRUE TRUE"
                (rule "andLeft" (formula "10"))
                (rule "notLeft" (formula "11"))
                (rule "notLeft" (formula "10"))
                (rule "referencedObjectIsCreatedRight" (formula "47") (ifseqformula "46"))
                (rule "close" (formula "47") (ifseqformula "22"))
             )
-            (branch " ! de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_B<<anonHeapFunction>> = null & ! de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_B<<anonHeapFunction>> = TRUE FALSE"
+            (branch " ¬ de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_B«anonHeapFunction» = null ∧ ¬ de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_B«anonHeapFunction» = TRUE FALSE"
                (rule "applyEqReverse" (formula "8") (term "0,0") (ifseqformula "10"))
                (rule "applyEqReverse" (formula "51") (term "0,1,1,0,0,1") (ifseqformula "10"))
                (rule "applyEqReverse" (formula "51") (term "0,1,0") (ifseqformula "10"))
@@ -404,14 +406,14 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
                 (builtin "One Step Simplification" (formula "44"))
                (rule "true_left" (formula "44"))
                (rule "ifthenelse_split" (formula "9") (term "0"))
-               (branch " ! de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_A<<anonHeapFunction>> = null & ! de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_A<<anonHeapFunction>> = TRUE TRUE"
+               (branch " ¬ de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_A«anonHeapFunction» = null ∧ ¬ de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_A«anonHeapFunction» = TRUE TRUE"
                   (rule "andLeft" (formula "9"))
                   (rule "notLeft" (formula "9"))
                   (rule "notLeft" (formula "9"))
                   (rule "referencedObjectIsCreatedRight" (formula "45") (ifseqformula "46"))
                   (rule "close" (formula "45") (ifseqformula "13"))
                )
-               (branch " ! de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_A<<anonHeapFunction>> = null & ! de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_A<<anonHeapFunction>> = TRUE FALSE"
+               (branch " ¬ de.polyas.core3.open.cred.CredTool.polyasVals@heapAtPre_A«anonHeapFunction» = null ∧ ¬ de.polyas.core3.open.cred.CredTool.polyasVals.<created>@heapAtPre_A«anonHeapFunction» = TRUE FALSE"
                   (rule "applyEqReverse" (formula "51") (term "0,1,1,0,1") (ifseqformula "9"))
                    (builtin "One Step Simplification" (formula "51"))
                   (rule "applyEqReverse" (formula "7") (term "0,0") (ifseqformula "9"))
@@ -657,7 +659,7 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
    (rule "castedGetAny" (formula "22") (term "0"))
     (builtin "One Step Simplification" (formula "22"))
    (rule "true_left" (formula "22"))
-    (builtin "Use Operation Contract" (formula "23") (newnames "heapBefore_voterIdCheck_0,result_903,exc_1197,heapAfter_voterIdCheck_0,anon_heap_voterIdCheck_0") (contract "de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool::voterIdCheck(java.lang.String)].JML normal_behavior operation contract.0"))
+    (builtin "Use Operation Contract" (formula "23") (newnames "heapBefore_voterIdCheck_0,result_1800,exc_2382,heapAfter_voterIdCheck_0,anon_heap_voterIdCheck_0") (contract "de.polyas.core3.open.cred.CredTool[de.polyas.core3.open.cred.CredTool::voterIdCheck(java.lang.String)].JML normal_behavior operation contract.0"))
    (branch "Post (voterIdCheck)"
        (builtin "One Step Simplification" (formula "25"))
        (builtin "One Step Simplification" (formula "24"))

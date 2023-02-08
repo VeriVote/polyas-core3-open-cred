@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Thu Dec 19 17:26:19 CET 2019
+#Sun Feb 09 15:00:23 CET 2020
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -42,19 +42,21 @@
 "
 }
 
-\javaSource "../src";
+\bootclasspath "../../../../../../home/flo/git/polyas-core3-open-cred/boot";
+
+\javaSource "../../../../../../home/flo/git/polyas-core3-open-cred/src";
 
 \proofObligation "#Proof Obligation Settings
-#Thu Dec 19 17:26:19 CET 2019
+#Sun Feb 09 15:00:23 CET 2020
 contract=de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils\\:\\:asHexString([B)].Non-interference contract.0
 name=de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils\\:\\:asHexString([B)].Non-interference contract.0
 class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
 ";
 
 \proof {
-(keyLog "0" (keyUser "flo" ) (keyVersion "57d504cc0f"))
+(keyLog "0" (keyUser "flo" ) (keyVersion ""))
 
-(autoModeTime "660")
+(autoModeTime "572")
 
 (branch "dummy ID"
  (builtin "One Step Simplification" (formula "1"))
@@ -101,7 +103,7 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
 (rule "variableDeclaration" (formula "5") (term "1") (newnames "s_1"))
 (rule "methodCallWithAssignmentUnfoldTarget" (formula "6") (term "1") (inst "#v0=s_1"))
 (rule "variableDeclaration" (formula "6") (term "1") (newnames "s_2"))
- (builtin "Use Operation Contract" (formula "6") (newnames "heapBefore_bytesToHexString,result_207,exc_271,heapAfter_bytesToHexString,anon_heap_bytesToHexString") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::bytesToHexString([B)].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "6") (newnames "heapBefore_bytesToHexString,result_504,exc_664,heapAfter_bytesToHexString,anon_heap_bytesToHexString") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::bytesToHexString([B)].JML normal_behavior operation contract.0"))
 (branch "Post (bytesToHexString)"
     (builtin "One Step Simplification" (formula "7"))
     (builtin "One Step Simplification" (formula "6"))
@@ -126,7 +128,7 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
    (rule "applyEq" (formula "10") (term "3") (ifseqformula "7"))
    (rule "methodCallWithAssignmentUnfoldTarget" (formula "13") (term "1") (inst "#v0=s_2"))
    (rule "variableDeclaration" (formula "13") (term "1") (newnames "s_3"))
-    (builtin "Use Operation Contract" (formula "14") (newnames "heapBefore_toLowerCase,result_208,exc_272,heapAfter_toLowerCase,anon_heap_toLowerCase") (contract "java.lang.String[java.lang.String::toLowerCase()].JML normal_behavior operation contract.0"))
+    (builtin "Use Operation Contract" (formula "14") (newnames "heapBefore_toLowerCase,result_505,exc_665,heapAfter_toLowerCase,anon_heap_toLowerCase") (contract "java.lang.String[java.lang.String::toLowerCase()].JML normal_behavior operation contract.0"))
    (branch "Post (toLowerCase)"
        (builtin "One Step Simplification" (formula "13"))
        (builtin "One Step Simplification" (formula "18"))
@@ -167,13 +169,13 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
       (rule "andLeft" (formula "1"))
       (rule "andLeft" (formula "1"))
       (rule "eqSymm" (formula "2"))
+      (rule "applyEq" (formula "21") (term "1,0") (ifseqformula "1"))
       (rule "applyEq" (formula "19") (term "3") (ifseqformula "1"))
       (rule "applyEq" (formula "18") (term "0,0") (ifseqformula "1"))
-      (rule "applyEq" (formula "21") (term "1,0") (ifseqformula "1"))
-      (rule "applyEq" (formula "22") (term "1,0") (ifseqformula "1"))
       (rule "applyEq" (formula "17") (term "1,0") (ifseqformula "1"))
+      (rule "applyEq" (formula "22") (term "1,0") (ifseqformula "1"))
       (rule "applyEq" (formula "23") (term "0") (ifseqformula "1"))
-       (builtin "Use Operation Contract" (formula "26") (newnames "heapBefore_bytesToHexString_0,result_209,exc_273,heapAfter_bytesToHexString_0,anon_heap_bytesToHexString_0") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::bytesToHexString([B)].JML normal_behavior operation contract.0"))
+       (builtin "Use Operation Contract" (formula "26") (newnames "heapBefore_bytesToHexString_0,result_506,exc_666,heapAfter_bytesToHexString_0,anon_heap_bytesToHexString_0") (contract "de.polyas.core3.open.crypto.basic.Utils[de.polyas.core3.open.crypto.basic.Utils::bytesToHexString([B)].JML normal_behavior operation contract.0"))
       (branch "Post (bytesToHexString)"
           (builtin "One Step Simplification" (formula "24") (ifInst ""  (formula "31")) (ifInst ""  (formula "6")) (ifInst ""  (formula "31")) (ifInst ""  (formula "7")))
           (builtin "One Step Simplification" (formula "22"))
@@ -196,7 +198,7 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
          (rule "assignment" (formula "34") (term "1"))
           (builtin "One Step Simplification" (formula "34"))
          (rule "applyEq" (formula "26") (term "3") (ifseqformula "23"))
-          (builtin "Use Operation Contract" (formula "34") (newnames "heapBefore_toLowerCase_0,result_210,exc_274,heapAfter_toLowerCase_0,anon_heap_toLowerCase_0") (contract "java.lang.String[java.lang.String::toLowerCase()].JML normal_behavior operation contract.0"))
+          (builtin "Use Operation Contract" (formula "34") (newnames "heapBefore_toLowerCase_0,result_507,exc_667,heapAfter_toLowerCase_0,anon_heap_toLowerCase_0") (contract "java.lang.String[java.lang.String::toLowerCase()].JML normal_behavior operation contract.0"))
          (branch "Post (toLowerCase)"
              (builtin "One Step Simplification" (formula "29"))
              (builtin "One Step Simplification" (formula "28"))
@@ -244,11 +246,11 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
             (rule "applyEq" (formula "35") (term "3") (ifseqformula "1"))
             (rule "applyEq" (formula "33") (term "1,0") (ifseqformula "1"))
             (rule "cut_direct" (formula "49") (term "0"))
-            (branch "CUT: newObjectsIsomorphic(seqSingleton(resultAtPost_206_A), heapAtPre_A<<anonHeapFunction>>, seqSingleton(resultAtPost_206_B), heapAtPre_B<<anonHeapFunction>>) TRUE"
+            (branch "CUT: newObjectsIsomorphic(〈resultAtPost_503_A〉, heapAtPre_A«anonHeapFunction», 〈resultAtPost_503_B〉, heapAtPre_B«anonHeapFunction») TRUE"
                 (builtin "One Step Simplification" (formula "50"))
                (rule "impRight" (formula "50"))
-               (rule "applyEq" (formula "31") (term "0") (ifseqformula "1"))
                (rule "applyEq" (formula "49") (term "0") (ifseqformula "1"))
+               (rule "applyEq" (formula "31") (term "0") (ifseqformula "1"))
                (rule "applyEq" (formula "12") (term "1,0") (ifseqformula "1"))
                (rule "equalityToSeqGetAndSeqLenRight" (formula "50") (inst "iv=iv"))
                (rule "inEqSimp_ltToLeq" (formula "50") (term "1,0,0,1"))
@@ -277,7 +279,7 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
                (rule "polySimp_mulLiterals" (formula "50") (term "1,1,0,0,1"))
                (rule "polySimp_elimOne" (formula "50") (term "1,1,0,0,1"))
                (rule "cut_direct" (formula "50") (term "0"))
-               (branch "CUT: strContent(resultAtPost_206_B).length = strContent(resultAtPost_206_A).length TRUE"
+               (branch "CUT: strContent(resultAtPost_503_B).length = strContent(resultAtPost_503_A).length TRUE"
                    (builtin "One Step Simplification" (formula "51"))
                   (rule "allRight" (formula "51") (inst "sk=iv_0"))
                   (rule "orRight" (formula "51"))
@@ -306,25 +308,25 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
                   (rule "castDel" (formula "1") (term "0"))
                    (builtin "One Step Simplification" (formula "1"))
                   (rule "true_left" (formula "1"))
-                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292_0_0" (formula "35") (ifseqformula "22"))
+                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292__1_" (formula "35") (ifseqformula "22"))
                    (builtin "One Step Simplification" (formula "35") (ifInst ""  (formula "54")) (ifInst ""  (formula "54")))
-                  (rule "applyEq" (formula "33") (term "1,0") (ifseqformula "35"))
                   (rule "applyEq" (formula "42") (term "2") (ifseqformula "35"))
-                  (rule "applyEq" (formula "36") (term "2") (ifseqformula "35"))
-                  (rule "applyEq" (formula "48") (term "0") (ifseqformula "35"))
                   (rule "applyEq" (formula "42") (term "0") (ifseqformula "35"))
+                  (rule "applyEq" (formula "33") (term "1,0") (ifseqformula "35"))
+                  (rule "applyEq" (formula "36") (term "2") (ifseqformula "35"))
                   (rule "applyEq" (formula "34") (term "0,0") (ifseqformula "35"))
+                  (rule "applyEq" (formula "47") (term "0") (ifseqformula "34"))
                   (rule "applyEq" (formula "46") (term "1,0") (ifseqformula "34"))
-                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077_00_1" (formula "28") (ifseqformula "28"))
+                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077__4_" (formula "28") (ifseqformula "28"))
                    (builtin "One Step Simplification" (formula "28"))
                   (rule "true_left" (formula "28"))
-                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292_0_0" (formula "22") (ifseqformula "22"))
+                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292__3_" (formula "22") (ifseqformula "22"))
                    (builtin "One Step Simplification" (formula "22") (ifInst ""  (formula "53")) (ifInst ""  (formula "53")))
                   (rule "true_left" (formula "22"))
-                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077_0000_3" (formula "28") (ifseqformula "28"))
+                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077__2_" (formula "28") (ifseqformula "28"))
                    (builtin "One Step Simplification" (formula "28"))
                   (rule "true_left" (formula "28"))
-                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077_00_1" (formula "28") (ifseqformula "41"))
+                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077__2_" (formula "28") (ifseqformula "41"))
                    (builtin "One Step Simplification" (formula "28"))
                   (rule "eqSymm" (formula "28") (term "0,1"))
                   (rule "eqSymm" (formula "28") (term "1,1"))
@@ -333,36 +335,37 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
                   (rule "Class_invariant_axiom_for_java_lang_String" (formula "28") (term "0"))
                    (builtin "One Step Simplification" (formula "28"))
                   (rule "andLeft" (formula "28"))
+                  (rule "applyEq" (formula "43") (term "3") (ifseqformula "28"))
                   (rule "applyEq" (formula "55") (term "0,0") (ifseqformula "29"))
                    (builtin "One Step Simplification" (formula "55"))
                   (rule "closeTrue" (formula "55"))
                )
-               (branch "CUT: strContent(resultAtPost_206_B).length = strContent(resultAtPost_206_A).length FALSE"
+               (branch "CUT: strContent(resultAtPost_503_B).length = strContent(resultAtPost_503_A).length FALSE"
                    (builtin "One Step Simplification" (formula "51"))
                   (rule "false_right" (formula "51"))
-                  (rule "lenNonNegative" (formula "50") (term "0"))
+                  (rule "lenNonNegative" (formula "50") (term "1"))
                   (rule "inEqSimp_commuteLeq" (formula "1"))
-                  (rule "lenNonNegative" (formula "51") (term "1"))
+                  (rule "lenNonNegative" (formula "51") (term "0"))
                   (rule "inEqSimp_commuteLeq" (formula "1"))
-                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292_0_0" (formula "33") (ifseqformula "20"))
+                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292__1_" (formula "33") (ifseqformula "20"))
                    (builtin "One Step Simplification" (formula "33") (ifInst ""  (formula "52")) (ifInst ""  (formula "52")))
-                  (rule "applyEq" (formula "34") (term "2") (ifseqformula "33"))
+                  (rule "applyEq" (formula "40") (term "0") (ifseqformula "33"))
+                  (rule "applyEq" (formula "46") (term "0") (ifseqformula "33"))
+                  (rule "applyEq" (formula "31") (term "1,0") (ifseqformula "33"))
                   (rule "applyEq" (formula "32") (term "0,0") (ifseqformula "33"))
-                  (rule "applyEq" (formula "44") (term "1,0") (ifseqformula "32"))
-                  (rule "applyEq" (formula "39") (term "0") (ifseqformula "32"))
-                  (rule "applyEq" (formula "31") (term "1,0") (ifseqformula "32"))
                   (rule "applyEq" (formula "39") (term "2") (ifseqformula "32"))
-                  (rule "applyEq" (formula "45") (term "0") (ifseqformula "32"))
-                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077_00_1" (formula "26") (ifseqformula "26"))
+                  (rule "applyEq" (formula "33") (term "2") (ifseqformula "32"))
+                  (rule "applyEq" (formula "44") (term "1,0") (ifseqformula "32"))
+                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077__4_" (formula "26") (ifseqformula "26"))
                    (builtin "One Step Simplification" (formula "26"))
                   (rule "true_left" (formula "26"))
-                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292_0_0" (formula "20") (ifseqformula "20"))
+                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077__2_" (formula "26") (ifseqformula "26"))
+                   (builtin "One Step Simplification" (formula "26"))
+                  (rule "true_left" (formula "26"))
+                  (rule "Use_information_flow_contract_for_bytesToHexString_1724841292__3_" (formula "20") (ifseqformula "20"))
                    (builtin "One Step Simplification" (formula "20") (ifInst ""  (formula "51")) (ifInst ""  (formula "51")))
                   (rule "true_left" (formula "20"))
-                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077_0000_3" (formula "26") (ifseqformula "26"))
-                   (builtin "One Step Simplification" (formula "26"))
-                  (rule "true_left" (formula "26"))
-                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077_00_1" (formula "26") (ifseqformula "39"))
+                  (rule "Use_information_flow_contract_for_toLowerCase_2107268077__2_" (formula "26") (ifseqformula "39"))
                    (builtin "One Step Simplification" (formula "26"))
                   (rule "eqSymm" (formula "26") (term "0,1"))
                   (rule "eqSymm" (formula "26") (term "1,1"))
@@ -371,13 +374,12 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
                   (rule "Class_invariant_axiom_for_java_lang_String" (formula "26") (term "0"))
                    (builtin "One Step Simplification" (formula "26"))
                   (rule "andLeft" (formula "26"))
-                  (rule "applyEq" (formula "44") (term "1,0") (ifseqformula "26"))
-                  (rule "applyEq" (formula "53") (term "0,0,0") (ifseqformula "26"))
+                  (rule "applyEq" (formula "53") (term "0,0") (ifseqformula "27"))
                    (builtin "One Step Simplification" (formula "53"))
                   (rule "closeTrue" (formula "53"))
                )
             )
-            (branch "CUT: newObjectsIsomorphic(seqSingleton(resultAtPost_206_A), heapAtPre_A<<anonHeapFunction>>, seqSingleton(resultAtPost_206_B), heapAtPre_B<<anonHeapFunction>>) FALSE"
+            (branch "CUT: newObjectsIsomorphic(〈resultAtPost_503_A〉, heapAtPre_A«anonHeapFunction», 〈resultAtPost_503_B〉, heapAtPre_B«anonHeapFunction») FALSE"
                 (builtin "One Step Simplification" (formula "50"))
                (rule "false_right" (formula "50"))
                (rule "definitionOfNewObjectsIsomorphic" (formula "49"))
@@ -500,23 +502,23 @@ class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
                   (rule "castDel" (formula "52") (term "2,0,0,0,1"))
                   (rule "castDel" (formula "52") (term "1,0,0,0,1"))
                   (rule "getOfSeqSingleton" (formula "52") (term "0,1,1"))
-                  (rule "getOfSeqSingleton" (formula "52") (term "0,0,0,0"))
-                  (rule "castDel" (formula "52") (term "2,0,0,0,0"))
-                  (rule "castDel" (formula "52") (term "1,0,0,0,0"))
-                  (rule "getOfSeqSingleton" (formula "52") (term "0,1,1,0"))
-                  (rule "castDel" (formula "52") (term "1,0,1,1,0"))
-                   (builtin "One Step Simplification" (formula "52"))
+                  (rule "getOfSeqSingleton" (formula "52") (term "2,1,1"))
                   (rule "getOfSeqSingleton" (formula "52") (term "0,0,1,0"))
                   (rule "castDel" (formula "52") (term "1,0,0,1,0"))
                    (builtin "One Step Simplification" (formula "52"))
-                  (rule "getOfSeqSingleton" (formula "52") (term "2,1,1"))
+                  (rule "getOfSeqSingleton" (formula "52") (term "0,1,1,0"))
+                  (rule "castDel" (formula "52") (term "1,0,1,1,0"))
+                   (builtin "One Step Simplification" (formula "52"))
+                  (rule "getOfSeqSingleton" (formula "52") (term "0,0,0,0"))
+                  (rule "castDel" (formula "52") (term "1,0,0,0,0"))
+                  (rule "castDel" (formula "52") (term "2,0,0,0,0"))
                   (rule "inEqSimp_ltToLeq" (formula "2"))
                   (rule "mul_literals" (formula "2") (term "1,0,0"))
                   (rule "add_literals" (formula "2") (term "0,0"))
                   (rule "add_zero_left" (formula "2") (term "0"))
                   (rule "inEqSimp_commuteLeq" (formula "1"))
                   (rule "inEqSimp_antiSymm" (formula "1") (ifseqformula "2"))
-                  (rule "replace_known_left" (formula "53") (term "0,0,0,0,1") (ifseqformula "1"))
+                  (rule "replace_known_left" (formula "53") (term "0,0,1,0") (ifseqformula "1"))
                    (builtin "One Step Simplification" (formula "53") (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")))
                   (rule "closeTrue" (formula "53"))
                )

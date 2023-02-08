@@ -2,7 +2,7 @@
 
 \settings {
 "#Proof-Settings-Config-File
-#Mon Feb 03 21:04:20 CET 2020
+#Sun Feb 09 14:55:47 CET 2020
 [Labels]UseOriginLabels=false
 [StrategyProperty]QUERYAXIOM_OPTIONS_KEY=QUERYAXIOM_ON
 [SMTSettings]invariantForall=false
@@ -12,7 +12,7 @@
 [StrategyProperty]USER_TACLETS_OPTIONS_KEY2=USER_TACLETS_OFF
 [Choice]DefaultChoices=methodExpansion-methodExpansion\\:modularOnly , mergeGenerateIsWeakeningGoal-mergeGenerateIsWeakeningGoal\\:off , wdChecks-wdChecks\\:off , wdOperator-wdOperator\\:L , permissions-permissions\\:off , integerSimplificationRules-integerSimplificationRules\\:full , reach-reach\\:on , moreSeqRules-moreSeqRules\\:on , sequences-sequences\\:on , bigint-bigint\\:on , modelFields-modelFields\\:treatAsAxiom , Strings-Strings\\:on , JavaCard-JavaCard\\:off , runtimeExceptions-runtimeExceptions\\:allow , programRules-programRules\\:Java , intRules-intRules\\:javaSemantics , initialisation-initialisation\\:disableStaticInitialisation , assertions-assertions\\:on
 [StrategyProperty]LOOP_OPTIONS_KEY=LOOP_INVARIANT
-[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_TRUE
+[StrategyProperty]INF_FLOW_CHECK_PROPERTY=INF_FLOW_CHECK_FALSE
 [SMTSettings]UseBuiltUniqueness=false
 [SMTSettings]explicitTypeHierarchy=false
 [SMTSettings]instantiateHierarchyAssumptions=true
@@ -42,594 +42,67 @@
 "
 }
 
+\bootclasspath "../../../../../../home/flo/git/polyas-core3-open-cred/boot";
+
 \javaSource "../../../../../../home/flo/git/polyas-core3-open-cred/src";
 
-
-
-\sorts{
-Heap;
-Update;
-de.polyas.core3.open.crypto.groups.ECGroup\extends de.polyas.core3.open.crypto.groups.CyclicGroup;
-Field;
-boolean;
-org.bouncycastle.math.ec.ECPoint\extends java.lang.Object;
-LocSet;
-java.lang.Throwable\extends java.io.Serializable, java.lang.Object;
-org.bouncycastle.jce.spec.ECNamedCurveParameterSpec\extends org.bouncycastle.jce.spec.ECParameterSpec;
-org.bouncycastle.math.ec.custom.sec.SecP256K1Curve\extends org.bouncycastle.math.ec.ECCurve.AbstractFp;
-int;
-Formula;
-Seq;
-}
-
-\predicates{
-RELATED_BY_getEncoded_253512071(org.bouncycastle.math.ec.ECPoint,boolean,Heap,org.bouncycastle.math.ec.ECPoint,byte[],java.lang.Throwable,Heap);
-}
-
-\functions{
-Heap heapAtPre_A;
-Formula wellFormed(Heap);
-Field java.lang.Object::<created>;
-boolean boolean::select(Heap,java.lang.Object,Field);
-boolean TRUE;
-boolean de.polyas.core3.open.crypto.groups.ECGroup::exactInstance(any);
-Heap anon_heap_getEncoded;
-LocSet empty;
-Heap anon(Heap,LocSet,Heap);
-Heap heapAfter_getEncoded_A_0;
-boolean byte[]::exactInstance(any);
-Null null;
-Field de.polyas.core3.open.crypto.groups.ECGroup::$group;
-org.bouncycastle.jce.spec.ECNamedCurveParameterSpec org.bouncycastle.jce.spec.ECNamedCurveParameterSpec::select(Heap,java.lang.Object,Field);
-Field org.bouncycastle.jce.spec.ECParameterSpec::$generator;
-org.bouncycastle.math.ec.ECPoint org.bouncycastle.math.ec.ECPoint::select(Heap,java.lang.Object,Field);
-Field de.polyas.core3.open.crypto.groups.ECGroup::$curve;
-org.bouncycastle.math.ec.custom.sec.SecP256K1Curve org.bouncycastle.math.ec.custom.sec.SecP256K1Curve::select(Heap,java.lang.Object,Field);
-Heap heapAtPost_A;
-Heap heapAtPre_B;
-Heap heapAfter_getEncoded_B_0;
-Heap heapAtPost_B;
-LocSet allFields(java.lang.Object);
-int int::select(Heap,java.lang.Object,Field);
-Field org.bouncycastle.math.ec.ECPoint::$value;
-Formula java.lang.Object::<inv>(Heap,java.lang.Object);
-Seq seqSingleton(any);
-Formula newObjectsIsomorphic(Seq,Heap,Seq,Heap);
-}
-
-\programVariables{
-Heap heap;
-de.polyas.core3.open.crypto.groups.ECGroup self_53_A;
-org.bouncycastle.math.ec.ECPoint p_3_A;
-byte[] result_51_A_0;
-java.lang.Throwable exc_67_A_0;
-java.lang.Throwable exc_66_A;
-byte[] result_50_A;
-de.polyas.core3.open.crypto.groups.ECGroup selfAtPost_53_A;
-byte[] resultAtPost_50_A;
-java.lang.Throwable excAtPost_66_A;
-de.polyas.core3.open.crypto.groups.ECGroup self_53_B;
-org.bouncycastle.math.ec.ECPoint p_3_B;
-byte[] result_51_B_0;
-java.lang.Throwable exc_67_B_0;
-java.lang.Throwable exc_66_B;
-byte[] result_50_B;
-de.polyas.core3.open.crypto.groups.ECGroup selfAtPost_53_B;
-byte[] resultAtPost_50_B;
-java.lang.Throwable excAtPost_66_B;
-org.bouncycastle.math.ec.ECPoint _p_3_A;
-org.bouncycastle.math.ec.ECPoint _p_3_B;
-}
-
-\rules{
-
-unfold_computed_formula_0_of_asBytes_745112536 {
-  \schemaVar \term Heap #sv_heapAtPre_A#10;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint #sv_p_3_A#7;
-  \schemaVar \term de.polyas.core3.open.crypto.groups.ECGroup #sv_selfAtPost_53_A#12;
-  \schemaVar \term de.polyas.core3.open.crypto.groups.ECGroup #sv_self_53_A#6;
-  \schemaVar \term byte[] #sv_resultAtPost_50_A#13;
-  \schemaVar \term byte[] #sv_result_50_A#8;
-  \schemaVar \term java.lang.Throwable #sv_excAtPost_66_A#14;
-  \schemaVar \term java.lang.Throwable #sv_exc_66_A#9;
-  \schemaVar \term Heap #sv_heapAtPost_A#15;
-  \schemaVar \term Heap #sv_heapAtPre_B#20;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint #sv_p_3_B#17;
-  \schemaVar \term de.polyas.core3.open.crypto.groups.ECGroup #sv_selfAtPost_53_B#22;
-  \schemaVar \term de.polyas.core3.open.crypto.groups.ECGroup #sv_self_53_B#16;
-  \schemaVar \term byte[] #sv_resultAtPost_50_B#23;
-  \schemaVar \term byte[] #sv_result_50_B#18;
-  \schemaVar \term java.lang.Throwable #sv_excAtPost_66_B#24;
-  \schemaVar \term java.lang.Throwable #sv_exc_66_B#19;
-  \schemaVar \term Heap #sv_heapAtPost_B#25;
-  
-  \find (
-      {heap:=#sv_heapAtPre_A#10}
-        (  wellFormed(#sv_heapAtPre_A#10)
-         & heap = #sv_heapAtPre_A#10
-         & !#sv_self_53_A#6 = null
-         &   boolean::select(heap, #sv_self_53_A#6, java.lang.Object::<created>)
-           = TRUE
-         &   de.polyas.core3.open.crypto.groups.ECGroup::exactInstance(#sv_self_53_A#6)
-           = TRUE
-         & ((  #sv_p_3_A#7 = null
-             |   boolean::select(#sv_heapAtPre_A#10,
-                                 #sv_p_3_A#7,
-                                 java.lang.Object::<created>)
-               = TRUE)<<SC>>)
-         & ((  java.lang.Object::<inv>(#sv_heapAtPre_A#10, #sv_self_53_A#6)<<impl>>
-             & (!#sv_p_3_A#7 = null)<<impl>>)<<SC>>)
-         & {_p_3_A:=#sv_p_3_A#7}
-             \[{
-                 #sv_exc_66_A#9=null;try {
-                   #sv_result_50_A#8=#sv_self_53_A#6.asBytes(_p_3_A)@de.polyas.core3.open.crypto.groups.ECGroup;
-                 }   catch (java.lang.Throwable e) {
-                   #sv_exc_66_A#9=e;
-                 }
-               }\] (  #sv_selfAtPost_53_A#12 = #sv_self_53_A#6
-                    & #sv_resultAtPost_50_A#13 = #sv_result_50_A#8
-                    & #sv_excAtPost_66_A#14 = #sv_exc_66_A#9
-                    & #sv_heapAtPost_A#15 = heap))
-    & {heap:=#sv_heapAtPre_B#20}
-        (  wellFormed(#sv_heapAtPre_B#20)
-         & heap = #sv_heapAtPre_B#20
-         & !#sv_self_53_B#16 = null
-         &   boolean::select(heap,
-                             #sv_self_53_B#16,
-                             java.lang.Object::<created>)
-           = TRUE
-         &   de.polyas.core3.open.crypto.groups.ECGroup::exactInstance(#sv_self_53_B#16)
-           = TRUE
-         & ((  #sv_p_3_B#17 = null
-             |   boolean::select(#sv_heapAtPre_B#20,
-                                 #sv_p_3_B#17,
-                                 java.lang.Object::<created>)
-               = TRUE)<<SC>>)
-         & ((  java.lang.Object::<inv>(#sv_heapAtPre_B#20, #sv_self_53_B#16)<<impl>>
-             & (!#sv_p_3_B#17 = null)<<impl>>)<<SC>>)
-         & {_p_3_B:=#sv_p_3_B#17}
-             \[{
-                 #sv_exc_66_B#19=null;try {
-                   #sv_result_50_B#18=#sv_self_53_B#16.asBytes(_p_3_B)@de.polyas.core3.open.crypto.groups.ECGroup;
-                 }   catch (java.lang.Throwable e) {
-                   #sv_exc_66_B#19=e;
-                 }
-               }\] (  #sv_selfAtPost_53_B#22 = #sv_self_53_B#16
-                    & #sv_resultAtPost_50_B#23 = #sv_result_50_B#18
-                    & #sv_excAtPost_66_B#24 = #sv_exc_66_B#19
-                    & #sv_heapAtPost_B#25 = heap))
-  )
-  \antecedentPolarity
-  \replacewith (
-      {heap:=#sv_heapAtPre_A#10}
-        (  wellFormed(#sv_heapAtPre_A#10)
-         & #sv_heapAtPre_A#10 = heap
-         &   boolean::select(heap, #sv_self_53_A#6, java.lang.Object::<created>)
-           = TRUE
-         &   de.polyas.core3.open.crypto.groups.ECGroup::exactInstance(#sv_self_53_A#6)
-           = TRUE
-         &   boolean::select(#sv_heapAtPre_A#10,
-                             #sv_p_3_A#7,
-                             java.lang.Object::<created>)
-           = TRUE
-         & wellFormed(anon_heap_getEncoded<<anonHeapFunction>>)
-         &   anon(heap, empty, anon_heap_getEncoded<<anonHeapFunction>>)
-           = heapAfter_getEncoded_A_0
-         &   boolean::select(anon_heap_getEncoded<<anonHeapFunction>>,
-                             result_51_A_0,
-                             java.lang.Object::<created>)
-           = TRUE
-         & byte[]::exactInstance(result_51_A_0) = TRUE
-         & (exc_67_A_0 = null)<<impl>>
-         & RELATED_BY_getEncoded_253512071(#sv_p_3_A#7,
-                                           TRUE,
-                                           heap,
-                                           #sv_p_3_A#7,
-                                           result_51_A_0,
-                                           exc_67_A_0,
-                                           heapAfter_getEncoded_A_0)
-         & wellFormed(heap)
-         & !  boolean::select(heap, result_51_A_0, java.lang.Object::<created>)
-            = TRUE
-         & !result_51_A_0 = null
-         & !  org.bouncycastle.math.ec.ECPoint::select(#sv_heapAtPre_A#10,
-                                                       org.bouncycastle.jce.spec.ECNamedCurveParameterSpec::select(#sv_heapAtPre_A#10,
-                                                                                                                   #sv_self_53_A#6,
-                                                                                                                   de.polyas.core3.open.crypto.groups.ECGroup::$group),
-                                                       org.bouncycastle.jce.spec.ECParameterSpec::$generator)
-            = null
-         & !  org.bouncycastle.math.ec.custom.sec.SecP256K1Curve::select(#sv_heapAtPre_A#10,
-                                                                         #sv_self_53_A#6,
-                                                                         de.polyas.core3.open.crypto.groups.ECGroup::$curve)
-            = null
-         & !  org.bouncycastle.jce.spec.ECNamedCurveParameterSpec::select(#sv_heapAtPre_A#10,
-                                                                          #sv_self_53_A#6,
-                                                                          de.polyas.core3.open.crypto.groups.ECGroup::$group)
-            = null
-         & !{exc_66_A:=null
-             || heap:=heapAfter_getEncoded_A_0
-             || result_50_A:=result_51_A_0}
-              !(  #sv_self_53_A#6 = #sv_selfAtPost_53_A#12
-                & #sv_result_50_A#8 = #sv_resultAtPost_50_A#13
-                & #sv_exc_66_A#9 = #sv_excAtPost_66_A#14
-                & #sv_heapAtPost_A#15 = heap)
-         & !#sv_self_53_A#6 = null
-         & !#sv_p_3_A#7 = null)
-    & {heap:=#sv_heapAtPre_B#20}
-        (  wellFormed(#sv_heapAtPre_B#20)
-         & #sv_heapAtPre_B#20 = heap
-         &   boolean::select(heap,
-                             #sv_self_53_B#16,
-                             java.lang.Object::<created>)
-           = TRUE
-         &   de.polyas.core3.open.crypto.groups.ECGroup::exactInstance(#sv_self_53_B#16)
-           = TRUE
-         &   boolean::select(#sv_heapAtPre_B#20,
-                             #sv_p_3_B#17,
-                             java.lang.Object::<created>)
-           = TRUE
-         & wellFormed(anon_heap_getEncoded<<anonHeapFunction>>)
-         &   anon(heap, empty, anon_heap_getEncoded<<anonHeapFunction>>)
-           = heapAfter_getEncoded_B_0
-         &   boolean::select(anon_heap_getEncoded<<anonHeapFunction>>,
-                             result_51_B_0,
-                             java.lang.Object::<created>)
-           = TRUE
-         & byte[]::exactInstance(result_51_B_0) = TRUE
-         & (exc_67_B_0 = null)<<impl>>
-         & RELATED_BY_getEncoded_253512071(#sv_p_3_B#17,
-                                           TRUE,
-                                           heap,
-                                           #sv_p_3_B#17,
-                                           result_51_B_0,
-                                           exc_67_B_0,
-                                           heapAfter_getEncoded_B_0)
-         & wellFormed(heap)
-         & !  boolean::select(heap, result_51_B_0, java.lang.Object::<created>)
-            = TRUE
-         & !result_51_B_0 = null
-         & !  org.bouncycastle.math.ec.ECPoint::select(#sv_heapAtPre_B#20,
-                                                       org.bouncycastle.jce.spec.ECNamedCurveParameterSpec::select(#sv_heapAtPre_B#20,
-                                                                                                                   #sv_self_53_B#16,
-                                                                                                                   de.polyas.core3.open.crypto.groups.ECGroup::$group),
-                                                       org.bouncycastle.jce.spec.ECParameterSpec::$generator)
-            = null
-         & !  org.bouncycastle.math.ec.custom.sec.SecP256K1Curve::select(#sv_heapAtPre_B#20,
-                                                                         #sv_self_53_B#16,
-                                                                         de.polyas.core3.open.crypto.groups.ECGroup::$curve)
-            = null
-         & !  org.bouncycastle.jce.spec.ECNamedCurveParameterSpec::select(#sv_heapAtPre_B#20,
-                                                                          #sv_self_53_B#16,
-                                                                          de.polyas.core3.open.crypto.groups.ECGroup::$group)
-            = null
-         & !{exc_66_B:=null
-             || heap:=heapAfter_getEncoded_B_0
-             || result_50_B:=result_51_B_0}
-              !(  #sv_self_53_B#16 = #sv_selfAtPost_53_B#22
-                & #sv_result_50_B#18 = #sv_resultAtPost_50_B#23
-                & #sv_exc_66_B#19 = #sv_excAtPost_66_B#24
-                & #sv_heapAtPost_B#25 = heap)
-         & !#sv_self_53_B#16 = null
-         & !#sv_p_3_B#17 = null)
-  )
-  \heuristics ( concrete )
-};
-
-Use_information_flow_contract_for_getEncoded_253512071__1_ {
-  \schemaVar \term boolean find_TRUE#7;
-  \schemaVar \term Heap find_heap#10;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint find__p_3#6;
-  \schemaVar \term byte[] find_result_51#8;
-  \schemaVar \term java.lang.Throwable find_exc_67#9;
-  \schemaVar \term Heap find_heapAfter_getEncoded#11;
-  \schemaVar \term boolean assumes_TRUE#13;
-  \schemaVar \term Heap assumes_heap#16;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint assumes__p_3#12;
-  \schemaVar \term byte[] assumes_result_51#14;
-  \schemaVar \term java.lang.Throwable assumes_exc_67#15;
-  \schemaVar \term Heap assumes_heapAfter_getEncoded#17;
-  
-  \assumes ( RELATED_BY_getEncoded_253512071(assumes__p_3#12,
-                                             assumes_TRUE#13,
-                                             assumes_heap#16,
-                                             assumes__p_3#12,
-                                             assumes_result_51#14,
-                                             assumes_exc_67#15,
-                                             assumes_heapAfter_getEncoded#17)
-            ⟹
-             
-  )
-  \find (
-    RELATED_BY_getEncoded_253512071(find__p_3#6,
-                                    find_TRUE#7,
-                                    find_heap#10,
-                                    find__p_3#6,
-                                    find_result_51#8,
-                                    find_exc_67#9,
-                                    find_heapAfter_getEncoded#11)
-  )
-  \antecedentPolarity
-  \replacewith (
-    RELATED_BY_getEncoded_253512071(find__p_3#6,
-                                    find_TRUE#7,
-                                    find_heap#10,
-                                    find__p_3#6,
-                                    find_result_51#8,
-                                    find_exc_67#9,
-                                    find_heapAfter_getEncoded#11)
-  )
-  \add (      java.lang.Object::<inv>(find_heap#10, find__p_3#6)<<impl>>
-            & java.lang.Object::<inv>(assumes_heap#16, assumes__p_3#12)<<impl>>
-         ->   (find_result_51#8 = assumes_result_51#14
-            & find_result_51#8 = assumes_result_51#14)<<postCondition>>
-            & (       int::select(find_heap#10,
-                                  find__p_3#6,
-                                  org.bouncycastle.math.ec.ECPoint::$value)
-                    = int::select(assumes_heap#16,
-                                  assumes__p_3#12,
-                                  org.bouncycastle.math.ec.ECPoint::$value)
-                  & find_TRUE#7 = assumes_TRUE#13
-               -> (allFields(find_result_51#8) = allFields(assumes_result_51#14))<<postCondition>>)
-        ⟹
-         
-  )
-  \heuristics ( information_flow_contract_appl )
-};
-
-Use_information_flow_contract_for_getEncoded_253512071_0 {
-  \schemaVar \term boolean find_TRUE#37;
-  \schemaVar \term Heap find_heap#40;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint find__p_3_B#36;
-  \schemaVar \term byte[] find_result_51#38;
-  \schemaVar \term java.lang.Throwable find_exc_67#39;
-  \schemaVar \term Heap find_heapAfter_getEncoded#41;
-  \schemaVar \term boolean assumes_TRUE#43;
-  \schemaVar \term Heap assumes_heap#46;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint assumes__p_3_B#42;
-  \schemaVar \term byte[] assumes_result_51#44;
-  \schemaVar \term java.lang.Throwable assumes_exc_67#45;
-  \schemaVar \term Heap assumes_heapAfter_getEncoded#47;
-  
-  \assumes ( RELATED_BY_getEncoded_253512071(assumes__p_3_B#42,
-                                             assumes_TRUE#43,
-                                             assumes_heap#46,
-                                             assumes__p_3_B#42,
-                                             assumes_result_51#44,
-                                             assumes_exc_67#45,
-                                             assumes_heapAfter_getEncoded#47)
-            ⟹
-             
-  )
-  \find (
-    RELATED_BY_getEncoded_253512071(find__p_3_B#36,
-                                    find_TRUE#37,
-                                    find_heap#40,
-                                    find__p_3_B#36,
-                                    find_result_51#38,
-                                    find_exc_67#39,
-                                    find_heapAfter_getEncoded#41)
-  )
-  \antecedentPolarity
-  \replacewith (
-    RELATED_BY_getEncoded_253512071(find__p_3_B#36,
-                                    find_TRUE#37,
-                                    find_heap#40,
-                                    find__p_3_B#36,
-                                    find_result_51#38,
-                                    find_exc_67#39,
-                                    find_heapAfter_getEncoded#41)
-  )
-  \add (      java.lang.Object::<inv>(find_heap#40, find__p_3_B#36)<<impl>>
-            & java.lang.Object::<inv>(assumes_heap#46, assumes__p_3_B#42)<<impl>>
-         ->   (find_result_51#38 = assumes_result_51#44
-            & find_result_51#38 = assumes_result_51#44)<<postCondition>>
-            & (       int::select(find_heap#40,
-                                  find__p_3_B#36,
-                                  org.bouncycastle.math.ec.ECPoint::$value)
-                    = int::select(assumes_heap#46,
-                                  assumes__p_3_B#42,
-                                  org.bouncycastle.math.ec.ECPoint::$value)
-                  & find_TRUE#37 = assumes_TRUE#43
-               -> (  allFields(find_result_51#38)
-                   = allFields(assumes_result_51#44))<<postCondition>>)
-        ⟹
-         
-  )
-  \heuristics ( information_flow_contract_appl )
-};
-
-Use_information_flow_contract_for_getEncoded_253512071__2_ {
-  \schemaVar \term boolean find_TRUE#49;
-  \schemaVar \term Heap find_heap#52;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint find__p_3_A#48;
-  \schemaVar \term byte[] find_result_52#50;
-  \schemaVar \term java.lang.Throwable find_exc_68#51;
-  \schemaVar \term Heap find_heapAfter_getEncoded_0#53;
-  \schemaVar \term boolean assumes_TRUE#55;
-  \schemaVar \term Heap assumes_heap#58;
-  \schemaVar \term org.bouncycastle.math.ec.ECPoint assumes__p_3_A#54;
-  \schemaVar \term byte[] assumes_result_52#56;
-  \schemaVar \term java.lang.Throwable assumes_exc_68#57;
-  \schemaVar \term Heap assumes_heapAfter_getEncoded_0#59;
-  
-  \assumes ( RELATED_BY_getEncoded_253512071(assumes__p_3_A#54,
-                                             assumes_TRUE#55,
-                                             assumes_heap#58,
-                                             assumes__p_3_A#54,
-                                             assumes_result_52#56,
-                                             assumes_exc_68#57,
-                                             assumes_heapAfter_getEncoded_0#59)
-            ⟹
-             
-  )
-  \find (
-    RELATED_BY_getEncoded_253512071(find__p_3_A#48,
-                                    find_TRUE#49,
-                                    find_heap#52,
-                                    find__p_3_A#48,
-                                    find_result_52#50,
-                                    find_exc_68#51,
-                                    find_heapAfter_getEncoded_0#53)
-  )
-  \antecedentPolarity
-  \replacewith (
-    RELATED_BY_getEncoded_253512071(find__p_3_A#48,
-                                    find_TRUE#49,
-                                    find_heap#52,
-                                    find__p_3_A#48,
-                                    find_result_52#50,
-                                    find_exc_68#51,
-                                    find_heapAfter_getEncoded_0#53)
-  )
-  \add (      java.lang.Object::<inv>(find_heap#52, find__p_3_A#48)<<impl>>
-            & java.lang.Object::<inv>(assumes_heap#58, assumes__p_3_A#54)<<impl>>
-         ->   (find_result_52#50 = assumes_result_52#56
-            & find_result_52#50 = assumes_result_52#56)<<postCondition>>
-            & (       int::select(find_heap#52,
-                                  find__p_3_A#48,
-                                  org.bouncycastle.math.ec.ECPoint::$value)
-                    = int::select(assumes_heap#58,
-                                  assumes__p_3_A#54,
-                                  org.bouncycastle.math.ec.ECPoint::$value)
-                  & find_TRUE#49 = assumes_TRUE#55
-               -> (  allFields(find_result_52#50)
-                   = allFields(assumes_result_52#56))<<postCondition>>)
-        ⟹
-         
-  )
-  \heuristics ( information_flow_contract_appl )
-};
-}
-
-\problem {
-     {heap:=heapAtPre_A<<anonHeapFunction>>}
-       (  wellFormed(heapAtPre_A<<anonHeapFunction>>)
-        & heap = heapAtPre_A<<anonHeapFunction>>
-        & !self_53_A = null
-        &   boolean::select(heap,
-                            self_53_A,
-                            java.lang.Object::<created>)
-          = TRUE
-        &   de.polyas.core3.open.crypto.groups.ECGroup::exactInstance(self_53_A)
-          = TRUE
-        & ((  p_3_A = null
-            |   boolean::select(heapAtPre_A<<anonHeapFunction>>,
-                                p_3_A,
-                                java.lang.Object::<created>)
-              = TRUE)<<SC>>)
-        & ((  java.lang.Object::<inv>(heapAtPre_A<<anonHeapFunction>>,
-                                      self_53_A)<<impl>>
-            & (!(p_3_A = null)<<origin("requires @ file ECGroup.java @ line 49","[]")>>)<<impl,
-                                                                                          origin("requires @ file ECGroup.java @ line 49","[]")>>)<<SC>>)
-        & {_p_3_A:=p_3_A}
-            \[{
-                exc_66_A=null;try {
-                  result_50_A=self_53_A.asBytes(_p_3_A)@de.polyas.core3.open.crypto.groups.ECGroup;
-                }   catch (java.lang.Throwable e) {
-                  exc_66_A=e;
-                }
-              }\] (  selfAtPost_53_A = self_53_A
-                   & resultAtPost_50_A = result_50_A
-                   & excAtPost_66_A = exc_66_A
-                   & heapAtPost_A = heap))
-   & {heap:=heapAtPre_B<<anonHeapFunction>>}
-       (  wellFormed(heapAtPre_B<<anonHeapFunction>>)
-        & heap = heapAtPre_B<<anonHeapFunction>>
-        & !self_53_B = null
-        &   boolean::select(heap,
-                            self_53_B,
-                            java.lang.Object::<created>)
-          = TRUE
-        &   de.polyas.core3.open.crypto.groups.ECGroup::exactInstance(self_53_B)
-          = TRUE
-        & ((  p_3_B = null
-            |   boolean::select(heapAtPre_B<<anonHeapFunction>>,
-                                p_3_B,
-                                java.lang.Object::<created>)
-              = TRUE)<<SC>>)
-        & ((  java.lang.Object::<inv>(heapAtPre_B<<anonHeapFunction>>,
-                                      self_53_B)<<impl>>
-            & (!p_3_B = null)<<impl>>)<<SC>>)
-        & {_p_3_B:=p_3_B}
-            \[{
-                exc_66_B=null;try {
-                  result_50_B=self_53_B.asBytes(_p_3_B)@de.polyas.core3.open.crypto.groups.ECGroup;
-                }   catch (java.lang.Throwable e) {
-                  exc_66_B=e;
-                }
-              }\] (  selfAtPost_53_B = self_53_B
-                   & resultAtPost_50_B = result_50_B
-                   & excAtPost_66_B = exc_66_B
-                   & heapAtPost_B = heap))
-->   (newObjectsIsomorphic(seqSingleton(resultAtPost_50_A),
-                           heapAtPre_A<<anonHeapFunction>>,
-                           seqSingleton(resultAtPost_50_B),
-                           heapAtPre_B<<anonHeapFunction>>)
-   & (   resultAtPost_50_A = resultAtPost_50_B
-      -> resultAtPost_50_A = resultAtPost_50_B))<<postCondition>>
-   & (     int::select(heapAtPre_A<<anonHeapFunction>>,
-                       p_3_A,
-                       org.bouncycastle.math.ec.ECPoint::$value)
-         = int::select(heapAtPre_B<<anonHeapFunction>>,
-                       p_3_B,
-                       org.bouncycastle.math.ec.ECPoint::$value)
-      -> (  allFields(resultAtPost_50_A)
-          = allFields(resultAtPost_50_B))<<postCondition>>)
-
-}
+\proofObligation "#Proof Obligation Settings
+#Sun Feb 09 14:55:47 CET 2020
+contract=de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup\\:\\:asBytes(org.bouncycastle.math.ec.ECPoint)].Non-interference contract.0
+name=de.polyas.core3.open.crypto.groups.ECGroup[de.polyas.core3.open.crypto.groups.ECGroup\\:\\:asBytes(org.bouncycastle.math.ec.ECPoint)].Non-interference contract.0
+class=de.uka.ilkd.key.informationflow.po.InfFlowContractPO
+";
 
 \proof {
 (keyLog "0" (keyUser "flo" ) (keyVersion ""))
 
-(autoModeTime "787")
+(autoModeTime "831")
 
 (branch "dummy ID"
+ (builtin "One Step Simplification" (formula "1"))
 (rule "impRight" (formula "1"))
 (rule "andLeft" (formula "1"))
- (builtin "One Step Simplification" (formula "2"))
- (builtin "One Step Simplification" (formula "1"))
- (builtin "One Step Simplification" (formula "3"))
-(rule "andLeft" (formula "2"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "3"))
 (rule "andLeft" (formula "1"))
-(rule "andLeft" (formula "5"))
 (rule "andLeft" (formula "4"))
-(rule "andLeft" (formula "2"))
 (rule "andLeft" (formula "1"))
-(rule "notLeft" (formula "9"))
+(rule "andLeft" (formula "3"))
+(rule "andLeft" (formula "7"))
 (rule "andLeft" (formula "6"))
-(rule "notLeft" (formula "4"))
 (rule "andLeft" (formula "1"))
+(rule "notLeft" (formula "5"))
+(rule "notLeft" (formula "9"))
 (rule "andLeft" (formula "6"))
 (rule "andLeft" (formula "1"))
 (rule "andLeft" (formula "7"))
 (rule "andLeft" (formula "1"))
-(rule "notLeft" (formula "9"))
+(rule "andLeft" (formula "8"))
 (rule "notLeft" (formula "2"))
-(rule "eqSymm" (formula "17") (term "1,1"))
+(rule "notLeft" (formula "8"))
 (rule "eqSymm" (formula "17") (term "0,1"))
-(rule "eqSymm" (formula "12") (term "0,0,0,0,1"))
-(rule "eqSymm" (formula "12") (term "1,0,0,0,1"))
-(rule "eqSymm" (formula "12") (term "1,0,0,1"))
-(rule "eqSymm" (formula "6") (term "0,0,0,0,1"))
+(rule "eqSymm" (formula "17") (term "1,1"))
 (rule "eqSymm" (formula "6") (term "1,0,0,0,1"))
+(rule "eqSymm" (formula "6") (term "0,0,0,0,1"))
 (rule "eqSymm" (formula "6") (term "1,0,0,1"))
-(rule "replace_known_right" (formula "4") (term "0") (ifseqformula "15"))
+(rule "eqSymm" (formula "12") (term "1,0,0,0,1"))
+(rule "eqSymm" (formula "12") (term "0,0,0,0,1"))
+(rule "eqSymm" (formula "12") (term "1,0,0,1"))
+(rule "replace_known_right" (formula "4") (term "0") (ifseqformula "16"))
  (builtin "One Step Simplification" (formula "4"))
-(rule "replace_known_right" (formula "10") (term "0") (ifseqformula "16"))
+(rule "replace_known_right" (formula "10") (term "0") (ifseqformula "15"))
  (builtin "One Step Simplification" (formula "10"))
 (rule "allFieldsEq" (formula "17") (term "1,1"))
-(rule "assignment" (formula "12") (term "1"))
- (builtin "One Step Simplification" (formula "12"))
 (rule "assignment" (formula "6") (term "1"))
  (builtin "One Step Simplification" (formula "6"))
-(rule "boxToDiamond" (formula "12") (term "1"))
+(rule "assignment" (formula "12") (term "1"))
  (builtin "One Step Simplification" (formula "12"))
-(rule "notLeft" (formula "12"))
 (rule "boxToDiamond" (formula "6") (term "1"))
  (builtin "One Step Simplification" (formula "6"))
 (rule "notLeft" (formula "6"))
+(rule "boxToDiamond" (formula "11") (term "1"))
+ (builtin "One Step Simplification" (formula "11"))
+(rule "notLeft" (formula "11"))
 (rule "Class_invariant_axiom_for_de_polyas_core3_open_crypto_groups_ECGroup" (formula "5"))
 (rule "andLeft" (formula "5"))
 (rule "andLeft" (formula "6"))
@@ -642,16 +115,16 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
 (rule "andLeft" (formula "13"))
 (rule "notLeft" (formula "11"))
 (rule "notLeft" (formula "11"))
-(rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECNamedCurveParameterSpec" (formula "6"))
+(rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECParameterSpec" (formula "6"))
 (rule "andLeft" (formula "6"))
 (rule "notLeft" (formula "6"))
 (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_custom_sec_SecP256K1Curve" (formula "5"))
 (rule "true_left" (formula "5"))
-(rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECParameterSpec" (formula "11"))
-(rule "andLeft" (formula "11"))
-(rule "notLeft" (formula "11"))
 (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_custom_sec_SecP256K1Curve" (formula "10"))
 (rule "true_left" (formula "10"))
+(rule "Class_invariant_axiom_for_org_bouncycastle_jce_spec_ECNamedCurveParameterSpec" (formula "10"))
+(rule "andLeft" (formula "10"))
+(rule "notLeft" (formula "10"))
 (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "5"))
 (rule "true_left" (formula "5"))
 (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "9"))
@@ -666,33 +139,33 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
 (rule "returnUnfold" (formula "15") (term "1") (inst "#v0=x_arr"))
 (rule "variableDeclarationAssign" (formula "15") (term "1"))
 (rule "variableDeclaration" (formula "15") (term "1") (newnames "x_arr_1"))
- (builtin "Use Operation Contract" (formula "16") (newnames "heapBefore_getEncoded,result_51,exc_67,heapAfter_getEncoded,anon_heap_getEncoded") (contract "org.bouncycastle.math.ec.ECPoint[org.bouncycastle.math.ec.ECPoint::getEncoded(boolean)].JML normal_behavior operation contract.0"))
+ (builtin "Use Operation Contract" (formula "16") (newnames "heapBefore_getEncoded,result_100,exc_132,heapAfter_getEncoded,anon_heap_getEncoded") (contract "org.bouncycastle.math.ec.ECPoint[org.bouncycastle.math.ec.ECPoint::getEncoded(boolean)].JML normal_behavior operation contract.0"))
 (branch "Post (getEncoded)"
-    (builtin "One Step Simplification" (formula "12") (ifInst ""  (formula "5")))
-    (builtin "One Step Simplification" (formula "20"))
-    (builtin "One Step Simplification" (formula "11"))
     (builtin "One Step Simplification" (formula "10"))
+    (builtin "One Step Simplification" (formula "11"))
+    (builtin "One Step Simplification" (formula "20"))
+    (builtin "One Step Simplification" (formula "12") (ifInst ""  (formula "1")))
    (rule "andLeft" (formula "10"))
    (rule "selectCreatedOfAnonAsFormulaEQ" (formula "11") (term "1,1,0") (ifseqformula "10"))
    (rule "andLeft" (formula "11"))
-   (rule "andLeft" (formula "12"))
    (rule "andLeft" (formula "11"))
-   (rule "andLeft" (formula "12"))
    (rule "andLeft" (formula "13"))
-   (rule "andLeft" (formula "12"))
-   (rule "notLeft" (formula "15"))
-   (rule "andLeft" (formula "12"))
+   (rule "andLeft" (formula "13"))
+   (rule "andLeft" (formula "14"))
+   (rule "andLeft" (formula "13"))
+   (rule "notLeft" (formula "16"))
+   (rule "andLeft" (formula "13"))
+   (rule "notLeft" (formula "14"))
    (rule "notLeft" (formula "13"))
-   (rule "notLeft" (formula "12"))
-   (rule "replace_known_right" (formula "11") (term "0") (ifseqformula "18"))
-    (builtin "One Step Simplification" (formula "11") (ifInst ""  (formula "17")))
+   (rule "replace_known_right" (formula "12") (term "0,1") (ifseqformula "17"))
+    (builtin "One Step Simplification" (formula "12") (ifInst ""  (formula "18")))
    (rule "assignment" (formula "26") (term "1"))
     (builtin "One Step Simplification" (formula "26"))
-   (rule "applyEq" (formula "15") (term "5") (ifseqformula "14"))
+   (rule "applyEq" (formula "15") (term "5") (ifseqformula "11"))
    (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "16"))
    (rule "true_left" (formula "16"))
-   (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "13"))
-   (rule "true_left" (formula "13"))
+   (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "14"))
+   (rule "true_left" (formula "14"))
    (rule "methodCallReturn" (formula "24") (term "1"))
    (rule "assignment" (formula "24") (term "1"))
     (builtin "One Step Simplification" (formula "24"))
@@ -705,20 +178,20 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
    (rule "andLeft" (formula "1"))
    (rule "andLeft" (formula "1"))
    (rule "eqSymm" (formula "3"))
+   (rule "applyEq" (formula "25") (term "1,0") (ifseqformula "1"))
+   (rule "applyEq" (formula "17") (term "0,0") (ifseqformula "2"))
+   (rule "applyEq" (formula "22") (term "1,1,0") (ifseqformula "1"))
+   (rule "applyEq" (formula "16") (term "1,0") (ifseqformula "2"))
    (rule "applyEq" (formula "19") (term "1,0") (ifseqformula "2"))
-   (rule "applyEq" (formula "16") (term "0,0") (ifseqformula "2"))
-   (rule "applyEq" (formula "15") (term "1,0") (ifseqformula "2"))
-   (rule "applyEq" (formula "18") (term "4") (ifseqformula "2"))
-   (rule "applyEq" (formula "23") (term "1,0") (ifseqformula "1"))
-   (rule "applyEq" (formula "29") (term "0") (ifseqformula "1"))
-   (rule "applyEq" (formula "11") (term "0,0") (ifseqformula "1"))
-   (rule "applyEq" (formula "10") (term "1,0") (ifseqformula "1"))
-   (rule "applyEq" (formula "21") (term "1,1,0") (ifseqformula "1"))
    (rule "applyEq" (formula "20") (term "0") (ifseqformula "2"))
-   (rule "applyEq" (formula "24") (term "1,0") (ifseqformula "1"))
-    (builtin "Use Operation Contract" (formula "27") (newnames "heapBefore_getEncoded_0,result_52,exc_68,heapAfter_getEncoded_0,anon_heap_getEncoded_0") (contract "org.bouncycastle.math.ec.ECPoint[org.bouncycastle.math.ec.ECPoint::getEncoded(boolean)].JML normal_behavior operation contract.0"))
+   (rule "applyEq" (formula "7") (term "0,0") (ifseqformula "1"))
+   (rule "applyEq" (formula "29") (term "0") (ifseqformula "1"))
+   (rule "applyEq" (formula "6") (term "1,0") (ifseqformula "1"))
+   (rule "applyEq" (formula "18") (term "4") (ifseqformula "2"))
+   (rule "applyEq" (formula "26") (term "1,0") (ifseqformula "1"))
+    (builtin "Use Operation Contract" (formula "27") (newnames "heapBefore_getEncoded_0,result_101,exc_133,heapAfter_getEncoded_0,anon_heap_getEncoded_0") (contract "org.bouncycastle.math.ec.ECPoint[org.bouncycastle.math.ec.ECPoint::getEncoded(boolean)].JML normal_behavior operation contract.0"))
    (branch "Post (getEncoded)"
-       (builtin "One Step Simplification" (formula "22") (ifInst ""  (formula "5")))
+       (builtin "One Step Simplification" (formula "22") (ifInst ""  (formula "9")))
        (builtin "One Step Simplification" (formula "21"))
        (builtin "One Step Simplification" (formula "20"))
        (builtin "One Step Simplification" (formula "31"))
@@ -754,53 +227,48 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
       (rule "andLeft" (formula "1"))
       (rule "andLeft" (formula "1"))
       (rule "eqSymm" (formula "3"))
-      (rule "applyEq" (formula "25") (term "1,0") (ifseqformula "2"))
       (rule "applyEq" (formula "29") (term "1,0") (ifseqformula "2"))
-      (rule "applyEq" (formula "34") (term "1,1,0") (ifseqformula "1"))
-      (rule "applyEq" (formula "30") (term "0") (ifseqformula "2"))
-      (rule "applyEq" (formula "38") (term "1,0") (ifseqformula "1"))
-      (rule "applyEq" (formula "28") (term "4") (ifseqformula "2"))
-      (rule "applyEq" (formula "37") (term "1,0") (ifseqformula "1"))
-      (rule "applyEq" (formula "26") (term "0,0") (ifseqformula "2"))
-      (rule "applyEq" (formula "11") (term "0,0") (ifseqformula "1"))
-      (rule "applyEq" (formula "10") (term "1,0") (ifseqformula "1"))
+      (rule "applyEq" (formula "35") (term "1,0") (ifseqformula "1"))
+      (rule "applyEq" (formula "25") (term "1,0") (ifseqformula "2"))
+      (rule "applyEq" (formula "14") (term "1,0") (ifseqformula "1"))
       (rule "applyEq" (formula "39") (term "0") (ifseqformula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "35") (term "0") (ifseqformula "13"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "36"))
-       (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "34") (term "0") (ifseqformula "14"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "35"))
-       (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "38") (term "0") (ifseqformula "15"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "39"))
-       (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "37") (term "0") (ifseqformula "12"))
+      (rule "applyEq" (formula "28") (term "4") (ifseqformula "2"))
+      (rule "applyEq" (formula "15") (term "0,0") (ifseqformula "1"))
+      (rule "applyEq" (formula "36") (term "1,0") (ifseqformula "1"))
+      (rule "applyEq" (formula "30") (term "0") (ifseqformula "2"))
+      (rule "applyEq" (formula "26") (term "0,0") (ifseqformula "2"))
+      (rule "applyEq" (formula "33") (term "1,1,0") (ifseqformula "1"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "37") (term "0") (ifseqformula "9"))
       (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "38"))
        (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "38") (term "1,0") (ifseqformula "13"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "43"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "35") (term "1,0") (ifseqformula "10"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "40"))
        (builtin "One Step Simplification" (formula "1"))
-      (rule "onlyCreatedObjectsAreReferenced" (formula "42") (term "0") (ifseqformula "14"))
-      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "43"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "36") (term "0") (ifseqformula "11"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "37"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "38") (term "0") (ifseqformula "16"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "39"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "40") (term "0") (ifseqformula "17"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "41"))
+       (builtin "One Step Simplification" (formula "1"))
+      (rule "onlyCreatedObjectsAreReferenced" (formula "38") (term "0") (ifseqformula "18"))
+      (rule "replace_known_right" (formula "1") (term "0") (ifseqformula "39"))
        (builtin "One Step Simplification" (formula "1"))
       (rule "cut_direct" (formula "49") (term "0"))
-      (branch "CUT: newObjectsIsomorphic(〈resultAtPost_50_A〉, heapAtPre_A«anonHeapFunction», 〈resultAtPost_50_B〉, heapAtPre_B«anonHeapFunction») TRUE"
+      (branch "CUT: newObjectsIsomorphic(〈resultAtPost_99_A〉, heapAtPre_A«anonHeapFunction», 〈resultAtPost_99_B〉, heapAtPre_B«anonHeapFunction») TRUE"
           (builtin "One Step Simplification" (formula "50"))
          (rule "impRight" (formula "50"))
-         (rule "Use_information_flow_contract_for_getEncoded_253512071__1_" (formula "36") (ifseqformula "30"))
-          (builtin "One Step Simplification" (formula "36"))
-         (rule "eqSymm" (formula "36") (term "0,1,1"))
-         (rule "eqSymm" (formula "36") (term "0,1"))
-         (rule "eqSymm" (formula "36") (term "1,1,1"))
-         (rule "replace_known_right" (formula "36") (term "0,1") (ifseqformula "52"))
-          (builtin "One Step Simplification" (formula "36") (ifInst ""  (formula "1")))
+         (rule "Use_information_flow_contract_for_getEncoded_253512071__2_" (formula "36") (ifseqformula "30"))
+          (builtin "One Step Simplification" (formula "36") (ifInst ""  (formula "52")) (ifInst ""  (formula "52")) (ifInst ""  (formula "1")))
          (rule "notLeft" (formula "36"))
-         (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "37") (term "0"))
+         (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "37") (term "1"))
           (builtin "One Step Simplification" (formula "37"))
          (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "37"))
          (rule "closeTrue" (formula "37"))
       )
-      (branch "CUT: newObjectsIsomorphic(〈resultAtPost_50_A〉, heapAtPre_A«anonHeapFunction», 〈resultAtPost_50_B〉, heapAtPre_B«anonHeapFunction») FALSE"
+      (branch "CUT: newObjectsIsomorphic(〈resultAtPost_99_A〉, heapAtPre_A«anonHeapFunction», 〈resultAtPost_99_B〉, heapAtPre_B«anonHeapFunction») FALSE"
           (builtin "One Step Simplification" (formula "50"))
          (rule "false_right" (formula "50"))
          (rule "definitionOfNewObjectsIsomorphic" (formula "49"))
@@ -810,12 +278,12 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
             (rule "allRight" (formula "49") (inst "sk=i_0"))
             (rule "impRight" (formula "49"))
             (rule "andLeft" (formula "1"))
-            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,1"))
-            (rule "castDel" (formula "51") (term "2,0,0,0,1"))
-            (rule "castDel" (formula "51") (term "1,0,0,0,1"))
             (rule "getOfSeqSingleton" (formula "51") (term "1,0,0,1,0"))
             (rule "castDel" (formula "51") (term "1,1,0,0,1,0"))
             (rule "getOfSeqSingleton" (formula "51") (term "1,1,1"))
+            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,1"))
+            (rule "castDel" (formula "51") (term "1,0,0,0,1"))
+            (rule "castDel" (formula "51") (term "2,0,0,0,1"))
             (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,0"))
             (rule "castDel" (formula "51") (term "1,0,0,0,0"))
             (rule "castDel" (formula "51") (term "2,0,0,0,0"))
@@ -825,8 +293,8 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
             (rule "add_zero_left" (formula "2") (term "0"))
             (rule "inEqSimp_commuteLeq" (formula "1"))
             (rule "inEqSimp_antiSymm" (formula "1") (ifseqformula "2"))
-            (rule "replace_known_left" (formula "52") (term "0,1,0,0,1,0") (ifseqformula "1"))
-             (builtin "One Step Simplification" (formula "52") (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "38")))
+            (rule "replace_known_left" (formula "52") (term "0,0,0,0,0") (ifseqformula "1"))
+             (builtin "One Step Simplification" (formula "52") (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "40")))
             (rule "closeTrue" (formula "52"))
          )
          (branch "New on Heap 2"
@@ -835,12 +303,12 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
             (rule "allRight" (formula "49") (inst "sk=i_0"))
             (rule "impRight" (formula "49"))
             (rule "andLeft" (formula "1"))
-            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,1"))
-            (rule "castDel" (formula "51") (term "2,0,0,0,1"))
-            (rule "castDel" (formula "51") (term "1,0,0,0,1"))
             (rule "getOfSeqSingleton" (formula "51") (term "1,0,0,1,0"))
             (rule "castDel" (formula "51") (term "1,1,0,0,1,0"))
             (rule "getOfSeqSingleton" (formula "51") (term "1,1,1"))
+            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,1"))
+            (rule "castDel" (formula "51") (term "1,0,0,0,1"))
+            (rule "castDel" (formula "51") (term "2,0,0,0,1"))
             (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,0"))
             (rule "castDel" (formula "51") (term "1,0,0,0,0"))
             (rule "castDel" (formula "51") (term "2,0,0,0,0"))
@@ -850,8 +318,8 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
             (rule "add_zero_left" (formula "2") (term "0"))
             (rule "inEqSimp_commuteLeq" (formula "1"))
             (rule "inEqSimp_antiSymm" (formula "1") (ifseqformula "2"))
-            (rule "replace_known_left" (formula "52") (term "0,1,0,0,1,0") (ifseqformula "1"))
-             (builtin "One Step Simplification" (formula "52") (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "40")))
+            (rule "replace_known_left" (formula "52") (term "0,0,0,0,0") (ifseqformula "1"))
+             (builtin "One Step Simplification" (formula "52") (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "38")))
             (rule "closeTrue" (formula "52"))
          )
          (branch "Same Types"
@@ -860,26 +328,26 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
             (rule "allRight" (formula "49") (inst "sk=i_0"))
             (rule "impRight" (formula "49"))
             (rule "andLeft" (formula "1"))
+            (rule "getOfSeqSingleton" (formula "51") (term "1,1,1"))
+            (rule "getOfSeqSingleton" (formula "51") (term "1,0"))
+            (rule "castDel" (formula "51") (term "2,1,0"))
+            (rule "castDel" (formula "51") (term "1,1,0"))
             (rule "getOfSeqSingleton" (formula "51") (term "0,1,1"))
             (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,1"))
             (rule "castDel" (formula "51") (term "2,0,0,0,1"))
             (rule "castDel" (formula "51") (term "1,0,0,0,1"))
-            (rule "getOfSeqSingleton" (formula "51") (term "1,0"))
-            (rule "castDel" (formula "51") (term "2,1,0"))
-            (rule "castDel" (formula "51") (term "1,1,0"))
             (rule "getOfSeqSingleton" (formula "51") (term "0,0"))
             (rule "castDel" (formula "51") (term "1,0,0"))
             (rule "castDel" (formula "51") (term "2,0,0"))
-            (rule "getOfSeqSingleton" (formula "51") (term "1,1,1"))
             (rule "inEqSimp_ltToLeq" (formula "2"))
             (rule "mul_literals" (formula "2") (term "1,0,0"))
             (rule "add_literals" (formula "2") (term "0,0"))
             (rule "add_zero_left" (formula "2") (term "0"))
             (rule "inEqSimp_commuteLeq" (formula "1"))
             (rule "inEqSimp_antiSymm" (formula "1") (ifseqformula "2"))
-            (rule "replace_known_left" (formula "52") (term "0,0,1,1") (ifseqformula "1"))
+            (rule "replace_known_left" (formula "52") (term "0,1,1,1") (ifseqformula "1"))
              (builtin "One Step Simplification" (formula "52") (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")))
-            (rule "sameTypeTrue" (formula "52") (ifseqformula "35") (ifseqformula "29"))
+            (rule "sameTypeTrue" (formula "52") (ifseqformula "30") (ifseqformula "35"))
             (rule "closeTrue" (formula "52"))
          )
          (branch "Objects Isomorphic"
@@ -888,31 +356,31 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
             (rule "allRight" (formula "49") (inst "sk=i_0"))
             (rule "impRight" (formula "49"))
             (rule "andLeft" (formula "1"))
-            (rule "getOfSeqSingleton" (formula "51") (term "3,1,1"))
-            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,1"))
-            (rule "castDel" (formula "51") (term "2,0,0,0,1"))
-            (rule "castDel" (formula "51") (term "1,0,0,0,1"))
-            (rule "getOfSeqSingleton" (formula "51") (term "1,1,1"))
             (rule "getOfSeqSingleton" (formula "51") (term "3,1,0"))
             (rule "castDel" (formula "51") (term "1,3,1,0"))
-            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,0"))
-            (rule "castDel" (formula "51") (term "1,0,0,0,0"))
-            (rule "castDel" (formula "51") (term "2,0,0,0,0"))
             (rule "getOfSeqSingleton" (formula "51") (term "1,1,0"))
             (rule "castDel" (formula "51") (term "1,1,1,0"))
+            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,0"))
+            (rule "castDel" (formula "51") (term "2,0,0,0,0"))
+            (rule "castDel" (formula "51") (term "1,0,0,0,0"))
+            (rule "getOfSeqSingleton" (formula "51") (term "0,0,0,1"))
+            (rule "castDel" (formula "51") (term "1,0,0,0,1"))
+            (rule "castDel" (formula "51") (term "2,0,0,0,1"))
+            (rule "getOfSeqSingleton" (formula "51") (term "1,1,1"))
+            (rule "getOfSeqSingleton" (formula "51") (term "3,1,1"))
             (rule "inEqSimp_ltToLeq" (formula "2"))
             (rule "mul_literals" (formula "2") (term "1,0,0"))
             (rule "add_literals" (formula "2") (term "0,0"))
             (rule "add_zero_left" (formula "2") (term "0"))
             (rule "inEqSimp_commuteLeq" (formula "1"))
             (rule "inEqSimp_antiSymm" (formula "1") (ifseqformula "2"))
-            (rule "replace_known_left" (formula "52") (term "0,1,1,0") (ifseqformula "1"))
+            (rule "replace_known_left" (formula "52") (term "0,0,0,0,1") (ifseqformula "1"))
              (builtin "One Step Simplification" (formula "52") (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")) (ifInst ""  (formula "1")))
-            (rule "applyEq" (formula "3") (term "0") (ifseqformula "1"))
-            (rule "leq_literals" (formula "3"))
-            (rule "true_left" (formula "3"))
-            (rule "applyEqRigid" (formula "2") (term "0") (ifseqformula "1"))
+            (rule "applyEq" (formula "2") (term "0") (ifseqformula "1"))
             (rule "qeq_literals" (formula "2"))
+            (rule "true_left" (formula "2"))
+            (rule "applyEq" (formula "2") (term "0") (ifseqformula "1"))
+            (rule "leq_literals" (formula "2"))
             (rule "true_left" (formula "2"))
             (rule "definitionOfObjectIsomorphic" (formula "50") (inst "i=i"))
              (builtin "One Step Simplification" (formula "50"))
@@ -923,10 +391,10 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
             (rule "getOfSeqSingleton" (formula "52") (term "0,0,1,0"))
             (rule "castDel" (formula "52") (term "1,0,0,1,0"))
              (builtin "One Step Simplification" (formula "52"))
-            (rule "getOfSeqSingleton" (formula "52") (term "0,1,1"))
             (rule "getOfSeqSingleton" (formula "52") (term "0,0,0,0"))
             (rule "castDel" (formula "52") (term "2,0,0,0,0"))
             (rule "castDel" (formula "52") (term "1,0,0,0,0"))
+            (rule "getOfSeqSingleton" (formula "52") (term "0,1,1"))
             (rule "getOfSeqSingleton" (formula "52") (term "0,1,1,0"))
             (rule "castDel" (formula "52") (term "1,0,1,1,0"))
              (builtin "One Step Simplification" (formula "52"))
@@ -946,23 +414,22 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
       )
    )
    (branch "Exceptional Post (getEncoded)"
-       (builtin "One Step Simplification" (formula "20"))
        (builtin "One Step Simplification" (formula "29"))
+       (builtin "One Step Simplification" (formula "20"))
       (rule "andLeft" (formula "20"))
       (rule "selectCreatedOfAnonAsFormulaEQ" (formula "21") (term "1,0") (ifseqformula "20"))
       (rule "andLeft" (formula "21"))
-      (rule "andLeft" (formula "22"))
       (rule "andLeft" (formula "21"))
       (rule "andLeft" (formula "23"))
       (rule "notLeft" (formula "21"))
-      (rule "close" (formula "25") (ifseqformula "24"))
+      (rule "close" (formula "24") (ifseqformula "23"))
    )
    (branch "Pre (getEncoded)"
-       (builtin "One Step Simplification" (formula "27") (ifInst ""  (formula "5")))
+       (builtin "One Step Simplification" (formula "27") (ifInst ""  (formula "9")))
       (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "27"))
       (rule "closeTrue" (formula "27"))
    )
-   (branch "Null reference (_p_3_A = null)"
+   (branch "Null reference (_p_5_B = null)"
        (builtin "One Step Simplification" (formula "27") (ifInst ""  (formula "30")))
       (rule "closeTrue" (formula "27"))
    )
@@ -979,11 +446,11 @@ Use_information_flow_contract_for_getEncoded_253512071__2_ {
    (rule "close" (formula "14") (ifseqformula "13"))
 )
 (branch "Pre (getEncoded)"
-    (builtin "One Step Simplification" (formula "16") (ifInst ""  (formula "5")))
+    (builtin "One Step Simplification" (formula "16") (ifInst ""  (formula "1")))
    (rule "Class_invariant_axiom_for_org_bouncycastle_math_ec_ECPoint" (formula "16"))
    (rule "closeTrue" (formula "16"))
 )
-(branch "Null reference (_p_3_B = null)"
+(branch "Null reference (_p_5_A = null)"
     (builtin "One Step Simplification" (formula "16") (ifInst ""  (formula "20")))
    (rule "closeTrue" (formula "16"))
 )
